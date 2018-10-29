@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+        <f:view>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>CRV</title>
+        </head>
+        <body>
+            <h1><h:outputText value="Administrador"/></h1>
+            <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+             <h:form>
+            <h:dataTable binding="#{bAdministrador.tabla}" value="#{bAdministrador.listaTecnicos}" var="tecnico" border="8"
+                             cellpadding="5" cellspacing="3" width="50%">
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Codigo técnico"/>
+                        </f:facet>
+                        <h:outputText value="#{tecnico.codigoTecnico}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Nick"/>
+                        </f:facet>
+                        <h:outputText value="#{tecnico.nick}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Contraseña"/>
+                        </f:facet>
+                        <h:outputText value="#{tecnico.password}"/>
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">
+                            <h:outputText value="Dar de baja"/>
+                        </f:facet>
+                       <h:commandButton  actionListener="#{bAdministrador.bajaTecnico()}" style="width: 30px;height: 30px;"/>
+                    </h:column>
+                   
+                 </h:dataTable>
+                 </h:form>
+            
+            
+            <!--Alta Técnico-->
+            <h2>Dar alta técnico</h2>
+            <h:form>
+                <h:outputText value="Nick: "/> <h:inputText value="#{bAdministrador.nick}"/><br></br><br></br>
+                <h:outputText value="Contraseña: "/> <h:inputSecret value="#{bAdministrador.password}"/><br></br><br></br>
+                <h:commandButton value="Alta" action="#{bAdministrador.altaTecnico()}"/>
+                <br></br><br></br>
+                <h:outputText value="#{bAdministrador.mens}"/>
+            </h:form>
+            
+        </body>
+        </f:view>     
+    </html>
+   

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
+        <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>CRV</title>
+        </h:head>
+        <h:body>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+            
+            
+            
+            
+            
+            
+            <h1><h:outputText value="Administrador"/></h1>
+            <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+           
+            <!--Pedidos-->
+            <h2>Ver pedidos</h2>
+            <c:forEach var="pedido" varStatus="estado" items="#{bAdministrador.listaPedidos}" >
+                
+                #{bAdministrador.setCodigoPedido(pedido.codigoPedido)}
+                
+                 #{bAdministrador.codigoPedido}
+                #{bAdministrador.codigoPedidoAnterior}
+                
+
+                    <h:panelGroup  rendered="#{bAdministrador.cabeceraPedido()}">
+                    <div id="datosPedido" style="border: 1px solid red">
+                        <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministrador.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministrador.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                     </div>
+                    </h:panelGroup>
+                    
+                   <h:panelGroup rendered="#{!bAdministrador.cabeceraPedido()}">
+                        <div id="pedido" style="border:1px solid black">
+                            <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
+                            <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
+                            <h:outputText value="Fecha "/> <h:outputText value="#{pedido.fecha}"/><br></br><br></br>    
+                        </div> 
+                        <div id="datosPedido" style="border: 1px solid red">
+                        <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministrador.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministrador.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        
+                        </div>
+                   </h:panelGroup>
+                <h:form>
+                    <h:commandButton  value="Cambiar estado" action="#{bAdministrador.cambiarEstado(pedido.codigo)}">
+                        <f:ajax  event="action" render=":result" />
+                    </h:commandButton>
+                </h:form>
+                
+                <h:form>
+                    <h:commandButton  value="Cambiar ubicacion" action="#{bAdministrador.cambiarUbicacion(pedido.codigo)}">
+                        <f:ajax  event="action" render=":result2" />
+                    </h:commandButton>
+                </h:form>
+                
+                   
+                #{bAdministrador.setCodigoPedidoAnterior(pedido.codigoPedido)}
+            </c:forEach>
+                <h:form id="result" >
+                    
+            <h:panelGroup  rendered="#{bAdministrador.estado}">
+                 <div id="datosTipo" style="border: 1px solid blue">
+                    <h:selectOneMenu value="#{bAdministrador.estadoNuevo}">  
+                        <f:selectItems value="#{bAdministrador.listaEstados}"/>
+                    </h:selectOneMenu>
+                    </div>
+                    <h:commandButton value="Cambiar estado" action="#{bAdministrador.modificarEstado()}" />
+                    
+            </h:panelGroup> 
+                </h:form>   
+            
+            
+                <!--Ventana modal cambiar ubicacion-->
+            <h:form id="result2" >
+                <h:panelGroup rendered="#{bAdministrador.ubicacion}" >
+                 <div id="ubicacion" style="border: 1px solid pink">
+                     <p:selectOneMenu id="poblacion" value="#{bAdministrador.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
+                         <f:selectItems value="#{bAdministrador.listaPoblaciones}" />
+                     </p:selectOneMenu>
+                 </div>
+                    
+                <h:commandButton value="Cambiar ubicacion" action="#{bAdministrador.modificarUbicacion()}" />
+                            </h:panelGroup>
+
+                </h:form>  
+				
+        </h:body>
+        </f:view>     
+    </html>
+   

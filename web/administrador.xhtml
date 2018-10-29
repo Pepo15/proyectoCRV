@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+        <f:view>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>CRV</title>
+        </head>
+        <body>
+            <h1><h:outputText value="Administrador"/></h1>
+            <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+            
+            <!--Gestion Tecnicos-->
+            <form id="gestionTecnico" action="administradorGestionTecnico.xhtml"> 
+                <div onclick="document.getElementById('gestionTecnico').submit();" 
+                     style="border: 1px solid black;
+                            width: 150px;
+                            height: 150px;
+                            cursor: pointer"
+                     >
+                    <h:outputText value="Gestionar Tecnico"/>
+                </div>
+            </form>
+            
+            <!--Modificar Pedido-->
+            <form id="modificarPedido" action="administradorModificarPedido.xhtml"> 
+                <div onclick="document.getElementById('modificarPedido').submit();" 
+                     style="border: 1px solid black;
+                            width: 150px;
+                            height: 150px;
+                            cursor: pointer"
+                     >
+                    <h:outputText value="Modificar Pedido"/>
+                </div>
+            </form>
+            
+            <!--Estadisticas-->
+            <form id="estadisticas" action="administradorEstadisticas.xhtml"> 
+                <div onclick="document.getElementById('estadisticas').submit();" 
+                     style="border: 1px solid black;
+                            width: 150px;
+                            height: 150px;
+                            cursor: pointer"
+                     >
+                    <h:outputText value="Estadisticas"/>
+                </div>
+            </form>
+            
+            <!--Añadir telefono-->
+            <h:form>
+                <h:outputText value="Nombre: "/> <h:inputText value="#{bAdministrador.nombre}"/><br></br><br></br>
+                <h:outputText value="Marca: "/> <h:inputSecret value="#{bAdministrador.marca}"/><br></br><br></br>
+                <h:outputText value="Precio: "/> <h:inputSecret value="#{bAdministrador.precio}"/><br></br><br></br>
+                <h:commandButton value="Entrar" action="#{bAdministrador.altaTelefono()}"/>
+                <br></br><br></br>
+                <h:outputText value="#{bLogin.mens}"/>
+            </h:form>
+            
+            <!--Añadir caracteristicas a un telefono-->
+            <h:form>
+                <h:outputText value="SO: "/> <h:inputText value="#{bAdministrador.so}"/><br></br><br></br>
+                <h:outputText value="Ram: "/> <h:inputSecret value="#{bAdministrador.ram}"/><br></br><br></br>
+                <h:outputText value="Pulgadas: "/> <h:inputSecret value="#{bAdministrador.pulgadas}"/><br></br><br></br>
+                <h:outputText value="Almacenamiento: "/> <h:inputText value="#{bAdministrador.almacenamiento}"/><br></br><br></br>
+                <h:outputText value="Camara Trasera: "/> <h:inputSecret value="#{bAdministrador.camaraTrasera}"/><br></br><br></br>
+                <h:outputText value="Camra Delantera: "/> <h:inputSecret value="#{bAdministrador.camaraDelantera}"/><br></br><br></br>
+                <h:outputText value="Bateria: "/> <h:inputText value="#{bAdministrador.bateria}"/><br></br><br></br>
+                <h:outputText value="Procesador "/> <h:inputSecret value="#{bAdministrador.procesador}"/><br></br><br></br>
+                <h:outputText value="Wifi: "/> <h:selectBooleanCheckbox value="#{bAdministrador.wifi}"/><br></br><br></br>
+                <h:outputText value="Resolucion: "/> <h:inputSecret value="#{bAdministrador.resolucion}"/><br></br><br></br>
+                <h:outputText value="Color: "/> <h:inputSecret value="#{bAdministrador.color}"/><br></br><br></br>
+                <h:outputText value="Detector de huellas: "/> <h:selectBooleanCheckbox value="#{bAdministrador.detectorDeHuellas}"/><br></br><br></br>
+                <h:outputText value="Dual Sim: "/> <h:selectBooleanCheckbox value="#{bAdministrador.dualSim}"/><br></br><br></br>
+                <h:outputText value="SD: "/> <h:selectBooleanCheckbox value="#{bAdministrador.sd}"/><br></br><br></br>
+                <h:outputText value="Bluetooth: "/> <h:selectBooleanCheckbox value="#{bAdministrador.bluetooth}"/><br></br><br></br>
+                <h:outputText value="NFC: "/> <h:selectBooleanCheckbox value="#{bAdministrador.nfc}"/><br></br><br></br>
+                <h:outputText value="3G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g3}"/><br></br><br></br>
+                <h:outputText value="4G: "/> <h:inputSecret value="#{bAdministrador.g4}"/><br></br><br></br>
+                <h:commandButton value="Entrar" action="#{bAdministrador.altaCaracteristicasTelefono()}"/>
+                <br></br><br></br>
+                <h:outputText value="#{bLogin.mens}"/>
+            </h:form>
+            
+            
+        </body>
+        </f:view>     
+    </html>
+   
