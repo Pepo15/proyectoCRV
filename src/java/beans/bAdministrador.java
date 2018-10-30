@@ -1,6 +1,7 @@
 package beans;
 
 import DAO.AdministradorJpaController;
+import DAO.CaracteristicastelefonoJpaController;
 import DAO.DireccionJpaController;
 import DAO.PedidoJpaController;
 import DAO.PoblacionJpaController;
@@ -9,7 +10,9 @@ import DAO.TelefonoJpaController;
 import DAO.UsuarioJpaController;
 import DAO.exceptions.IllegalOrphanException;
 import DAO.exceptions.NonexistentEntityException;
+import DAO.exceptions.PreexistingEntityException;
 import DTO.Administrador;
+import DTO.Caracteristicastelefono;
 import DTO.Direccion;
 import DTO.Pedido;
 import DTO.Poblacion;
@@ -31,35 +34,25 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
 
-
 public class bAdministrador {
-    
+
     //Driver para conectar con la base de datos
     private EntityManagerFactory emf;
-    
-    //Control para gestionar el usuario de la base de datos
-    private UsuarioJpaController ctrUsuario;
-    private TecnicoJpaController ctrTecnico;
-    private AdministradorJpaController ctrAdministrador;
-    
-    //Control para gestionar los pedidos
-    private PedidoJpaController ctrPedido;
-    
+
     //Control para gestionar los telefonos
     private TelefonoJpaController ctrTelefono;
-    
-     //Control para gestionar las poblaciones
-    private PoblacionJpaController ctrPoblacion;
-    
-    //Variables que almacenan los datos de los inputs, para dar de alta un técnico
-    private String nick;
-    private String password;
+    private CaracteristicastelefonoJpaController ctrCaracteristicas;
+
     
     //Variables que almacenan los datos de los inputs, para dar de alta un telefono
     private String nombre;
     private String marca;
     private String precio;
     
+    
+    //Variable que guarda el codigo del telefono para añadir sus caracteristicas
+    private String codigoTelefono;
+
     //Variables que almacenan los datos de los inputs, para dar alta las caracteristicas de un telefono
     private String so;
     private String ram;
@@ -80,68 +73,16 @@ public class bAdministrador {
     private boolean g3;
     private boolean g4;
     
-    
-    //Variable que almacena el codigo del pedido anterior
-    private int codigoPedidoAnterior;
-    private int codigoPedido;
-    
-    //Variable que almacena la poblacion que queremos agregar
-    private String codigoPoblacion;
-    
-     //Variable para saber si debemos mostrar ventana estado o no
-    private boolean estado=false;
-    
-     //Variable para saber si debemos mostrar ventana estado o no
-    private boolean ubicacion=false;
-    
-    //Variable donde guardaremos el nuevo estado
-    private String estadoNuevo;
-      
-    //Mensaje que devolveremos para poder comprobar el logeo
-    private String mens;
-    
-    //Lista donde guardamos los tenicos
-    private List listaTecnicos;
-    
-    //Lista donde guardamos los pedidos
-    private List listaPedidos;
-    
-    //Lista donde guardamos todas las poblaciones
-    private ArrayList listaPoblaciones;
-    
-    //Lista que guarda los valores del select de estados
-    private ArrayList listaEstados = null;
-    
-    //Guardamos la fila de la tabla, para saber el tecnico que deseamos borrar
-    private HtmlDataTable tabla;
-    
-    //Guardamos el codigo del pedido, para saber que pedido desamos modificar
-    private int codigoPedidoModificar;
+    //Variable que guarda la lista de telefonos
+    private ArrayList listaTelefonos;
 
     //Contructor
     public bAdministrador() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
-        ctrUsuario= new UsuarioJpaController(emf);
-        ctrTecnico= new TecnicoJpaController(emf);
-        ctrAdministrador= new AdministradorJpaController(emf);
-        ctrPedido= new PedidoJpaController(emf);
-        ctrTelefono= new TelefonoJpaController(emf);
-        
-        ctrPoblacion= new PoblacionJpaController(emf);
-        
-        //Inicializamos la lista para que cuando entre ya esten cargados
-        listaTecnicos= new ArrayList();
-         
-        listaTecnicos=ctrTecnico.findTecnicoEntities();
-        
-        //Inicializamos la lista para que cuando entre ya esten cargados
-        listaPedidos= new ArrayList();
-         
-        listaPedidos=ctrPedido.findPedidoEntities();
-        
+        ctrTelefono = new TelefonoJpaController(emf);
+        ctrCaracteristicas = new CaracteristicastelefonoJpaController(emf);
+
     }
-    
-    //Getter and setter
 
     public EntityManagerFactory getEmf() {
         return emf;
@@ -151,47 +92,30 @@ public class bAdministrador {
         this.emf = emf;
     }
 
-    public UsuarioJpaController getCtrUsuario() {
-        return ctrUsuario;
+    public TelefonoJpaController getCtrTelefono() {
+        return ctrTelefono;
     }
 
-    public void setCtrUsuario(UsuarioJpaController ctrUsuario) {
-        this.ctrUsuario = ctrUsuario;
+    public void setCtrTelefono(TelefonoJpaController ctrTelefono) {
+        this.ctrTelefono = ctrTelefono;
     }
 
-    public TecnicoJpaController getCtrTecnico() {
-        return ctrTecnico;
+    public String getCodigoTelefono() {
+        return codigoTelefono;
     }
 
-    public void setCtrTecnico(TecnicoJpaController ctrTecnico) {
-        this.ctrTecnico = ctrTecnico;
+    public void setCodigoTelefono(String codigoTelefono) {
+        this.codigoTelefono = codigoTelefono;
     }
 
-    public AdministradorJpaController getCtrAdministrador() {
-        return ctrAdministrador;
+    public CaracteristicastelefonoJpaController getCtrCaracteristicas() {
+        return ctrCaracteristicas;
     }
 
-    public void setCtrAdministrador(AdministradorJpaController ctrAdministrador) {
-        this.ctrAdministrador = ctrAdministrador;
+    public void setCtrCaracteristicas(CaracteristicastelefonoJpaController ctrCaracteristicas) {
+        this.ctrCaracteristicas = ctrCaracteristicas;
     }
-
     
-    public String getNick() {
-        return nick;
-    }
-
-    public void setNick(String nick) {
-        this.nick = nick;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getNombre() {
         return nombre;
     }
@@ -214,14 +138,6 @@ public class bAdministrador {
 
     public void setPrecio(String precio) {
         this.precio = precio;
-    }
-
-    public TelefonoJpaController getCtrTelefono() {
-        return ctrTelefono;
-    }
-
-    public void setCtrTelefono(TelefonoJpaController ctrTelefono) {
-        this.ctrTelefono = ctrTelefono;
     }
 
     public String getSo() {
@@ -311,8 +227,6 @@ public class bAdministrador {
     public void setColor(String color) {
         this.color = color;
     }
-    
-    
 
     public boolean isDetectorDeHuellas() {
         return detectorDeHuellas;
@@ -370,400 +284,134 @@ public class bAdministrador {
         this.g4 = g4;
     }
 
-    public String getMens() {
-        return mens;
-    }
-
-    public void setMens(String mens) {
-        this.mens = mens;
-    }
-
-    public List getListaTecnicos() {
-        return listaTecnicos;
-    }
-
-    public void setListaTecnicos(List listaTecnicos) {
-        this.listaTecnicos = listaTecnicos;
-    }
-
-    public PedidoJpaController getCtrPedido() {
-        return ctrPedido;
-    }
-
-    public void setCtrPedido(PedidoJpaController ctrPedido) {
-        this.ctrPedido = ctrPedido;
-    }
-
-    public List getListaPedidos() {
-        return listaPedidos;
-    }
-
-    public void setListaPedidos(List listaPedidos) {
-        this.listaPedidos = listaPedidos;
-    }
-
-    public int getCodigoPedidoAnterior() {
-        return codigoPedidoAnterior;
-    }
-
-    public void setCodigoPedidoAnterior(int codigoPedidoAnterior) {
-        this.codigoPedidoAnterior = codigoPedidoAnterior;
-    }
-
-    public int getCodigoPedido() {
-        return codigoPedido;
-    }
-
-    public void setCodigoPedido(int codigoPedido) {
-        this.codigoPedido = codigoPedido;
-    }
-
-    public boolean isEstado() {
-        return estado;
-    }
-
-    public void setEstado(boolean estado) {
-        this.estado = estado;
-    }
-    
-
-    public String getEstadoNuevo() {
-        return estadoNuevo;
-    }
-
-    public void setEstadoNuevo(String estadoNuevo) {
-        this.estadoNuevo = estadoNuevo;
-    }
-
-    public HtmlDataTable getTabla() {
-        return tabla;
-    }
-
-    public void setTabla(HtmlDataTable tabla) {
-        this.tabla = tabla;
-    }
-
-    public int getCodigoPedidoModificar() {
-        return codigoPedidoModificar;
-    }
-
-    public void setCodigoPedidoModificar(int codigoPedidoModificar) {
-        this.codigoPedidoModificar = codigoPedidoModificar;
-    }
-
-    public PoblacionJpaController getCtrPoblacion() {
-        return ctrPoblacion;
-    }
-
-    public void setCtrPoblacion(PoblacionJpaController ctrPoblacion) {
-        this.ctrPoblacion = ctrPoblacion;
-    }
-
-    public boolean isUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(boolean ubicacion) {
-        this.ubicacion = ubicacion;
-    }
-
-    public void setListaPoblaciones(ArrayList listaPoblaciones) {
-        this.listaPoblaciones = listaPoblaciones;
-    }
-
-    public void setListaEstados(ArrayList listaEstados) {
-        this.listaEstados = listaEstados;
-    }
-
-
-  
-    public String getCodigoPoblacion() {
-        return codigoPoblacion;
-    }
-
-    public void setCodigoPoblacion(String codigoPoblacion) {
-        this.codigoPoblacion = codigoPoblacion;
-    }
-
- 
-    
-    
-
-    //Metodo para dar de alta un tecnico
-    public String altaTecnico(){
-        //Resetear valores
-        mens="";
-        
-        //Comprobamos que ha introducido el nick y la contraseña
-        if(nick!="" && password!=""){
-            
-            //Buscamos si existe un tecnico con el mismo nombre
-            Tecnico tecnicoRepetido = ctrTecnico.findTecnicoByNick(nick);
-            
-            //Si hemos encontrado un tecnico, no podremos repetirlo, si no existe lo creamos
-            if(tecnicoRepetido==null){
-                
-                //Creamos un tecnico con los datos
-                Tecnico tecnico = new Tecnico(null, nick, password);
-               
-                //Cojo el administrador de la sesion
-                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-                manageBeanSesion manageBeanSesion=new manageBeanSesion();
-
-                HttpSession session= (HttpSession)ctx.getSession(false);
-                manageBeanSesion=(manageBeanSesion) session.getAttribute("manageBeanSesion");
-                Administrador  administrador=(Administrador) manageBeanSesion.getAdministradorLog();
-                
-                //Cojo el codigo del administrador para meterselo al tecnico
-                tecnico.setCodigoAdministrador(administrador);
-            
-                //Damos de alta en la base de datos
-                ctrTecnico.create(tecnico);
-                
-                //Actualizamos la tabla
-                listaTecnicos= new ArrayList();
-         
-                listaTecnicos=ctrTecnico.findTecnicoEntities();
-                
-                mens="Alta correcta";
-                
-                return "tecnicoAltaCorrecta";
-                
-            }
-            
-            else{
-                mens="Ya existe un tecnico con ese nick";
-                
-                return "tecnicoAltaIncorrecta";
-                
-            }
-            
-         }
-        
-        mens="No ha introducido todos los datos";
-                
-        return "tecnicoAltaIncorrecta";
-        
-    }
-    
-    //Metodo para dar de baja a un tecnico
-    public String bajaTecnico(){
-        //Recuperamos el objeto(tecnco) seleccionado es decir la fila donde se hizo click
-        Tecnico tecnicoSeleccionado = (Tecnico) tabla.getRowData();
-        
-        try {
-            //Borramos al tecnico
-            ctrTecnico.destroy(tecnicoSeleccionado.getCodigoTecnico());
-            
-            //Actualizamos la tabla
-            listaTecnicos= new ArrayList();
-         
-            listaTecnicos=ctrTecnico.findTecnicoEntities();
-            
-            mens="Baja correcta";
-            
-            return "bajaCorrecta";
-        } 
-        catch (Exception ex) {
-            
-            mens="No se ha producido la baja";
-            
-            return "bajaIncorrecta";
-            
-        }
-    }
-    
-    //Metodo para dar de alta un telefono
-    public String altaTelefono(){
-        //Resetear valores
-        mens="";
-        
-        //Comprobamos que ha introducido el nick y la contraseña
-        if(nombre!="" && marca!="" && precio!=""){
-            
-            //Buscamos si existe un telefono con el mismo nombre
-            Telefono telefonoRpetido = ctrTelefono.findTecnicoByNick(nombre);
-            
-            //Si hemos encontrado un telefono, no podremos repetirlo, si no existe lo creamos
-            if(telefonoRpetido==null){
-                
-                //Creamos un tecnico con los datos
-                Telefono telefono = new Telefono(null, nombre, marca,Float.parseFloat(precio));
-               
-                //Cojo el administrador de la sesion
-                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-                manageBeanSesion manageBeanSesion=new manageBeanSesion();
-
-                HttpSession session= (HttpSession)ctx.getSession(false);
-                manageBeanSesion=(manageBeanSesion) session.getAttribute("manageBeanSesion");
-                Administrador  administrador=(Administrador) manageBeanSesion.getAdministradorLog();
-                
-                //Cojo el codigo del administrador para meterselo al tecnico
-                telefono.setCodigoAdministrador(administrador);
-            
-                //Damos de alta en la base de datos
-                ctrTelefono.create(telefono);
-                
-                mens="Alta correcta";
-                
-                return "telefonoAltaCorrecta";
-                
-            }
-            
-            else{
-                mens="Ya existe un telefono con ese nick";
-                
-                return "telefonoAltaIncorrecta";
-                
-            }
-            
-         }
-        
-        mens="No ha introducido todos los datos";
-                
-        return "telefonoAltaIncorrecta";
-        
-    }
-    
-    //Metodo para pintar un pedido
-    public boolean cabeceraPedido(){
-        if(codigoPedido==codigoPedidoAnterior){
-            
-            return true;
-        }
-        else 
-            
-            return false;
-                   
-    }
-    
-    //Metodo para saber que tipo de pedido es
-    public String saberTipo(int tipo){
-        if(tipo==1){
-            return "Compra";
-        }
-        if(tipo==2){
-            return "Reparar";
-        }
-        else{
-            return "Vender";
-        }
-    }
-    
-    //Metodo para conocer el estado del pedido
-    public String conocerEstado(int estado){
-        if(estado==1){
-            return "Pedido en espera de envio";
-        }
-        if(estado==2){
-            return "Pedido enviado";
-        }
-        if(estado==3){
-            return "Pedido en tránsito";
-        }
-        if(estado==4){
-            return "Pedido pendiente de entrega";
-        }
-        else{
-            return "Pedido entregado"; 
-        }
-    }
-    
-    //Metodo para modificar el estado de un pedido
-    public String modificarEstado(){
-       //Busco el pedido en la base de datos
-        Pedido pedido = ctrPedido.findPedido(codigoPedidoModificar);
-        
-        //Modifico el pedido
-        pedido.setEstado(Integer.parseInt(estadoNuevo));
-        
-        try {
-            //Actualizo en la base de datos el pedido
-            ctrPedido.edit(pedido);
-        } catch (Exception ex) {
-            Logger.getLogger(bAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return "volver";
+    public void setListaTelefonos(ArrayList listaTelefonos) {
+        this.listaTelefonos = listaTelefonos;
     }
     
     //Devolver valores para el select de cambiar el estado
-    public ArrayList getListaEstados() {
-        if (listaEstados == null) {
-            listaEstados = new ArrayList();
-            listaEstados.add(new SelectItem("1", "Pedido en espera de envio"));
-            listaEstados.add(new SelectItem("2", "Pedido enviado"));
-            listaEstados.add(new SelectItem("3", "Pedido en tránsito"));
-            listaEstados.add(new SelectItem("4", "Pedido pendiente de entrega"));
-            listaEstados.add(new SelectItem("5", "Pedido entregado"));
-        }
-        return listaEstados;
-}
-    
-    //Devolver valores para el datalist
-    public ArrayList getListaPoblaciones() {
-        if (listaPoblaciones == null) {
+    public ArrayList getListaTelefonos() {
+        if (listaTelefonos == null) {
             //Inicializamos la lista de moviles
-            listaPoblaciones= new ArrayList();
-            
-            List<Poblacion> listaPob = ctrPoblacion.findPoblacionEntities();
-            for (Poblacion pob : listaPob) {
-                listaPoblaciones.add(new SelectItem(pob.getCodigoPoblacion(), pob.getNombrePoblacion() + " - " + pob.getPostal()));
+            listaTelefonos = new ArrayList();
+
+            List<Telefono> listaTele = ctrTelefono.findTelefonoEntities();
+            for (Telefono tel : listaTele) {
+                listaTelefonos.add(new SelectItem(tel.getCodigoTelefono(), tel.getNombre()));
             }
         }
-        return listaPoblaciones;
-}
-    
-    //Metodo para activar la ventana modal de cambiar estado
-    public String cambiarEstado(int codigo){
-        codigoPedidoModificar= codigo;
-        estado=true;
-        
-        return "volver";
+        return listaTelefonos;
     }
     
-    //Metodo para activar la ventana modal de cambiar ubicacion
-    public String cambiarUbicacion(int codigo){
-        codigoPedidoModificar= codigo;
-        ubicacion=true;
-        
-        return "volver";
-    }
-    
-    //Metodo que cambia la poblacion en la que se encuentra un pedido
-    public String modificarUbicacion(){
-       //Busco el pedido en la base de datos
-        Pedido pedido = ctrPedido.findPedido(codigoPedidoModificar);
-        
-        //Modifico el pedido
-        pedido.setCodigoPoblacion(Integer.parseInt(codigoPoblacion));
-        
-        try {
-            //Actualizo en la base de datos el pedido
-            ctrPedido.edit(pedido);
-        } catch (Exception ex) {
-            Logger.getLogger(bAdministrador.class.getName()).log(Level.SEVERE, null, ex);
+    //Metodo para dar de alta un telefono
+    public String altaTelefono() {
+        //Comprobamos que ha introducido el nick y la contraseña
+        if (nombre != "" && marca != "" && precio != "") {
+
+            //Buscamos si existe un telefono con el mismo nombre
+            Telefono telefonoRepetido = ctrTelefono.findTecnicoByNick(nombre);
+
+            //Si hemos encontrado un telefono, no podremos repetirlo, si no existe lo creamos
+            if (telefonoRepetido == null) {
+
+                //Creamos un tecnico con los datos
+                Telefono telefono = new Telefono(null, nombre, marca, Float.parseFloat(precio));
+
+                //Cojo el administrador de la sesion
+                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+                manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+                HttpSession session = (HttpSession) ctx.getSession(false);
+                manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+                Administrador administrador = (Administrador) manageBeanSesion.getAdministradorLog();
+
+                //Cojo el codigo del administrador para meterselo al tecnico
+                telefono.setCodigoAdministrador(administrador);
+
+                //Damos de alta en la base de datos
+                ctrTelefono.create(telefono);
+
+                //Escribo el mensaje de alta correcta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta al telefono correctamente."));
+
+                return "telefonoAltaCorrecta";
+
+            } else {
+
+                //Escribo el mensaje de alta incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "Ya existe un telefono con ese nombre"));
+
+                return "telefonoAltaIncorrecta";
+            }
+
         }
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "PrimeFaces Rocks."));
-        return "volver";
+        
+                //Escribo el mensaje de alta incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha introducido todos los datos"));
+
+                return "telefonoAltaIncorrecta";
+
     }
     
-     
+     //Metodo para dar de alta un telefono
+    public String altaCaracteristicasTelefono() {
+        //Comprobamos que ha introducido los datos
+        if (codigoTelefono!="" && so != "" && ram != "" && pulgadas != "" 
+            && almacenamiento != "" && camaraTrasera != ""
+            && camaraDelantera != ""  && bateria != ""
+            && procesador != "" && resolucion != ""
+            && color != "") {
+
+            //Buscamos si existe unas si un telefono ya tiene unas caracteristicas
+            Caracteristicastelefono caracteristicasRepetidas = ctrCaracteristicas.findCaracteristicastelefono(Integer.parseInt(codigoTelefono));
+
+            //Si hemos encontrado un telefono, no podremos repetirlo, si no existe añadimos las caracteristicas
+            if (caracteristicasRepetidas == null) {
+
+                //Creamos un tecnico con los datos
+                Caracteristicastelefono caracteristicas = 
+                        new Caracteristicastelefono(Integer.parseInt(codigoTelefono), so, Integer.parseInt(ram),
+                                Float.parseFloat(pulgadas),Integer.parseInt(almacenamiento),Float.parseFloat(camaraTrasera),
+                                Float.parseFloat(camaraDelantera), Integer.parseInt(bateria), procesador, wifi, 
+                                Integer.parseInt(resolucion),
+                        color,detectorDeHuellas,dualSim,sd,bluetooth,nfc,g3,g4);
+
+                
+                try {
+                    ctrCaracteristicas.create(caracteristicas);
+                    //Escribo el mensaje de alta correcta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta al telefono correctamente."));
+
+                return "telefonoAltaCorrecta";
+                } catch (PreexistingEntityException ex) {
+                    //Escribo el mensaje de alta incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "Ya existe un telefono con ese nombre"));
+
+                return "telefonoAltaIncorrecta";
+                
+                } catch (Exception ex) {
+                    //Escribo el mensaje de alta incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "Ya existe un telefono con ese nombre"));
+
+                return "telefonoAltaIncorrecta";
+                }
+
+                
+
+            } else {
+
+                //Escribo el mensaje de alta incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "Ya existe un telefono con ese nombre"));
+
+                return "telefonoAltaIncorrecta";
+            }
+
+        }
+        
+                //Escribo el mensaje de alta incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha introducido todos los datos"));
+
+                return "telefonoAltaIncorrecta";
+
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+}

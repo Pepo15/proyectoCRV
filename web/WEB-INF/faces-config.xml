@@ -63,5 +63,15 @@
             <to-view-id>/administrador.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <managed-bean>
+        <managed-bean-name>bAdministradorGestionTecnico</managed-bean-name>
+        <managed-bean-class>beans.bAdministradorGestionTecnico</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>bAdministradorModificarPedido</managed-bean-name>
+        <managed-bean-class>beans.bAdministradorModificarPedido</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 </faces-config>
 

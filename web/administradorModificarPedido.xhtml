@@ -22,33 +22,28 @@ and open the template in the editor.
                 <p:autoUpdate />
             </p:messages>
             
-            
-            
-            
-            
-            
             <h1><h:outputText value="Administrador"/></h1>
             <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
            
             <!--Pedidos-->
             <h2>Ver pedidos</h2>
-            <c:forEach var="pedido" varStatus="estado" items="#{bAdministrador.listaPedidos}" >
+            <c:forEach var="pedido" varStatus="estado" items="#{bAdministradorModificarPedido.listaPedidos}" >
                 
-                #{bAdministrador.setCodigoPedido(pedido.codigoPedido)}
+                #{bAdministradorModificarPedido.setCodigoPedido(pedido.codigoPedido)}
                 
-                 #{bAdministrador.codigoPedido}
-                #{bAdministrador.codigoPedidoAnterior}
+                 #{bAdministradorModificarPedido.codigoPedido}
+                #{bAdministradorModificarPedido.codigoPedidoAnterior}
                 
 
-                    <h:panelGroup  rendered="#{bAdministrador.cabeceraPedido()}">
+                    <h:panelGroup  rendered="#{bAdministradorModificarPedido.cabeceraPedido()}">
                     <div id="datosPedido" style="border: 1px solid red">
                         <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministrador.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministrador.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministradorModificarPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministradorModificarPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
                      </div>
                     </h:panelGroup>
                     
-                   <h:panelGroup rendered="#{!bAdministrador.cabeceraPedido()}">
+                   <h:panelGroup rendered="#{!bAdministradorModificarPedido.cabeceraPedido()}">
                         <div id="pedido" style="border:1px solid black">
                             <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
                             <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
@@ -56,35 +51,35 @@ and open the template in the editor.
                         </div> 
                         <div id="datosPedido" style="border: 1px solid red">
                         <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministrador.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministrador.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministradorModificarPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministradorModificarPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
                         
                         </div>
                    </h:panelGroup>
                 <h:form>
-                    <h:commandButton  value="Cambiar estado" action="#{bAdministrador.cambiarEstado(pedido.codigo)}">
+                    <h:commandButton  value="Cambiar estado" action="#{bAdministradorModificarPedido.cambiarEstado(pedido.codigo)}">
                         <f:ajax  event="action" render=":result" />
                     </h:commandButton>
                 </h:form>
                 
                 <h:form>
-                    <h:commandButton  value="Cambiar ubicacion" action="#{bAdministrador.cambiarUbicacion(pedido.codigo)}">
+                    <h:commandButton  value="Cambiar ubicacion" action="#{bAdministradorModificarPedido.cambiarUbicacion(pedido.codigo)}">
                         <f:ajax  event="action" render=":result2" />
                     </h:commandButton>
                 </h:form>
                 
                    
-                #{bAdministrador.setCodigoPedidoAnterior(pedido.codigoPedido)}
+                #{bAdministradorModificarPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
             </c:forEach>
                 <h:form id="result" >
                     
-            <h:panelGroup  rendered="#{bAdministrador.estado}">
+            <h:panelGroup  rendered="#{bAdministradorModificarPedido.estado}">
                  <div id="datosTipo" style="border: 1px solid blue">
-                    <h:selectOneMenu value="#{bAdministrador.estadoNuevo}">  
-                        <f:selectItems value="#{bAdministrador.listaEstados}"/>
+                    <h:selectOneMenu value="#{bAdministradorModificarPedido.estadoNuevo}">  
+                        <f:selectItems value="#{bAdministradorModificarPedido.listaEstados}"/>
                     </h:selectOneMenu>
                     </div>
-                    <h:commandButton value="Cambiar estado" action="#{bAdministrador.modificarEstado()}" />
+                    <h:commandButton value="Cambiar estado" action="#{bAdministradorModificarPedido.modificarEstado()}" />
                     
             </h:panelGroup> 
                 </h:form>   
@@ -92,14 +87,14 @@ and open the template in the editor.
             
                 <!--Ventana modal cambiar ubicacion-->
             <h:form id="result2" >
-                <h:panelGroup rendered="#{bAdministrador.ubicacion}" >
+                <h:panelGroup rendered="#{bAdministradorModificarPedido.ubicacion}" >
                  <div id="ubicacion" style="border: 1px solid pink">
-                     <p:selectOneMenu id="poblacion" value="#{bAdministrador.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                         <f:selectItems value="#{bAdministrador.listaPoblaciones}" />
+                     <p:selectOneMenu id="poblacion" value="#{bAdministradorModificarPedido.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
+                         <f:selectItems value="#{bAdministradorModificarPedido.listaPoblaciones}" />
                      </p:selectOneMenu>
                  </div>
                     
-                <h:commandButton value="Cambiar ubicacion" action="#{bAdministrador.modificarUbicacion()}" />
+                <h:commandButton value="Cambiar ubicacion" action="#{bAdministradorModificarPedido.modificarUbicacion()}" />
                             </h:panelGroup>
 
                 </h:form>  

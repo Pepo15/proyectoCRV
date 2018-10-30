@@ -8,13 +8,17 @@ and open the template in the editor.
 
     <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
         <f:view>
-        <head>
+        <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
-        </head>
-        <body>
+        </h:head>
+        <h:body>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
             <h1><h:outputText value="Administrador"/></h1>
             <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
             
@@ -57,8 +61,8 @@ and open the template in the editor.
             <!--Añadir telefono-->
             <h:form>
                 <h:outputText value="Nombre: "/> <h:inputText value="#{bAdministrador.nombre}"/><br></br><br></br>
-                <h:outputText value="Marca: "/> <h:inputSecret value="#{bAdministrador.marca}"/><br></br><br></br>
-                <h:outputText value="Precio: "/> <h:inputSecret value="#{bAdministrador.precio}"/><br></br><br></br>
+                <h:outputText value="Marca: "/> <h:inputText value="#{bAdministrador.marca}"/><br></br><br></br>
+                <h:outputText value="Precio: "/> <h:inputText value="#{bAdministrador.precio}"/><br></br><br></br>
                 <h:commandButton value="Entrar" action="#{bAdministrador.altaTelefono()}"/>
                 <br></br><br></br>
                 <h:outputText value="#{bLogin.mens}"/>
@@ -66,31 +70,34 @@ and open the template in the editor.
             
             <!--Añadir caracteristicas a un telefono-->
             <h:form>
+                <h:selectOneMenu value="#{bAdministrador.codigoTelefono}">  
+                    <f:selectItems value="#{bAdministrador.listaTelefonos}"/>
+                </h:selectOneMenu>
                 <h:outputText value="SO: "/> <h:inputText value="#{bAdministrador.so}"/><br></br><br></br>
-                <h:outputText value="Ram: "/> <h:inputSecret value="#{bAdministrador.ram}"/><br></br><br></br>
-                <h:outputText value="Pulgadas: "/> <h:inputSecret value="#{bAdministrador.pulgadas}"/><br></br><br></br>
+                <h:outputText value="Ram: "/> <h:inputText value="#{bAdministrador.ram}"/><br></br><br></br>
+                <h:outputText value="Pulgadas: "/> <h:inputText value="#{bAdministrador.pulgadas}"/><br></br><br></br>
                 <h:outputText value="Almacenamiento: "/> <h:inputText value="#{bAdministrador.almacenamiento}"/><br></br><br></br>
-                <h:outputText value="Camara Trasera: "/> <h:inputSecret value="#{bAdministrador.camaraTrasera}"/><br></br><br></br>
-                <h:outputText value="Camra Delantera: "/> <h:inputSecret value="#{bAdministrador.camaraDelantera}"/><br></br><br></br>
+                <h:outputText value="Camara Trasera: "/> <h:inputText value="#{bAdministrador.camaraTrasera}"/><br></br><br></br>
+                <h:outputText value="Camra Delantera: "/> <h:inputText value="#{bAdministrador.camaraDelantera}"/><br></br><br></br>
                 <h:outputText value="Bateria: "/> <h:inputText value="#{bAdministrador.bateria}"/><br></br><br></br>
-                <h:outputText value="Procesador "/> <h:inputSecret value="#{bAdministrador.procesador}"/><br></br><br></br>
+                <h:outputText value="Procesador "/> <h:inputText value="#{bAdministrador.procesador}"/><br></br><br></br>
                 <h:outputText value="Wifi: "/> <h:selectBooleanCheckbox value="#{bAdministrador.wifi}"/><br></br><br></br>
-                <h:outputText value="Resolucion: "/> <h:inputSecret value="#{bAdministrador.resolucion}"/><br></br><br></br>
-                <h:outputText value="Color: "/> <h:inputSecret value="#{bAdministrador.color}"/><br></br><br></br>
+                <h:outputText value="Resolucion: "/> <h:inputText value="#{bAdministrador.resolucion}"/><br></br><br></br>
+                <h:outputText value="Color: "/> <h:inputText value="#{bAdministrador.color}"/><br></br><br></br>
                 <h:outputText value="Detector de huellas: "/> <h:selectBooleanCheckbox value="#{bAdministrador.detectorDeHuellas}"/><br></br><br></br>
                 <h:outputText value="Dual Sim: "/> <h:selectBooleanCheckbox value="#{bAdministrador.dualSim}"/><br></br><br></br>
                 <h:outputText value="SD: "/> <h:selectBooleanCheckbox value="#{bAdministrador.sd}"/><br></br><br></br>
                 <h:outputText value="Bluetooth: "/> <h:selectBooleanCheckbox value="#{bAdministrador.bluetooth}"/><br></br><br></br>
                 <h:outputText value="NFC: "/> <h:selectBooleanCheckbox value="#{bAdministrador.nfc}"/><br></br><br></br>
                 <h:outputText value="3G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g3}"/><br></br><br></br>
-                <h:outputText value="4G: "/> <h:inputSecret value="#{bAdministrador.g4}"/><br></br><br></br>
+                <h:outputText value="4G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g4}"/><br></br><br></br>
                 <h:commandButton value="Entrar" action="#{bAdministrador.altaCaracteristicasTelefono()}"/>
                 <br></br><br></br>
                 <h:outputText value="#{bLogin.mens}"/>
             </h:form>
             
             
-        </body>
+        </h:body>
         </f:view>     
     </html>
    
