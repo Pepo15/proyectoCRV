@@ -250,4 +250,24 @@ public class PremioJpaController implements Serializable {
         }
     }
     
+    	 //Creamos el metodo que devuelve un premio segun su nombre
+    public Premio findPremioByNombre(String nombre) {
+        EntityManager em = getEntityManager();
+        try {
+        Query query=em.createNamedQuery("Premio.findByNombre").setParameter("nombre", nombre);
+        
+        Premio premio = (Premio) query.getResultList().get(0);
+        
+        return premio;
+        }
+        catch(Exception e){
+            return null;
+        }
+        
+        finally {
+            em.close();
+        }
+    }
+	
+    
 }

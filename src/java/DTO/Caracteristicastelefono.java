@@ -9,11 +9,13 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -26,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Caracteristicastelefono.findAll", query = "SELECT c FROM Caracteristicastelefono c")
-    , @NamedQuery(name = "Caracteristicastelefono.findByCodigoTelefono", query = "SELECT c FROM Caracteristicastelefono c WHERE c.codigoTelefono = :codigoTelefono")
+    , @NamedQuery(name = "Caracteristicastelefono.findByCodigoCaracteristica", query = "SELECT c FROM Caracteristicastelefono c WHERE c.codigoCaracteristica = :codigoCaracteristica")
     , @NamedQuery(name = "Caracteristicastelefono.findBySo", query = "SELECT c FROM Caracteristicastelefono c WHERE c.so = :so")
     , @NamedQuery(name = "Caracteristicastelefono.findByRam", query = "SELECT c FROM Caracteristicastelefono c WHERE c.ram = :ram")
     , @NamedQuery(name = "Caracteristicastelefono.findByPulgadas", query = "SELECT c FROM Caracteristicastelefono c WHERE c.pulgadas = :pulgadas")
@@ -49,9 +51,10 @@ public class Caracteristicastelefono implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "codigoTelefono")
-    private Integer codigoTelefono;
+    @Column(name = "codigoCaracteristica")
+    private Integer codigoCaracteristica;
     @Basic(optional = false)
     @Column(name = "so")
     private String so;
@@ -106,19 +109,19 @@ public class Caracteristicastelefono implements Serializable {
     @Basic(optional = false)
     @Column(name = "4g")
     private boolean g1;
-    @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private Telefono telefono;
+    @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
+    @ManyToOne(optional = false)
+    private Telefono codigoTelefono;
 
     public Caracteristicastelefono() {
     }
 
-    public Caracteristicastelefono(Integer codigoTelefono) {
-        this.codigoTelefono = codigoTelefono;
+    public Caracteristicastelefono(Integer codigoCaracteristica) {
+        this.codigoCaracteristica = codigoCaracteristica;
     }
 
-    public Caracteristicastelefono(Integer codigoTelefono, String so, int ram, float pulgadas, int almacenamiento, float camaraTrasera, float camaraDelantera, int bateria, String procesador, boolean wifi, int resolucion, String color, boolean detectorHuella, boolean dualSim, boolean sd, boolean bluetooth, boolean nfc, boolean g, boolean g1) {
-        this.codigoTelefono = codigoTelefono;
+    public Caracteristicastelefono(Integer codigoCaracteristica, String so, int ram, float pulgadas, int almacenamiento, float camaraTrasera, float camaraDelantera, int bateria, String procesador, boolean wifi, int resolucion, String color, boolean detectorHuella, boolean dualSim, boolean sd, boolean bluetooth, boolean nfc, boolean g, boolean g1) {
+        this.codigoCaracteristica = codigoCaracteristica;
         this.so = so;
         this.ram = ram;
         this.pulgadas = pulgadas;
@@ -139,12 +142,12 @@ public class Caracteristicastelefono implements Serializable {
         this.g1 = g1;
     }
 
-    public Integer getCodigoTelefono() {
-        return codigoTelefono;
+    public Integer getCodigoCaracteristica() {
+        return codigoCaracteristica;
     }
 
-    public void setCodigoTelefono(Integer codigoTelefono) {
-        this.codigoTelefono = codigoTelefono;
+    public void setCodigoCaracteristica(Integer codigoCaracteristica) {
+        this.codigoCaracteristica = codigoCaracteristica;
     }
 
     public String getSo() {
@@ -291,18 +294,18 @@ public class Caracteristicastelefono implements Serializable {
         this.g1 = g1;
     }
 
-    public Telefono getTelefono() {
-        return telefono;
+    public Telefono getCodigoTelefono() {
+        return codigoTelefono;
     }
 
-    public void setTelefono(Telefono telefono) {
-        this.telefono = telefono;
+    public void setCodigoTelefono(Telefono codigoTelefono) {
+        this.codigoTelefono = codigoTelefono;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (codigoTelefono != null ? codigoTelefono.hashCode() : 0);
+        hash += (codigoCaracteristica != null ? codigoCaracteristica.hashCode() : 0);
         return hash;
     }
 
@@ -313,7 +316,7 @@ public class Caracteristicastelefono implements Serializable {
             return false;
         }
         Caracteristicastelefono other = (Caracteristicastelefono) object;
-        if ((this.codigoTelefono == null && other.codigoTelefono != null) || (this.codigoTelefono != null && !this.codigoTelefono.equals(other.codigoTelefono))) {
+        if ((this.codigoCaracteristica == null && other.codigoCaracteristica != null) || (this.codigoCaracteristica != null && !this.codigoCaracteristica.equals(other.codigoCaracteristica))) {
             return false;
         }
         return true;
@@ -321,7 +324,7 @@ public class Caracteristicastelefono implements Serializable {
 
     @Override
     public String toString() {
-        return "DTO.Caracteristicastelefono[ codigoTelefono=" + codigoTelefono + " ]";
+        return "DTO.Caracteristicastelefono[ codigoCaracteristica=" + codigoCaracteristica + " ]";
     }
     
 }

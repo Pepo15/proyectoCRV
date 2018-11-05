@@ -75,12 +75,12 @@ public class Pedido implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "codigoUsuario", referencedColumnName = "codigoUsuario")
-    @ManyToOne(optional = false)
-    private Usuario codigoUsuario;
     @JoinColumn(name = "codigoTecnico", referencedColumnName = "codigoTecnico")
     @ManyToOne
     private Tecnico codigoTecnico;
+    @JoinColumn(name = "codigoReparacion", referencedColumnName = "codigoReparacion")
+    @ManyToOne
+    private Reparaciones codigoReparacion;
     @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
     @ManyToOne(optional = false)
     private Telefono codigoTelefono;
@@ -90,9 +90,9 @@ public class Pedido implements Serializable {
     @JoinColumn(name = "codigoTarjeta", referencedColumnName = "codigoTarjeta")
     @ManyToOne(optional = false)
     private Tarjeta codigoTarjeta;
-    @JoinColumn(name = "codigoReparacion", referencedColumnName = "codigoReparacion")
-    @ManyToOne
-    private Reparaciones codigoReparacion;
+    @JoinColumn(name = "codigoUsuario", referencedColumnName = "codigoUsuario")
+    @ManyToOne(optional = false)
+    private Usuario codigoUsuario;
 
     public Pedido() {
     }
@@ -192,20 +192,20 @@ public class Pedido implements Serializable {
         this.fecha = fecha;
     }
 
-    public Usuario getCodigoUsuario() {
-        return codigoUsuario;
-    }
-
-    public void setCodigoUsuario(Usuario codigoUsuario) {
-        this.codigoUsuario = codigoUsuario;
-    }
-
     public Tecnico getCodigoTecnico() {
         return codigoTecnico;
     }
 
     public void setCodigoTecnico(Tecnico codigoTecnico) {
         this.codigoTecnico = codigoTecnico;
+    }
+
+    public Reparaciones getCodigoReparacion() {
+        return codigoReparacion;
+    }
+
+    public void setCodigoReparacion(Reparaciones codigoReparacion) {
+        this.codigoReparacion = codigoReparacion;
     }
 
     public Telefono getCodigoTelefono() {
@@ -232,12 +232,12 @@ public class Pedido implements Serializable {
         this.codigoTarjeta = codigoTarjeta;
     }
 
-    public Reparaciones getCodigoReparacion() {
-        return codigoReparacion;
+    public Usuario getCodigoUsuario() {
+        return codigoUsuario;
     }
 
-    public void setCodigoReparacion(Reparaciones codigoReparacion) {
-        this.codigoReparacion = codigoReparacion;
+    public void setCodigoUsuario(Usuario codigoUsuario) {
+        this.codigoUsuario = codigoUsuario;
     }
 
     @Override

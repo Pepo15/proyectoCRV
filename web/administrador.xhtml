@@ -63,9 +63,8 @@ and open the template in the editor.
                 <h:outputText value="Nombre: "/> <h:inputText value="#{bAdministrador.nombre}"/><br></br><br></br>
                 <h:outputText value="Marca: "/> <h:inputText value="#{bAdministrador.marca}"/><br></br><br></br>
                 <h:outputText value="Precio: "/> <h:inputText value="#{bAdministrador.precio}"/><br></br><br></br>
-                <h:commandButton value="Entrar" action="#{bAdministrador.altaTelefono()}"/>
+                <h:commandButton value="Añadir teléfono" action="#{bAdministrador.altaTelefono()}"/>
                 <br></br><br></br>
-                <h:outputText value="#{bLogin.mens}"/>
             </h:form>
             
             <!--Añadir caracteristicas a un telefono-->
@@ -91,10 +90,60 @@ and open the template in the editor.
                 <h:outputText value="NFC: "/> <h:selectBooleanCheckbox value="#{bAdministrador.nfc}"/><br></br><br></br>
                 <h:outputText value="3G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g3}"/><br></br><br></br>
                 <h:outputText value="4G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g4}"/><br></br><br></br>
-                <h:commandButton value="Entrar" action="#{bAdministrador.altaCaracteristicasTelefono()}"/>
+                <h:commandButton value="Añadir característica" action="#{bAdministrador.altaCaracteristicasTelefono()}"/>
                 <br></br><br></br>
-                <h:outputText value="#{bLogin.mens}"/>
             </h:form>
+            
+            <!--Añadir fotos a un telefono-->
+            <h:form enctype="multipart/form-data">
+                <h:selectOneMenu value="#{bAdministrador.codigoTelefonoFoto}">  
+                    <f:selectItems value="#{bAdministrador.listaTelefonos}"/>
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{bAdministrador.perfilFoto}">  
+                    <f:selectItems value="#{bAdministrador.listaPerfiles}"/>
+                </h:selectOneMenu>
+                <p:fileUpload value="#{bAdministrador.fileTelefono}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
+                <h:commandButton value="Añadir foto teléfono" action="#{bAdministrador.subirFotoTelefono()}"/>
+                <br></br><br></br>
+            </h:form>
+            
+            <!--Añadir premio-->
+            <h:form>
+                <h:outputText value="Nombre: "/> <h:inputText value="#{bAdministrador.nombrePremio}"/><br></br><br></br>
+                <h:outputText value="Coste: "/> <h:inputText value="#{bAdministrador.coste}"/><br></br><br></br>
+                <h:commandButton value="Añadir Premio" action="#{bAdministrador.altaPremio()}"/>
+                <br></br><br></br>
+            </h:form>
+            
+            <!--Añadir fotos a un premio-->
+            <h:form enctype="multipart/form-data">
+                <h:selectOneMenu value="#{bAdministrador.codigoPremio}">  
+                    <f:selectItems value="#{bAdministrador.listaPremios}"/>
+                </h:selectOneMenu>
+                <p:fileUpload value="#{bAdministrador.filePremio}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
+                <h:commandButton value="Añadir foto premio" action="#{bAdministrador.subirFotoPremio()}"/>
+                <br></br><br></br>
+            </h:form>
+            
+            <!--Eliminar telefono-->
+            <h:form>
+                <h:selectOneMenu value="#{bAdministrador.codigoTelefonoEliminar}">  
+                    <f:selectItems value="#{bAdministrador.listaTelefonos}"/>
+                </h:selectOneMenu>
+                <h:commandButton value="Eliminar teléfono" action="#{bAdministrador.bajaTelefono()}"/>
+                <br></br><br></br>
+            </h:form>
+            
+            <!--Eliminar premio-->
+            <h:form>
+                <h:selectOneMenu value="#{bAdministrador.codigoPremioEliminar}">  
+                    <f:selectItems value="#{bAdministrador.listaPremios}"/>
+                </h:selectOneMenu>
+                <h:commandButton value="Eliminar premio" action="#{bAdministrador.bajaPremio()}"/>
+                <br></br><br></br>
+            </h:form>
+            
+            
             
             
         </h:body>

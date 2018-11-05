@@ -216,7 +216,7 @@ public class TecnicoJpaController implements Serializable {
         }
     }
     
-    //Creamos el metodo que devuelve un tecnico segun su nick
+    	 //Creamos el metodo que devuelve un tecnico segun su nick
     public Tecnico findTecnicoByNick(String nick) {
         EntityManager em = getEntityManager();
         try {
@@ -234,6 +234,5 @@ public class TecnicoJpaController implements Serializable {
             em.close();
         }
     }	
-	
     
 }

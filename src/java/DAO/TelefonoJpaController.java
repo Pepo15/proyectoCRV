@@ -12,12 +12,12 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DTO.Caracteristicastelefono;
 import DTO.Administrador;
 import DTO.Foto;
 import java.util.ArrayList;
 import java.util.List;
 import DTO.Reparaciones;
+import DTO.Caracteristicastelefono;
 import DTO.Pedido;
 import DTO.Telefono;
 import javax.persistence.EntityManager;
@@ -45,6 +45,9 @@ public class TelefonoJpaController implements Serializable {
         if (telefono.getReparacionesList() == null) {
             telefono.setReparacionesList(new ArrayList<Reparaciones>());
         }
+        if (telefono.getCaracteristicastelefonoList() == null) {
+            telefono.setCaracteristicastelefonoList(new ArrayList<Caracteristicastelefono>());
+        }
         if (telefono.getPedidoList() == null) {
             telefono.setPedidoList(new ArrayList<Pedido>());
         }
@@ -52,11 +55,6 @@ public class TelefonoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Caracteristicastelefono caracteristicastelefono = telefono.getCaracteristicastelefono();
-            if (caracteristicastelefono != null) {
-                caracteristicastelefono = em.getReference(caracteristicastelefono.getClass(), caracteristicastelefono.getCodigoTelefono());
-                telefono.setCaracteristicastelefono(caracteristicastelefono);
-            }
             Administrador codigoAdministrador = telefono.getCodigoAdministrador();
             if (codigoAdministrador != null) {
                 codigoAdministrador = em.getReference(codigoAdministrador.getClass(), codigoAdministrador.getCodigoAdministrador());
@@ -74,6 +72,12 @@ public class TelefonoJpaController implements Serializable {
                 attachedReparacionesList.add(reparacionesListReparacionesToAttach);
             }
             telefono.setReparacionesList(attachedReparacionesList);
+            List<Caracteristicastelefono> attachedCaracteristicastelefonoList = new ArrayList<Caracteristicastelefono>();
+            for (Caracteristicastelefono caracteristicastelefonoListCaracteristicastelefonoToAttach : telefono.getCaracteristicastelefonoList()) {
+                caracteristicastelefonoListCaracteristicastelefonoToAttach = em.getReference(caracteristicastelefonoListCaracteristicastelefonoToAttach.getClass(), caracteristicastelefonoListCaracteristicastelefonoToAttach.getCodigoCaracteristica());
+                attachedCaracteristicastelefonoList.add(caracteristicastelefonoListCaracteristicastelefonoToAttach);
+            }
+            telefono.setCaracteristicastelefonoList(attachedCaracteristicastelefonoList);
             List<Pedido> attachedPedidoList = new ArrayList<Pedido>();
             for (Pedido pedidoListPedidoToAttach : telefono.getPedidoList()) {
                 pedidoListPedidoToAttach = em.getReference(pedidoListPedidoToAttach.getClass(), pedidoListPedidoToAttach.getCodigo());
@@ -81,15 +85,6 @@ public class TelefonoJpaController implements Serializable {
             }
             telefono.setPedidoList(attachedPedidoList);
             em.persist(telefono);
-            if (caracteristicastelefono != null) {
-                Telefono oldTelefonoOfCaracteristicastelefono = caracteristicastelefono.getTelefono();
-                if (oldTelefonoOfCaracteristicastelefono != null) {
-                    oldTelefonoOfCaracteristicastelefono.setCaracteristicastelefono(null);
-                    oldTelefonoOfCaracteristicastelefono = em.merge(oldTelefonoOfCaracteristicastelefono);
-                }
-                caracteristicastelefono.setTelefono(telefono);
-                caracteristicastelefono = em.merge(caracteristicastelefono);
-            }
             if (codigoAdministrador != null) {
                 codigoAdministrador.getTelefonoList().add(telefono);
                 codigoAdministrador = em.merge(codigoAdministrador);
@@ -110,6 +105,15 @@ public class TelefonoJpaController implements Serializable {
                 if (oldCodigoTelefonoOfReparacionesListReparaciones != null) {
                     oldCodigoTelefonoOfReparacionesListReparaciones.getReparacionesList().remove(reparacionesListReparaciones);
                     oldCodigoTelefonoOfReparacionesListReparaciones = em.merge(oldCodigoTelefonoOfReparacionesListReparaciones);
+                }
+            }
+            for (Caracteristicastelefono caracteristicastelefonoListCaracteristicastelefono : telefono.getCaracteristicastelefonoList()) {
+                Telefono oldCodigoTelefonoOfCaracteristicastelefonoListCaracteristicastelefono = caracteristicastelefonoListCaracteristicastelefono.getCodigoTelefono();
+                caracteristicastelefonoListCaracteristicastelefono.setCodigoTelefono(telefono);
+                caracteristicastelefonoListCaracteristicastelefono = em.merge(caracteristicastelefonoListCaracteristicastelefono);
+                if (oldCodigoTelefonoOfCaracteristicastelefonoListCaracteristicastelefono != null) {
+                    oldCodigoTelefonoOfCaracteristicastelefonoListCaracteristicastelefono.getCaracteristicastelefonoList().remove(caracteristicastelefonoListCaracteristicastelefono);
+                    oldCodigoTelefonoOfCaracteristicastelefonoListCaracteristicastelefono = em.merge(oldCodigoTelefonoOfCaracteristicastelefonoListCaracteristicastelefono);
                 }
             }
             for (Pedido pedidoListPedido : telefono.getPedidoList()) {
@@ -135,29 +139,31 @@ public class TelefonoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Telefono persistentTelefono = em.find(Telefono.class, telefono.getCodigoTelefono());
-            Caracteristicastelefono caracteristicastelefonoOld = persistentTelefono.getCaracteristicastelefono();
-            Caracteristicastelefono caracteristicastelefonoNew = telefono.getCaracteristicastelefono();
             Administrador codigoAdministradorOld = persistentTelefono.getCodigoAdministrador();
             Administrador codigoAdministradorNew = telefono.getCodigoAdministrador();
             List<Foto> fotoListOld = persistentTelefono.getFotoList();
             List<Foto> fotoListNew = telefono.getFotoList();
             List<Reparaciones> reparacionesListOld = persistentTelefono.getReparacionesList();
             List<Reparaciones> reparacionesListNew = telefono.getReparacionesList();
+            List<Caracteristicastelefono> caracteristicastelefonoListOld = persistentTelefono.getCaracteristicastelefonoList();
+            List<Caracteristicastelefono> caracteristicastelefonoListNew = telefono.getCaracteristicastelefonoList();
             List<Pedido> pedidoListOld = persistentTelefono.getPedidoList();
             List<Pedido> pedidoListNew = telefono.getPedidoList();
             List<String> illegalOrphanMessages = null;
-            if (caracteristicastelefonoOld != null && !caracteristicastelefonoOld.equals(caracteristicastelefonoNew)) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("You must retain Caracteristicastelefono " + caracteristicastelefonoOld + " since its telefono field is not nullable.");
-            }
             for (Reparaciones reparacionesListOldReparaciones : reparacionesListOld) {
                 if (!reparacionesListNew.contains(reparacionesListOldReparaciones)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
                     illegalOrphanMessages.add("You must retain Reparaciones " + reparacionesListOldReparaciones + " since its codigoTelefono field is not nullable.");
+                }
+            }
+            for (Caracteristicastelefono caracteristicastelefonoListOldCaracteristicastelefono : caracteristicastelefonoListOld) {
+                if (!caracteristicastelefonoListNew.contains(caracteristicastelefonoListOldCaracteristicastelefono)) {
+                    if (illegalOrphanMessages == null) {
+                        illegalOrphanMessages = new ArrayList<String>();
+                    }
+                    illegalOrphanMessages.add("You must retain Caracteristicastelefono " + caracteristicastelefonoListOldCaracteristicastelefono + " since its codigoTelefono field is not nullable.");
                 }
             }
             for (Pedido pedidoListOldPedido : pedidoListOld) {
@@ -170,10 +176,6 @@ public class TelefonoJpaController implements Serializable {
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (caracteristicastelefonoNew != null) {
-                caracteristicastelefonoNew = em.getReference(caracteristicastelefonoNew.getClass(), caracteristicastelefonoNew.getCodigoTelefono());
-                telefono.setCaracteristicastelefono(caracteristicastelefonoNew);
             }
             if (codigoAdministradorNew != null) {
                 codigoAdministradorNew = em.getReference(codigoAdministradorNew.getClass(), codigoAdministradorNew.getCodigoAdministrador());
@@ -193,6 +195,13 @@ public class TelefonoJpaController implements Serializable {
             }
             reparacionesListNew = attachedReparacionesListNew;
             telefono.setReparacionesList(reparacionesListNew);
+            List<Caracteristicastelefono> attachedCaracteristicastelefonoListNew = new ArrayList<Caracteristicastelefono>();
+            for (Caracteristicastelefono caracteristicastelefonoListNewCaracteristicastelefonoToAttach : caracteristicastelefonoListNew) {
+                caracteristicastelefonoListNewCaracteristicastelefonoToAttach = em.getReference(caracteristicastelefonoListNewCaracteristicastelefonoToAttach.getClass(), caracteristicastelefonoListNewCaracteristicastelefonoToAttach.getCodigoCaracteristica());
+                attachedCaracteristicastelefonoListNew.add(caracteristicastelefonoListNewCaracteristicastelefonoToAttach);
+            }
+            caracteristicastelefonoListNew = attachedCaracteristicastelefonoListNew;
+            telefono.setCaracteristicastelefonoList(caracteristicastelefonoListNew);
             List<Pedido> attachedPedidoListNew = new ArrayList<Pedido>();
             for (Pedido pedidoListNewPedidoToAttach : pedidoListNew) {
                 pedidoListNewPedidoToAttach = em.getReference(pedidoListNewPedidoToAttach.getClass(), pedidoListNewPedidoToAttach.getCodigo());
@@ -201,15 +210,6 @@ public class TelefonoJpaController implements Serializable {
             pedidoListNew = attachedPedidoListNew;
             telefono.setPedidoList(pedidoListNew);
             telefono = em.merge(telefono);
-            if (caracteristicastelefonoNew != null && !caracteristicastelefonoNew.equals(caracteristicastelefonoOld)) {
-                Telefono oldTelefonoOfCaracteristicastelefono = caracteristicastelefonoNew.getTelefono();
-                if (oldTelefonoOfCaracteristicastelefono != null) {
-                    oldTelefonoOfCaracteristicastelefono.setCaracteristicastelefono(null);
-                    oldTelefonoOfCaracteristicastelefono = em.merge(oldTelefonoOfCaracteristicastelefono);
-                }
-                caracteristicastelefonoNew.setTelefono(telefono);
-                caracteristicastelefonoNew = em.merge(caracteristicastelefonoNew);
-            }
             if (codigoAdministradorOld != null && !codigoAdministradorOld.equals(codigoAdministradorNew)) {
                 codigoAdministradorOld.getTelefonoList().remove(telefono);
                 codigoAdministradorOld = em.merge(codigoAdministradorOld);
@@ -243,6 +243,17 @@ public class TelefonoJpaController implements Serializable {
                     if (oldCodigoTelefonoOfReparacionesListNewReparaciones != null && !oldCodigoTelefonoOfReparacionesListNewReparaciones.equals(telefono)) {
                         oldCodigoTelefonoOfReparacionesListNewReparaciones.getReparacionesList().remove(reparacionesListNewReparaciones);
                         oldCodigoTelefonoOfReparacionesListNewReparaciones = em.merge(oldCodigoTelefonoOfReparacionesListNewReparaciones);
+                    }
+                }
+            }
+            for (Caracteristicastelefono caracteristicastelefonoListNewCaracteristicastelefono : caracteristicastelefonoListNew) {
+                if (!caracteristicastelefonoListOld.contains(caracteristicastelefonoListNewCaracteristicastelefono)) {
+                    Telefono oldCodigoTelefonoOfCaracteristicastelefonoListNewCaracteristicastelefono = caracteristicastelefonoListNewCaracteristicastelefono.getCodigoTelefono();
+                    caracteristicastelefonoListNewCaracteristicastelefono.setCodigoTelefono(telefono);
+                    caracteristicastelefonoListNewCaracteristicastelefono = em.merge(caracteristicastelefonoListNewCaracteristicastelefono);
+                    if (oldCodigoTelefonoOfCaracteristicastelefonoListNewCaracteristicastelefono != null && !oldCodigoTelefonoOfCaracteristicastelefonoListNewCaracteristicastelefono.equals(telefono)) {
+                        oldCodigoTelefonoOfCaracteristicastelefonoListNewCaracteristicastelefono.getCaracteristicastelefonoList().remove(caracteristicastelefonoListNewCaracteristicastelefono);
+                        oldCodigoTelefonoOfCaracteristicastelefonoListNewCaracteristicastelefono = em.merge(oldCodigoTelefonoOfCaracteristicastelefonoListNewCaracteristicastelefono);
                     }
                 }
             }
@@ -287,19 +298,19 @@ public class TelefonoJpaController implements Serializable {
                 throw new NonexistentEntityException("The telefono with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Caracteristicastelefono caracteristicastelefonoOrphanCheck = telefono.getCaracteristicastelefono();
-            if (caracteristicastelefonoOrphanCheck != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Telefono (" + telefono + ") cannot be destroyed since the Caracteristicastelefono " + caracteristicastelefonoOrphanCheck + " in its caracteristicastelefono field has a non-nullable telefono field.");
-            }
             List<Reparaciones> reparacionesListOrphanCheck = telefono.getReparacionesList();
             for (Reparaciones reparacionesListOrphanCheckReparaciones : reparacionesListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
                 illegalOrphanMessages.add("This Telefono (" + telefono + ") cannot be destroyed since the Reparaciones " + reparacionesListOrphanCheckReparaciones + " in its reparacionesList field has a non-nullable codigoTelefono field.");
+            }
+            List<Caracteristicastelefono> caracteristicastelefonoListOrphanCheck = telefono.getCaracteristicastelefonoList();
+            for (Caracteristicastelefono caracteristicastelefonoListOrphanCheckCaracteristicastelefono : caracteristicastelefonoListOrphanCheck) {
+                if (illegalOrphanMessages == null) {
+                    illegalOrphanMessages = new ArrayList<String>();
+                }
+                illegalOrphanMessages.add("This Telefono (" + telefono + ") cannot be destroyed since the Caracteristicastelefono " + caracteristicastelefonoListOrphanCheckCaracteristicastelefono + " in its caracteristicastelefonoList field has a non-nullable codigoTelefono field.");
             }
             List<Pedido> pedidoListOrphanCheck = telefono.getPedidoList();
             for (Pedido pedidoListOrphanCheckPedido : pedidoListOrphanCheck) {
@@ -376,8 +387,8 @@ public class TelefonoJpaController implements Serializable {
         }
     }
     
-    //Creamos el metodo que devuelve un telefono segun su nombre
-    public Telefono findTecnicoByNick(String nombre) {
+    	//Creamos el metodo que devuelve un telefono segun su nombre
+    public Telefono findTelefonoByNick(String nombre) {
         EntityManager em = getEntityManager();
         try {
         Query query=em.createNamedQuery("Telefono.findByNombre").setParameter("nombre", nombre);

@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -58,8 +57,8 @@ public class Telefono implements Serializable {
     private List<Foto> fotoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
     private List<Reparaciones> reparacionesList;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "telefono")
-    private Caracteristicastelefono caracteristicastelefono;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
+    private List<Caracteristicastelefono> caracteristicastelefonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
     private List<Pedido> pedidoList;
     @JoinColumn(name = "codigoAdministrador", referencedColumnName = "codigoAdministrador")
@@ -130,12 +129,13 @@ public class Telefono implements Serializable {
         this.reparacionesList = reparacionesList;
     }
 
-    public Caracteristicastelefono getCaracteristicastelefono() {
-        return caracteristicastelefono;
+    @XmlTransient
+    public List<Caracteristicastelefono> getCaracteristicastelefonoList() {
+        return caracteristicastelefonoList;
     }
 
-    public void setCaracteristicastelefono(Caracteristicastelefono caracteristicastelefono) {
-        this.caracteristicastelefono = caracteristicastelefono;
+    public void setCaracteristicastelefonoList(List<Caracteristicastelefono> caracteristicastelefonoList) {
+        this.caracteristicastelefonoList = caracteristicastelefonoList;
     }
 
     @XmlTransient

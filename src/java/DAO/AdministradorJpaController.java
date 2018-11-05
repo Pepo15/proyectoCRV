@@ -254,7 +254,7 @@ public class AdministradorJpaController implements Serializable {
         }
     }
     
-    //Creamos el metodo que devuelve un administrador segun su nick
+     //Creamos el metodo que devuelve un administrador segun su nick
     public Administrador findAdministradorByNick(String nick) {
         EntityManager em = getEntityManager();
         try {

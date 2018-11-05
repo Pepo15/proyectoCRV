@@ -5,9 +5,7 @@
  */
 package DAO;
 
-import DAO.exceptions.IllegalOrphanException;
 import DAO.exceptions.NonexistentEntityException;
-import DAO.exceptions.PreexistingEntityException;
 import DTO.Caracteristicastelefono;
 import java.io.Serializable;
 import javax.persistence.Query;
@@ -15,7 +13,6 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import DTO.Telefono;
-import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -35,41 +32,22 @@ public class CaracteristicastelefonoJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(Caracteristicastelefono caracteristicastelefono) throws IllegalOrphanException, PreexistingEntityException, Exception {
-        List<String> illegalOrphanMessages = null;
-        Telefono telefonoOrphanCheck = caracteristicastelefono.getTelefono();
-        if (telefonoOrphanCheck != null) {
-            Caracteristicastelefono oldCaracteristicastelefonoOfTelefono = telefonoOrphanCheck.getCaracteristicastelefono();
-            if (oldCaracteristicastelefonoOfTelefono != null) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("The Telefono " + telefonoOrphanCheck + " already has an item of type Caracteristicastelefono whose telefono column cannot be null. Please make another selection for the telefono field.");
-            }
-        }
-        if (illegalOrphanMessages != null) {
-            throw new IllegalOrphanException(illegalOrphanMessages);
-        }
+    public void create(Caracteristicastelefono caracteristicastelefono) {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Telefono telefono = caracteristicastelefono.getTelefono();
-            if (telefono != null) {
-                telefono = em.getReference(telefono.getClass(), telefono.getCodigoTelefono());
-                caracteristicastelefono.setTelefono(telefono);
+            Telefono codigoTelefono = caracteristicastelefono.getCodigoTelefono();
+            if (codigoTelefono != null) {
+                codigoTelefono = em.getReference(codigoTelefono.getClass(), codigoTelefono.getCodigoTelefono());
+                caracteristicastelefono.setCodigoTelefono(codigoTelefono);
             }
             em.persist(caracteristicastelefono);
-            if (telefono != null) {
-                telefono.setCaracteristicastelefono(caracteristicastelefono);
-                telefono = em.merge(telefono);
+            if (codigoTelefono != null) {
+                codigoTelefono.getCaracteristicastelefonoList().add(caracteristicastelefono);
+                codigoTelefono = em.merge(codigoTelefono);
             }
             em.getTransaction().commit();
-        } catch (Exception ex) {
-            if (findCaracteristicastelefono(caracteristicastelefono.getCodigoTelefono()) != null) {
-                throw new PreexistingEntityException("Caracteristicastelefono " + caracteristicastelefono + " already exists.", ex);
-            }
-            throw ex;
         } finally {
             if (em != null) {
                 em.close();
@@ -77,45 +55,32 @@ public class CaracteristicastelefonoJpaController implements Serializable {
         }
     }
 
-    public void edit(Caracteristicastelefono caracteristicastelefono) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Caracteristicastelefono caracteristicastelefono) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Caracteristicastelefono persistentCaracteristicastelefono = em.find(Caracteristicastelefono.class, caracteristicastelefono.getCodigoTelefono());
-            Telefono telefonoOld = persistentCaracteristicastelefono.getTelefono();
-            Telefono telefonoNew = caracteristicastelefono.getTelefono();
-            List<String> illegalOrphanMessages = null;
-            if (telefonoNew != null && !telefonoNew.equals(telefonoOld)) {
-                Caracteristicastelefono oldCaracteristicastelefonoOfTelefono = telefonoNew.getCaracteristicastelefono();
-                if (oldCaracteristicastelefonoOfTelefono != null) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("The Telefono " + telefonoNew + " already has an item of type Caracteristicastelefono whose telefono column cannot be null. Please make another selection for the telefono field.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            if (telefonoNew != null) {
-                telefonoNew = em.getReference(telefonoNew.getClass(), telefonoNew.getCodigoTelefono());
-                caracteristicastelefono.setTelefono(telefonoNew);
+            Caracteristicastelefono persistentCaracteristicastelefono = em.find(Caracteristicastelefono.class, caracteristicastelefono.getCodigoCaracteristica());
+            Telefono codigoTelefonoOld = persistentCaracteristicastelefono.getCodigoTelefono();
+            Telefono codigoTelefonoNew = caracteristicastelefono.getCodigoTelefono();
+            if (codigoTelefonoNew != null) {
+                codigoTelefonoNew = em.getReference(codigoTelefonoNew.getClass(), codigoTelefonoNew.getCodigoTelefono());
+                caracteristicastelefono.setCodigoTelefono(codigoTelefonoNew);
             }
             caracteristicastelefono = em.merge(caracteristicastelefono);
-            if (telefonoOld != null && !telefonoOld.equals(telefonoNew)) {
-                telefonoOld.setCaracteristicastelefono(null);
-                telefonoOld = em.merge(telefonoOld);
+            if (codigoTelefonoOld != null && !codigoTelefonoOld.equals(codigoTelefonoNew)) {
+                codigoTelefonoOld.getCaracteristicastelefonoList().remove(caracteristicastelefono);
+                codigoTelefonoOld = em.merge(codigoTelefonoOld);
             }
-            if (telefonoNew != null && !telefonoNew.equals(telefonoOld)) {
-                telefonoNew.setCaracteristicastelefono(caracteristicastelefono);
-                telefonoNew = em.merge(telefonoNew);
+            if (codigoTelefonoNew != null && !codigoTelefonoNew.equals(codigoTelefonoOld)) {
+                codigoTelefonoNew.getCaracteristicastelefonoList().add(caracteristicastelefono);
+                codigoTelefonoNew = em.merge(codigoTelefonoNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = caracteristicastelefono.getCodigoTelefono();
+                Integer id = caracteristicastelefono.getCodigoCaracteristica();
                 if (findCaracteristicastelefono(id) == null) {
                     throw new NonexistentEntityException("The caracteristicastelefono with id " + id + " no longer exists.");
                 }
@@ -136,14 +101,14 @@ public class CaracteristicastelefonoJpaController implements Serializable {
             Caracteristicastelefono caracteristicastelefono;
             try {
                 caracteristicastelefono = em.getReference(Caracteristicastelefono.class, id);
-                caracteristicastelefono.getCodigoTelefono();
+                caracteristicastelefono.getCodigoCaracteristica();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The caracteristicastelefono with id " + id + " no longer exists.", enfe);
             }
-            Telefono telefono = caracteristicastelefono.getTelefono();
-            if (telefono != null) {
-                telefono.setCaracteristicastelefono(null);
-                telefono = em.merge(telefono);
+            Telefono codigoTelefono = caracteristicastelefono.getCodigoTelefono();
+            if (codigoTelefono != null) {
+                codigoTelefono.getCaracteristicastelefonoList().remove(caracteristicastelefono);
+                codigoTelefono = em.merge(codigoTelefono);
             }
             em.remove(caracteristicastelefono);
             em.getTransaction().commit();
