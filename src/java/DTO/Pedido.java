@@ -75,15 +75,15 @@ public class Pedido implements Serializable {
     @Column(name = "fecha")
     @Temporal(TemporalType.DATE)
     private Date fecha;
-    @JoinColumn(name = "codigoTecnico", referencedColumnName = "codigoTecnico")
-    @ManyToOne
-    private Tecnico codigoTecnico;
     @JoinColumn(name = "codigoReparacion", referencedColumnName = "codigoReparacion")
     @ManyToOne
     private Reparaciones codigoReparacion;
     @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
     @ManyToOne(optional = false)
     private Telefono codigoTelefono;
+    @JoinColumn(name = "codigoTecnico", referencedColumnName = "codigoTecnico")
+    @ManyToOne
+    private Tecnico codigoTecnico;
     @JoinColumn(name = "codigoDireccion", referencedColumnName = "codigoDireccion")
     @ManyToOne(optional = false)
     private Direccion codigoDireccion;
@@ -192,14 +192,6 @@ public class Pedido implements Serializable {
         this.fecha = fecha;
     }
 
-    public Tecnico getCodigoTecnico() {
-        return codigoTecnico;
-    }
-
-    public void setCodigoTecnico(Tecnico codigoTecnico) {
-        this.codigoTecnico = codigoTecnico;
-    }
-
     public Reparaciones getCodigoReparacion() {
         return codigoReparacion;
     }
@@ -214,6 +206,14 @@ public class Pedido implements Serializable {
 
     public void setCodigoTelefono(Telefono codigoTelefono) {
         this.codigoTelefono = codigoTelefono;
+    }
+
+    public Tecnico getCodigoTecnico() {
+        return codigoTecnico;
+    }
+
+    public void setCodigoTecnico(Tecnico codigoTecnico) {
+        this.codigoTecnico = codigoTecnico;
     }
 
     public Direccion getCodigoDireccion() {

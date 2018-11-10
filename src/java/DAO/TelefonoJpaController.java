@@ -22,6 +22,7 @@ import DTO.Pedido;
 import DTO.Telefono;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -136,11 +137,13 @@ public class TelefonoJpaController implements Serializable {
     public void edit(Telefono telefono) throws IllegalOrphanException, NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
+            
             em = getEntityManager();
             em.getTransaction().begin();
             Telefono persistentTelefono = em.find(Telefono.class, telefono.getCodigoTelefono());
             Administrador codigoAdministradorOld = persistentTelefono.getCodigoAdministrador();
             Administrador codigoAdministradorNew = telefono.getCodigoAdministrador();
+           
             List<Foto> fotoListOld = persistentTelefono.getFotoList();
             List<Foto> fotoListNew = telefono.getFotoList();
             List<Reparaciones> reparacionesListOld = persistentTelefono.getReparacionesList();
@@ -404,6 +407,28 @@ public class TelefonoJpaController implements Serializable {
         finally {
             em.close();
         }
+    }
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findTodosTelefonosDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Telefono.findDistinct",Telefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findTelefonoByMarca(String marca) {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Telefono.findByMarca",Telefono.class);
+            
+        q.setParameter("marca",marca);
+        
+        List lista= q.getResultList();
+        
+        return lista;
     }
     
 }

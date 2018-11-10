@@ -5,20 +5,16 @@
  */
 package DAO;
 
-import DAO.exceptions.IllegalOrphanException;
 import DAO.exceptions.NonexistentEntityException;
+import DTO.Premio;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DTO.Canjear;
-import java.util.ArrayList;
-import java.util.List;
-import DTO.Foto;
-import DTO.Premio;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 /**
  *
@@ -36,47 +32,11 @@ public class PremioJpaController implements Serializable {
     }
 
     public void create(Premio premio) {
-        if (premio.getCanjearList() == null) {
-            premio.setCanjearList(new ArrayList<Canjear>());
-        }
-        if (premio.getFotoList() == null) {
-            premio.setFotoList(new ArrayList<Foto>());
-        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            List<Canjear> attachedCanjearList = new ArrayList<Canjear>();
-            for (Canjear canjearListCanjearToAttach : premio.getCanjearList()) {
-                canjearListCanjearToAttach = em.getReference(canjearListCanjearToAttach.getClass(), canjearListCanjearToAttach.getCodigoCanjear());
-                attachedCanjearList.add(canjearListCanjearToAttach);
-            }
-            premio.setCanjearList(attachedCanjearList);
-            List<Foto> attachedFotoList = new ArrayList<Foto>();
-            for (Foto fotoListFotoToAttach : premio.getFotoList()) {
-                fotoListFotoToAttach = em.getReference(fotoListFotoToAttach.getClass(), fotoListFotoToAttach.getCodigoFoto());
-                attachedFotoList.add(fotoListFotoToAttach);
-            }
-            premio.setFotoList(attachedFotoList);
             em.persist(premio);
-            for (Canjear canjearListCanjear : premio.getCanjearList()) {
-                Premio oldCodigoPremioOfCanjearListCanjear = canjearListCanjear.getCodigoPremio();
-                canjearListCanjear.setCodigoPremio(premio);
-                canjearListCanjear = em.merge(canjearListCanjear);
-                if (oldCodigoPremioOfCanjearListCanjear != null) {
-                    oldCodigoPremioOfCanjearListCanjear.getCanjearList().remove(canjearListCanjear);
-                    oldCodigoPremioOfCanjearListCanjear = em.merge(oldCodigoPremioOfCanjearListCanjear);
-                }
-            }
-            for (Foto fotoListFoto : premio.getFotoList()) {
-                Premio oldCodigoPremioOfFotoListFoto = fotoListFoto.getCodigoPremio();
-                fotoListFoto.setCodigoPremio(premio);
-                fotoListFoto = em.merge(fotoListFoto);
-                if (oldCodigoPremioOfFotoListFoto != null) {
-                    oldCodigoPremioOfFotoListFoto.getFotoList().remove(fotoListFoto);
-                    oldCodigoPremioOfFotoListFoto = em.merge(oldCodigoPremioOfFotoListFoto);
-                }
-            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -85,71 +45,12 @@ public class PremioJpaController implements Serializable {
         }
     }
 
-    public void edit(Premio premio) throws IllegalOrphanException, NonexistentEntityException, Exception {
+    public void edit(Premio premio) throws NonexistentEntityException, Exception {
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Premio persistentPremio = em.find(Premio.class, premio.getCodigoPremio());
-            List<Canjear> canjearListOld = persistentPremio.getCanjearList();
-            List<Canjear> canjearListNew = premio.getCanjearList();
-            List<Foto> fotoListOld = persistentPremio.getFotoList();
-            List<Foto> fotoListNew = premio.getFotoList();
-            List<String> illegalOrphanMessages = null;
-            for (Canjear canjearListOldCanjear : canjearListOld) {
-                if (!canjearListNew.contains(canjearListOldCanjear)) {
-                    if (illegalOrphanMessages == null) {
-                        illegalOrphanMessages = new ArrayList<String>();
-                    }
-                    illegalOrphanMessages.add("You must retain Canjear " + canjearListOldCanjear + " since its codigoPremio field is not nullable.");
-                }
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Canjear> attachedCanjearListNew = new ArrayList<Canjear>();
-            for (Canjear canjearListNewCanjearToAttach : canjearListNew) {
-                canjearListNewCanjearToAttach = em.getReference(canjearListNewCanjearToAttach.getClass(), canjearListNewCanjearToAttach.getCodigoCanjear());
-                attachedCanjearListNew.add(canjearListNewCanjearToAttach);
-            }
-            canjearListNew = attachedCanjearListNew;
-            premio.setCanjearList(canjearListNew);
-            List<Foto> attachedFotoListNew = new ArrayList<Foto>();
-            for (Foto fotoListNewFotoToAttach : fotoListNew) {
-                fotoListNewFotoToAttach = em.getReference(fotoListNewFotoToAttach.getClass(), fotoListNewFotoToAttach.getCodigoFoto());
-                attachedFotoListNew.add(fotoListNewFotoToAttach);
-            }
-            fotoListNew = attachedFotoListNew;
-            premio.setFotoList(fotoListNew);
             premio = em.merge(premio);
-            for (Canjear canjearListNewCanjear : canjearListNew) {
-                if (!canjearListOld.contains(canjearListNewCanjear)) {
-                    Premio oldCodigoPremioOfCanjearListNewCanjear = canjearListNewCanjear.getCodigoPremio();
-                    canjearListNewCanjear.setCodigoPremio(premio);
-                    canjearListNewCanjear = em.merge(canjearListNewCanjear);
-                    if (oldCodigoPremioOfCanjearListNewCanjear != null && !oldCodigoPremioOfCanjearListNewCanjear.equals(premio)) {
-                        oldCodigoPremioOfCanjearListNewCanjear.getCanjearList().remove(canjearListNewCanjear);
-                        oldCodigoPremioOfCanjearListNewCanjear = em.merge(oldCodigoPremioOfCanjearListNewCanjear);
-                    }
-                }
-            }
-            for (Foto fotoListOldFoto : fotoListOld) {
-                if (!fotoListNew.contains(fotoListOldFoto)) {
-                    fotoListOldFoto.setCodigoPremio(null);
-                    fotoListOldFoto = em.merge(fotoListOldFoto);
-                }
-            }
-            for (Foto fotoListNewFoto : fotoListNew) {
-                if (!fotoListOld.contains(fotoListNewFoto)) {
-                    Premio oldCodigoPremioOfFotoListNewFoto = fotoListNewFoto.getCodigoPremio();
-                    fotoListNewFoto.setCodigoPremio(premio);
-                    fotoListNewFoto = em.merge(fotoListNewFoto);
-                    if (oldCodigoPremioOfFotoListNewFoto != null && !oldCodigoPremioOfFotoListNewFoto.equals(premio)) {
-                        oldCodigoPremioOfFotoListNewFoto.getFotoList().remove(fotoListNewFoto);
-                        oldCodigoPremioOfFotoListNewFoto = em.merge(oldCodigoPremioOfFotoListNewFoto);
-                    }
-                }
-            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -167,7 +68,7 @@ public class PremioJpaController implements Serializable {
         }
     }
 
-    public void destroy(Integer id) throws IllegalOrphanException, NonexistentEntityException {
+    public void destroy(Integer id) throws NonexistentEntityException {
         EntityManager em = null;
         try {
             em = getEntityManager();
@@ -178,22 +79,6 @@ public class PremioJpaController implements Serializable {
                 premio.getCodigoPremio();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The premio with id " + id + " no longer exists.", enfe);
-            }
-            List<String> illegalOrphanMessages = null;
-            List<Canjear> canjearListOrphanCheck = premio.getCanjearList();
-            for (Canjear canjearListOrphanCheckCanjear : canjearListOrphanCheck) {
-                if (illegalOrphanMessages == null) {
-                    illegalOrphanMessages = new ArrayList<String>();
-                }
-                illegalOrphanMessages.add("This Premio (" + premio + ") cannot be destroyed since the Canjear " + canjearListOrphanCheckCanjear + " in its canjearList field has a non-nullable codigoPremio field.");
-            }
-            if (illegalOrphanMessages != null) {
-                throw new IllegalOrphanException(illegalOrphanMessages);
-            }
-            List<Foto> fotoList = premio.getFotoList();
-            for (Foto fotoListFoto : fotoList) {
-                fotoListFoto.setCodigoPremio(null);
-                fotoListFoto = em.merge(fotoListFoto);
             }
             em.remove(premio);
             em.getTransaction().commit();
@@ -250,7 +135,7 @@ public class PremioJpaController implements Serializable {
         }
     }
     
-    	 //Creamos el metodo que devuelve un premio segun su nombre
+     //Creamos el metodo que devuelve un premio segun su nombre
     public Premio findPremioByNombre(String nombre) {
         EntityManager em = getEntityManager();
         try {
@@ -268,6 +153,5 @@ public class PremioJpaController implements Serializable {
             em.close();
         }
     }
-	
     
 }

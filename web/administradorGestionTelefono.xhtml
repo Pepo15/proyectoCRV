@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>CRV</title>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+
+            $(document).ready(function () {
+
+                //Con el .on, podemos añadirle cualquier evento "keyup" , "keypress" , "keydown" en vez de poner .keyup , .keypress
+                $("#myInput").on("keyup", function () {
+                    //Aquí el $(this) significa esto: $("#myInput"), el valor de lo que escribimos en el input
+                    var textoEscrito = $(this).val().toLowerCase();
+                    $("tbody tr").filter(function () {
+                        //Hacemos esto para filtar por columnas
+
+                        //Variable que guarda el contenido la celdas que contempla las columnas seleccionadas para filtrar
+                        var textoCeldas = "";
+
+                        //Variable que guarda #myTable tbody tr es decir la fila ya que al meternos en el each perderemos cambia el this
+                        var fila = this;
+
+                        //Cogemos los checkbox que estan checkeados, esto devuelve una lista, la recorremos
+                        $(":checkbox:checked").each(function () {
+                            //Guardamos el id de la columna que hemos seleccionado, con el attr accedemos al atributo indicado en este caso el id
+                            //Que empieza en 0 así coincide el id con la posición de la columna	
+                            var posicionColumna = $(this).val();
+                            //Añadimos a la variable textoCeldas lo que contiene cada celda de la columna seleccionada
+                            textoCeldas += fila.cells[posicionColumna].textContent;
+                        })
+
+
+                        //Cogemos el valor de la posicion de las letras, si no las encuentras es -1
+                        var posicionEncontrado = textoCeldas.toLowerCase().indexOf(textoEscrito);
+
+                        //Comprobamos que radio esta seleccionado si da verdadero sera el primero y lo ocultaremos si es falso lo pondrá en rojo
+
+                        $(this).css("color", "black");
+                        //Este metodo si se le pasa un parametro verdadero muestra el contenido(la deja como esta), si da falso la oculta
+                        $(this).toggle(posicionEncontrado > -1)
+
+
+
+                    });
+                });
+
+                //Si hacemos el click en un radio llamamos otra vez a la funcion del keyup que hemos programado
+                $(":checkbox").click(function () {
+                    $("#myInput").trigger("keyup");
+                });
+
+                //Si hacemos el click en un checkbox llamamos otra vez a la funcion del keyup que hemos programado
+                $(":checkbox").click(function () {
+                    $("#myInput").trigger("keyup");
+                });
+
+            });//(ready
+
+
+
+        </script>
+    </h:head>
+    <h:body>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+        <h1><h:outputText value="Administrador"/></h1>
+        <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+
+
+        <label><input type="checkbox" id="marca" value="2"></input> Marca</label><br></br>
+        <label><input type="checkbox" id="modelo" value="1"></input> Modelo</label><br></br>
+        <input id="myInput" type="text" placeholder="Search.."></input>
+
+        <h:form id="tablaT">
+
+            <p:dataTable id="telefonos" value="#{bAdministradorGestionTelefono.listaTelefonosTabla}" var="telefono" rowKey="#{telefono.codigoTelefono}"
+                         editable="true"  selection="#{bAdministradorGestionTelefono.miTelefono}" selectionMode="single"  rows="2"
+                         paginator="true"
+                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                         rowsPerPageTemplate="5,10,15" >
+
+                <p:ajax event="rowEdit" listener="#{bAdministradorGestionTelefono.onRowEdit}" update="messages altaCaracteristica:marca altaFoto:marca" />
+                <p:ajax event="rowEditCancel" listener="#{bAdministradorGestionTelefono.onRowCancel}" update="messages" />
+
+                <p:column headerText="Codigo Telefono">
+
+                    <h:outputText value="#{telefono.codigoTelefono}" />
+
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{telefono.nombre}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{telefono.nombre}" style="width:100%" label="precio"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Marca">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{telefono.marca}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{telefono.marca}" style="width:100%" label="precio"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+
+                <p:column headerText="Precio">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{telefono.precio}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{telefono.precio}" style="width:100%" label="precio"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Fotos">
+                    <ui:repeat var="foto" value="#{telefono.fotoList}">
+                        <h:graphicImage url="imagenes/FotosTelefono/#{foto.nombre}" style="width: 30px;height: 30px;" /> 
+                    </ui:repeat>
+                </p:column>
+
+                <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+               
+            </p:dataTable>
+
+
+            <p:contextMenu for="telefonos">
+                <p:menuitem value="View" update="telefonoDetail" icon="ui-icon-search" oncomplete="PF('telefonoDialog').show()"/>
+                <p:menuitem value="Delete" update="tablaT messages altaCaracteristica:marca altaFoto:marca" icon="ui-icon-close" actionListener="#{bAdministradorGestionTelefono.bajaTelefono()}"/>
+            </p:contextMenu>
+
+
+            <p:dialog header="Caracteristicas Telefono" widgetVar="telefonoDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                <p:outputPanel id="telefonoDetail" style="text-align:center;">
+                    <p:panelGrid  columns="2" rendered="#{not empty bAdministradorGestionTelefono.miTelefono}" columnClasses="label,value">
+                        <f:facet name="header">
+                            <h:outputText value="#{bAdministradorGestionTelefono.miTelefono.nombre}" />
+                        </f:facet>
+                        <ui:repeat var="caracteristica" value="#{bAdministradorGestionTelefono.miTelefono.caracteristicastelefonoList}">
+
+                            <h:outputText value="Sistema Operativo: " />
+                            <h:outputText value="#{caracteristica.so}" /><br></br>
+                            <h:outputText value="Ram:" />
+                            <h:outputText value="#{caracteristica.ram}" /><br></br>
+                            <h:outputText value="Pulgadas" />
+                            <h:outputText value="#{caracteristica.pulgadas}" /><br></br>
+                            <h:outputText value="Almacenamiento:" />
+                            <h:outputText value="#{caracteristica.almacenamiento}" /><br></br>
+                            <h:outputText value="Camara trasera: " />
+                            <h:outputText value="#{caracteristica.camaraTrasera}" /><br></br>
+                            <h:outputText value="Camara delantera: " />
+                            <h:outputText value="#{caracteristica.camaraDelantera}" /><br></br>
+                            <h:outputText value="Bateria: " />
+                            <h:outputText value="#{caracteristica.bateria}" /><br></br>
+                            <h:outputText value="Procesador: " />
+                            <h:outputText value="#{caracteristica.procesador}" /><br></br>
+                            <h:outputText value="Wifi: " />
+                            <h:outputText value="#{caracteristica.wifi}" /><br></br>
+                            <h:outputText value="Resolucion " />
+                            <h:outputText value="#{caracteristica.resolucion}" /><br></br>
+                            <h:outputText value="Color: " />
+                            <h:outputText value="#{caracteristica.color}" /><br></br>
+                            <h:outputText value="Detector de huellas: " />
+                            <h:outputText value="#{caracteristica.detectorHuella}" /><br></br>
+                            <h:outputText value="Dual sim:  " />
+                            <h:outputText value="#{caracteristica.dualSim}" /><br></br>
+                            <h:outputText value="SD: " />
+                            <h:outputText value="#{caracteristica.sd}" /><br></br>
+                            <h:outputText value="Bluetooth " />
+                            <h:outputText value="#{caracteristica.bluetooth}" /><br></br>
+                            <h:outputText value="NFC: " />
+                            <h:outputText value="#{caracteristica.nfc}" /><br></br>
+                            <h:outputText value="3G " />
+                            <h:outputText value="#{caracteristica.g}" /><br></br>
+                            <h:outputText value="4G " />
+                            <h:outputText value="#{caracteristica.g1}" /><br></br>
+                        </ui:repeat>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+            </p:dialog>
+
+
+
+
+        </h:form>
+
+
+
+
+        <!--Añadir telefono-->
+        <div style="border: 1px solid red">
+            <h1> Dar alta telefono </h1>
+            <h:form id="altaTelefono">
+                <h:outputLabel for="nombre" value="Nombre: "/> 
+                    <p:inputText id="nombre" value="#{bAdministradorGestionTelefono.nombre}" required="true"/>
+                    <p:message for="nombre" />
+                    <br></br><br></br>
+                    
+                <h:outputLabel for="marca" value="Marca: "/> 
+                    <p:inputText id="marca" value="#{bAdministradorGestionTelefono.marca}" required="true"/>
+                    <p:message for="marca" />
+                    <br></br><br></br>
+                    
+                     <h:outputLabel for="precio" value="Precio: "/>
+                    <p:inputText id="precio" value="#{bAdministradorGestionTelefono.precio}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 9999.99">
+                        <f:validateRegex pattern="^\d{1,4}(\.\d{1,2})?$" />
+                    </p:inputText>
+                    <p:message for="precio" />
+                
+                    <p:commandButton value="Añadir teléfono" validateClient="true" action="#{bAdministradorGestionTelefono.altaTelefono()}" update="altaTelefono tablaT messages altaCaracteristica:marca altaFoto:marca"/>
+                <br></br><br></br>
+            </h:form>
+        </div>
+
+        <h:form>
+            <p:confirmDialog widgetVar="confirmDlg" message="¿Quieres modificar el teléfono?" header="Télefono duplicado">
+                <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionTelefono.modificarTelefono()}" update="tablaT messages altaCaracteristica:marca altaFoto:marca"  icon="ui-icon-check" />
+                <p:commandButton value="No" oncomplete="PF('confirmDlg').hide()" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+
+
+
+        <!--Añadir caracteristicas a un telefono-->
+        <div style="border: 1px solid blue">
+            <h1> Dar alta caracteristicas </h1>
+            <h:form id="altaCaracteristica">
+                <h:outputLabel for="marca" value="Seleccione una marca: "/>
+                <h:selectOneMenu id="marca" value="#{bAdministradorGestionTelefono.marca}">
+                    <f:selectItem itemLabel="Selecione una " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaMarcas}"/>
+                    <p:ajax event="change" update="modelo"
+                            listener="#{bAdministradorGestionTelefono.consultarModelos}" />
+                </h:selectOneMenu>
+
+                <h:outputLabel for="modelo" value="Seleccione un modelo de la marca: "/>
+                <h:selectOneMenu id="modelo" value="#{bAdministradorGestionTelefono.codigoTelefono}">
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
+                    <p:ajax event="change" update="panelFormulario"
+                            listener="#{bAdministradorGestionTelefono.consultarCaracteristicas}" />
+                </h:selectOneMenu>
+                <br></br><br></br>
+
+                <h:panelGroup id="panelFormulario" >
+                    <h:outputLabel for="so" value="SO: "/> 
+                    <p:inputText id="so" value="#{bAdministradorGestionTelefono.so}" required="true"/>
+                    <p:message for="so" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="ram" value="Ram: "/>
+                    <p:inputText id="ram" value="#{bAdministradorGestionTelefono.ram}" required="true" validatorMessage="Debe ser un número entre 0 y 99.">
+                        <f:validateRegex pattern="^\d{1,2}$" />
+                    </p:inputText>
+                    <p:message for="ram" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="pulgadas" value="Pulgadas: "/>
+                    <p:inputText id="pulgadas" value="#{bAdministradorGestionTelefono.pulgadas}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 99.99">
+                        <f:validateRegex pattern="^\d{1,2}(\.\d{1,2})?$" />
+                    </p:inputText>
+                    <p:message for="pulgadas" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="almacenamiento" value="Almacenamiento: "/>
+                    <p:inputText id="almacenamiento" value="#{bAdministradorGestionTelefono.almacenamiento}" required="true" validatorMessage="Debe ser un número entre 0 y 999" >
+                        <f:validateRegex pattern="^\d{1,3}$" />
+                    </p:inputText>
+                    <p:message for="almacenamiento" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="camaraTrasera" value="Camara Trasera: "/>
+                    <p:inputText id="camaraTrasera" value="#{bAdministradorGestionTelefono.camaraTrasera}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 99.99">
+                        <f:validateRegex pattern="^\d{1,2}(\.\d{1,2})?$" />
+                    </p:inputText>
+                    <p:message for="camaraTrasera" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="camaraDelantera" value="Camra Delantera: "/>
+                    <p:inputText id="camaraDelantera" value="#{bAdministradorGestionTelefono.camaraDelantera}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 99.99">
+                        <f:validateRegex pattern="^\d{1,2}(\.\d{1,2})?$" />
+                    </p:inputText>
+                    <p:message for="camaraDelantera" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="bateria" value="Bateria: "/>
+                    <p:inputText id="bateria" value="#{bAdministradorGestionTelefono.bateria}" required="true" validatorMessage="Debe ser un número entre 0 y 9999" >
+                        <f:validateRegex pattern="^\d{1,4}$" />
+                    </p:inputText>
+                    <p:message for="bateria" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="procesador" value="Procesador "/>
+                    <p:inputText id="procesador" required="true" value="#{bAdministradorGestionTelefono.procesador}"/>
+                    <p:message for="procesador" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="wifi" value="Wifi: "/>
+                    <h:selectBooleanCheckbox id="wifi" value="#{bAdministradorGestionTelefono.wifi}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="resolucion" value="Resolucion: "/>
+                    <p:inputText id="resolucion" value="#{bAdministradorGestionTelefono.resolucion}" required="true" validatorMessage="Debe ser (1-4) digitos seguido de 'x' o 'X' y (1-4) digitos. Ejemplo: 1920x1080">
+                        <f:validateRegex pattern="^\d{1,4}[xX]\d{1,4}$" />
+                    </p:inputText>
+                    <p:message for="resolucion" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="color" value="Color: "/>
+                    <p:inputText id="color" required="true" value="#{bAdministradorGestionTelefono.color}"/>
+                    <p:message for="color" />
+                    <br></br><br></br>
+
+                    <h:outputLabel for="dectectorHuellas" value="Detector de huellas: "/>
+                    <h:selectBooleanCheckbox id="dectectorHuellas" value="#{bAdministradorGestionTelefono.detectorDeHuellas}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="dualSim" value="Dual Sim: "/>
+                    <h:selectBooleanCheckbox id="dualSim" value="#{bAdministradorGestionTelefono.dualSim}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="sd" value="SD: "/>
+                    <h:selectBooleanCheckbox id="sd" value="#{bAdministradorGestionTelefono.sd}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="bluetooth" value="Bluetooth: "/>
+                    <h:selectBooleanCheckbox id="bluetooth" value="#{bAdministradorGestionTelefono.bluetooth}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="nfc" value="NFC: "/>
+                    <h:selectBooleanCheckbox id="nfc" value="#{bAdministradorGestionTelefono.nfc}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="g3" value="3G: "/>
+                    <h:selectBooleanCheckbox id="g3" value="#{bAdministradorGestionTelefono.g3}"/>
+                    <br></br><br></br>
+
+                    <h:outputLabel for="g4" value="4G: "/>
+                    <h:selectBooleanCheckbox id="g4" value="#{bAdministradorGestionTelefono.g4}"/>
+                    <br></br><br></br>
+
+                    <p:commandButton value="Añadir característica" validateClient="true" action="#{bAdministradorGestionTelefono.altaCaracteristicasTelefono()}" update="altaCaracteristica"/>
+                    <br></br><br></br>
+
+                </h:panelGroup>
+            </h:form>
+        </div>
+
+        <h:form>
+            <p:confirmDialog widgetVar="confirmDlgCaracteristicas" message="¿Quieres modificar las caracteristicas existentes?" header="Características duplicado">
+                <p:commandButton value="Si" oncomplete="PF('confirmDlgCaracteristicas').hide()"  actionListener="#{bAdministradorGestionTelefono.modificarCaracteristicas()}" update="tablaT"  icon="ui-icon-check" />
+                <p:commandButton value="No" oncomplete="PF('confirmDlgCaracteristicas').hide()" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+
+
+        <!--Añadir fotos a un telefono-->
+        <div style="border: 1px solid orange">
+            <h1> Dar alta foto </h1>
+            <h:form id="altaFoto" enctype="multipart/form-data">
+                <h:outputLabel for="marca" value="Seleccione una marca: "/>
+                <h:selectOneMenu id="marca" value="#{bAdministradorGestionTelefono.marca}">
+                    <f:selectItem itemLabel="Selecione una " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaMarcas}"/>
+                    <p:ajax event="change" update="modelo"
+                            listener="#{bAdministradorGestionTelefono.consultarModelos}" />
+                </h:selectOneMenu>
+
+                <h:outputLabel for="modelo" value="Seleccione un modelo de la marca: "/>
+                <h:selectOneMenu id="modelo" value="#{bAdministradorGestionTelefono.codigoTelefonoFoto}">
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
+                </h:selectOneMenu>
+                <br></br><br></br>
+                <h:outputLabel for="perfil" value="Seleccione un perfil "/>
+                <h:selectOneMenu id="perfil" value="#{bAdministradorGestionTelefono.perfilFoto}">
+                     <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaPerfiles}"/>
+                </h:selectOneMenu>
+                <p:fileUpload value="#{bAdministradorGestionTelefono.fileTelefono}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
+                <h:commandButton value="Añadir foto teléfono" action="#{bAdministradorGestionTelefono.subirFotoTelefono()}"/>
+                <br></br><br></br>
+            </h:form>
+        </div>
+        
+        <!--Borrar fotos a un telefono-->
+        <div style="border: 1px solid green">
+            <h1> Borrar foto </h1>
+            <h:form id="borrarFoto">
+                <h:outputLabel for="marcaFoto" value="Seleccione una marca: "/>
+                <h:selectOneMenu id="marcaFoto" value="#{bAdministradorGestionTelefono.marca}">
+                    <f:selectItem itemLabel="Selecione una " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaMarcas}"/>
+                    <p:ajax event="change" update="modeloFoto"
+                            listener="#{bAdministradorGestionTelefono.consultarModelos}" />
+                </h:selectOneMenu>
+
+                <h:outputLabel for="modeloFoto" value="Seleccione un modelo de la marca: "/>
+                <h:selectOneMenu id="modeloFoto" value="#{bAdministradorGestionTelefono.codigoTelefonoFoto}">
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
+                    <p:ajax event="change" update="nombreFoto"
+                            listener="#{bAdministradorGestionTelefono.consultarFotos}" />
+                </h:selectOneMenu>
+                
+                <h:outputLabel for="nombreFoto" value="Seleccione una foto: "/>
+                <h:selectOneMenu id="nombreFoto" value="#{bAdministradorGestionTelefono.codigoFoto}">
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionTelefono.listaFotos}"/>
+                </h:selectOneMenu>
+                <p:commandButton value="Borrar foto teléfono" action="#{bAdministradorGestionTelefono.borrarFotoTelefono()}" update="tablaT messages"/>
+                <br></br><br></br>
+                <br></br><br></br>
+            </h:form>
+        </div>
+    </h:body>     
+</html>

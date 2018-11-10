@@ -165,4 +165,23 @@ public class CaracteristicastelefonoJpaController implements Serializable {
         }
     }
     
+    //Creamos el metodo que devuelve unas caracteristicas segun su codigoTelefono
+    public Caracteristicastelefono findCaracteristicasByTelefono(Telefono telefono) {
+        EntityManager em = getEntityManager();
+        try {
+        Query query=em.createNamedQuery("Caracteristicastelefono.findByCodigoTelefono").setParameter("codigoTelefono", telefono);
+        
+        Caracteristicastelefono caracteristica = (Caracteristicastelefono) query.getResultList().get(0);
+        
+        return caracteristica;
+        }
+        catch(Exception e){
+            return null;
+        }
+        
+        finally {
+            em.close();
+        }
+    }
+    
 }

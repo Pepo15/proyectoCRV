@@ -6,9 +6,7 @@
 package DTO;
 
 import java.io.Serializable;
-import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -47,10 +43,6 @@ public class Premio implements Serializable {
     @Basic(optional = false)
     @Column(name = "coste")
     private int coste;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoPremio")
-    private List<Canjear> canjearList;
-    @OneToMany(mappedBy = "codigoPremio")
-    private List<Foto> fotoList;
 
     public Premio() {
     }
@@ -87,24 +79,6 @@ public class Premio implements Serializable {
 
     public void setCoste(int coste) {
         this.coste = coste;
-    }
-
-    @XmlTransient
-    public List<Canjear> getCanjearList() {
-        return canjearList;
-    }
-
-    public void setCanjearList(List<Canjear> canjearList) {
-        this.canjearList = canjearList;
-    }
-
-    @XmlTransient
-    public List<Foto> getFotoList() {
-        return fotoList;
-    }
-
-    public void setFotoList(List<Foto> fotoList) {
-        this.fotoList = fotoList;
     }
 
     @Override

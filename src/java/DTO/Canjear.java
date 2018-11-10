@@ -60,7 +60,7 @@ public class Canjear implements Serializable {
     @ManyToOne(optional = false)
     private Direccion codigoDireccion;
     @JoinColumn(name = "codigoPremio", referencedColumnName = "codigoPremio")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Premio codigoPremio;
 
     public Canjear() {

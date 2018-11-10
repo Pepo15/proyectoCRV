@@ -20,7 +20,7 @@ and open the template in the editor.
             </p:messages>
             <h1><h:outputText value="Administrador"/></h1>
             <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
-             <h:form>
+             <h:form id="tablaT">
                  <h:dataTable binding="#{bAdministradorGestionTecnico.tabla}" value="#{bAdministradorGestionTecnico.listaTecnicos}" var="tecnico" border="8"
                              cellpadding="5" cellspacing="3" width="50%">
 
@@ -49,20 +49,34 @@ and open the template in the editor.
                         <f:facet name="header">
                             <h:outputText value="Dar de baja"/>
                         </f:facet>
-                       <h:commandButton  actionListener="#{bAdministradorGestionTecnico.bajaTecnico()}" style="width: 30px;height: 30px;"/>
+                       <p:commandButton value="Baja"  actionListener="#{bAdministradorGestionTecnico.bajaTecnico()}" update="tablaT" style="width: 30px;height: 30px;"/>
                     </h:column>
                    
                  </h:dataTable>
                  </h:form>
             
             
+          
             <!--Alta Técnico-->
             <h2>Dar alta técnico</h2>
-            <h:form>
-                <h:outputText value="Nick: "/> <h:inputText value="#{bAdministradorGestionTecnico.nick}"/><br></br><br></br>
-                <h:outputText value="Contraseña: "/> <h:inputSecret value="#{bAdministradorGestionTecnico.password}"/><br></br><br></br>
-                <h:commandButton value="Alta" action="#{bAdministradorGestionTecnico.altaTecnico()}"/>
+            <h:form id="altaTecnico">
+                <h:outputLabel for="nick" value="Nick: "/> 
+                    <p:inputText id="nick" value="#{bAdministradorGestionTecnico.nick}" required="true"/>
+                    <p:message for="nick" />
+                    <br></br><br></br>
+                    
+                <h:outputLabel for="contra" value="Contraseña: "/> 
+                    <p:inputText id="contra" value="#{bAdministradorGestionTecnico.password}" required="true"/>
+                    <p:message for="contra" />
+                    <br></br><br></br>
+               <p:commandButton value="Alta" actionListener="#{bAdministradorGestionTecnico.altaTecnico()}" update="altaTecnico tablaT messages"/>
                 <br></br><br></br>
+            </h:form>
+            <h:form>
+                <p:confirmDialog widgetVar="confirmDlg" message="¿Quieres modificar sus tecnicos?" header="Técnico duplicado">
+                    <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionTecnico.modificarTecnico()}" update="tablaT"  icon="ui-icon-check" />
+                    <p:commandButton value="No" oncomplete="PF('confirmDlg').hide()" icon="ui-icon-close" />
+                </p:confirmDialog>
             </h:form>
             
         </h:body>     

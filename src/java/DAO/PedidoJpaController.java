@@ -11,9 +11,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DTO.Tecnico;
 import DTO.Reparaciones;
 import DTO.Telefono;
+import DTO.Tecnico;
 import DTO.Direccion;
 import DTO.Pedido;
 import DTO.Tarjeta;
@@ -42,11 +42,6 @@ public class PedidoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Tecnico codigoTecnico = pedido.getCodigoTecnico();
-            if (codigoTecnico != null) {
-                codigoTecnico = em.getReference(codigoTecnico.getClass(), codigoTecnico.getCodigoTecnico());
-                pedido.setCodigoTecnico(codigoTecnico);
-            }
             Reparaciones codigoReparacion = pedido.getCodigoReparacion();
             if (codigoReparacion != null) {
                 codigoReparacion = em.getReference(codigoReparacion.getClass(), codigoReparacion.getCodigoReparacion());
@@ -56,6 +51,11 @@ public class PedidoJpaController implements Serializable {
             if (codigoTelefono != null) {
                 codigoTelefono = em.getReference(codigoTelefono.getClass(), codigoTelefono.getCodigoTelefono());
                 pedido.setCodigoTelefono(codigoTelefono);
+            }
+            Tecnico codigoTecnico = pedido.getCodigoTecnico();
+            if (codigoTecnico != null) {
+                codigoTecnico = em.getReference(codigoTecnico.getClass(), codigoTecnico.getCodigoTecnico());
+                pedido.setCodigoTecnico(codigoTecnico);
             }
             Direccion codigoDireccion = pedido.getCodigoDireccion();
             if (codigoDireccion != null) {
@@ -73,10 +73,6 @@ public class PedidoJpaController implements Serializable {
                 pedido.setCodigoUsuario(codigoUsuario);
             }
             em.persist(pedido);
-            if (codigoTecnico != null) {
-                codigoTecnico.getPedidoList().add(pedido);
-                codigoTecnico = em.merge(codigoTecnico);
-            }
             if (codigoReparacion != null) {
                 codigoReparacion.getPedidoList().add(pedido);
                 codigoReparacion = em.merge(codigoReparacion);
@@ -84,6 +80,10 @@ public class PedidoJpaController implements Serializable {
             if (codigoTelefono != null) {
                 codigoTelefono.getPedidoList().add(pedido);
                 codigoTelefono = em.merge(codigoTelefono);
+            }
+            if (codigoTecnico != null) {
+                codigoTecnico.getPedidoList().add(pedido);
+                codigoTecnico = em.merge(codigoTecnico);
             }
             if (codigoDireccion != null) {
                 codigoDireccion.getPedidoList().add(pedido);
@@ -111,22 +111,18 @@ public class PedidoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Pedido persistentPedido = em.find(Pedido.class, pedido.getCodigo());
-            Tecnico codigoTecnicoOld = persistentPedido.getCodigoTecnico();
-            Tecnico codigoTecnicoNew = pedido.getCodigoTecnico();
             Reparaciones codigoReparacionOld = persistentPedido.getCodigoReparacion();
             Reparaciones codigoReparacionNew = pedido.getCodigoReparacion();
             Telefono codigoTelefonoOld = persistentPedido.getCodigoTelefono();
             Telefono codigoTelefonoNew = pedido.getCodigoTelefono();
+            Tecnico codigoTecnicoOld = persistentPedido.getCodigoTecnico();
+            Tecnico codigoTecnicoNew = pedido.getCodigoTecnico();
             Direccion codigoDireccionOld = persistentPedido.getCodigoDireccion();
             Direccion codigoDireccionNew = pedido.getCodigoDireccion();
             Tarjeta codigoTarjetaOld = persistentPedido.getCodigoTarjeta();
             Tarjeta codigoTarjetaNew = pedido.getCodigoTarjeta();
             Usuario codigoUsuarioOld = persistentPedido.getCodigoUsuario();
             Usuario codigoUsuarioNew = pedido.getCodigoUsuario();
-            if (codigoTecnicoNew != null) {
-                codigoTecnicoNew = em.getReference(codigoTecnicoNew.getClass(), codigoTecnicoNew.getCodigoTecnico());
-                pedido.setCodigoTecnico(codigoTecnicoNew);
-            }
             if (codigoReparacionNew != null) {
                 codigoReparacionNew = em.getReference(codigoReparacionNew.getClass(), codigoReparacionNew.getCodigoReparacion());
                 pedido.setCodigoReparacion(codigoReparacionNew);
@@ -134,6 +130,10 @@ public class PedidoJpaController implements Serializable {
             if (codigoTelefonoNew != null) {
                 codigoTelefonoNew = em.getReference(codigoTelefonoNew.getClass(), codigoTelefonoNew.getCodigoTelefono());
                 pedido.setCodigoTelefono(codigoTelefonoNew);
+            }
+            if (codigoTecnicoNew != null) {
+                codigoTecnicoNew = em.getReference(codigoTecnicoNew.getClass(), codigoTecnicoNew.getCodigoTecnico());
+                pedido.setCodigoTecnico(codigoTecnicoNew);
             }
             if (codigoDireccionNew != null) {
                 codigoDireccionNew = em.getReference(codigoDireccionNew.getClass(), codigoDireccionNew.getCodigoDireccion());
@@ -148,14 +148,6 @@ public class PedidoJpaController implements Serializable {
                 pedido.setCodigoUsuario(codigoUsuarioNew);
             }
             pedido = em.merge(pedido);
-            if (codigoTecnicoOld != null && !codigoTecnicoOld.equals(codigoTecnicoNew)) {
-                codigoTecnicoOld.getPedidoList().remove(pedido);
-                codigoTecnicoOld = em.merge(codigoTecnicoOld);
-            }
-            if (codigoTecnicoNew != null && !codigoTecnicoNew.equals(codigoTecnicoOld)) {
-                codigoTecnicoNew.getPedidoList().add(pedido);
-                codigoTecnicoNew = em.merge(codigoTecnicoNew);
-            }
             if (codigoReparacionOld != null && !codigoReparacionOld.equals(codigoReparacionNew)) {
                 codigoReparacionOld.getPedidoList().remove(pedido);
                 codigoReparacionOld = em.merge(codigoReparacionOld);
@@ -171,6 +163,14 @@ public class PedidoJpaController implements Serializable {
             if (codigoTelefonoNew != null && !codigoTelefonoNew.equals(codigoTelefonoOld)) {
                 codigoTelefonoNew.getPedidoList().add(pedido);
                 codigoTelefonoNew = em.merge(codigoTelefonoNew);
+            }
+            if (codigoTecnicoOld != null && !codigoTecnicoOld.equals(codigoTecnicoNew)) {
+                codigoTecnicoOld.getPedidoList().remove(pedido);
+                codigoTecnicoOld = em.merge(codigoTecnicoOld);
+            }
+            if (codigoTecnicoNew != null && !codigoTecnicoNew.equals(codigoTecnicoOld)) {
+                codigoTecnicoNew.getPedidoList().add(pedido);
+                codigoTecnicoNew = em.merge(codigoTecnicoNew);
             }
             if (codigoDireccionOld != null && !codigoDireccionOld.equals(codigoDireccionNew)) {
                 codigoDireccionOld.getPedidoList().remove(pedido);
@@ -225,11 +225,6 @@ public class PedidoJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The pedido with id " + id + " no longer exists.", enfe);
             }
-            Tecnico codigoTecnico = pedido.getCodigoTecnico();
-            if (codigoTecnico != null) {
-                codigoTecnico.getPedidoList().remove(pedido);
-                codigoTecnico = em.merge(codigoTecnico);
-            }
             Reparaciones codigoReparacion = pedido.getCodigoReparacion();
             if (codigoReparacion != null) {
                 codigoReparacion.getPedidoList().remove(pedido);
@@ -239,6 +234,11 @@ public class PedidoJpaController implements Serializable {
             if (codigoTelefono != null) {
                 codigoTelefono.getPedidoList().remove(pedido);
                 codigoTelefono = em.merge(codigoTelefono);
+            }
+            Tecnico codigoTecnico = pedido.getCodigoTecnico();
+            if (codigoTecnico != null) {
+                codigoTecnico.getPedidoList().remove(pedido);
+                codigoTecnico = em.merge(codigoTecnico);
             }
             Direccion codigoDireccion = pedido.getCodigoDireccion();
             if (codigoDireccion != null) {

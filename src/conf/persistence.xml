@@ -10,13 +10,13 @@
     <class>DTO.Tarjeta</class>
     <class>DTO.Administrador</class>
     <class>DTO.Direccion</class>
-    <class>DTO.Pedido</class>
     <class>DTO.Usuario</class>
     <class>DTO.Tecnico</class>
     <class>DTO.Foto</class>
     <class>DTO.Telefono</class>
     <class>DTO.Canjear</class>
     <class>DTO.Caracteristicastelefono</class>
+    <class>DTO.Pedido</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/crv?zeroDateTimeBehavior=convertToNull"/>

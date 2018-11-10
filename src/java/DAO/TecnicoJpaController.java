@@ -84,6 +84,7 @@ public class TecnicoJpaController implements Serializable {
             Administrador codigoAdministradorOld = persistentTecnico.getCodigoAdministrador();
             Administrador codigoAdministradorNew = tecnico.getCodigoAdministrador();
             List<Pedido> pedidoListOld = persistentTecnico.getPedidoList();
+            
             List<Pedido> pedidoListNew = tecnico.getPedidoList();
             if (codigoAdministradorNew != null) {
                 codigoAdministradorNew = em.getReference(codigoAdministradorNew.getClass(), codigoAdministradorNew.getCodigoAdministrador());
@@ -216,7 +217,7 @@ public class TecnicoJpaController implements Serializable {
         }
     }
     
-    	 //Creamos el metodo que devuelve un tecnico segun su nick
+     //Creamos el metodo que devuelve un tecnico segun su nick
     public Tecnico findTecnicoByNick(String nick) {
         EntityManager em = getEntityManager();
         try {

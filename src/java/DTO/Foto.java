@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f")
+    , @NamedQuery(name = "Foto.findByCodigoTelefono", query = "SELECT f FROM Foto f WHERE f.codigoTelefono = :codigoTelefono")
     , @NamedQuery(name = "Foto.findByCodigoFoto", query = "SELECT f FROM Foto f WHERE f.codigoFoto = :codigoFoto")
     , @NamedQuery(name = "Foto.findByNombre", query = "SELECT f FROM Foto f WHERE f.nombre = :nombre")})
 public class Foto implements Serializable {

@@ -41,6 +41,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 import org.primefaces.model.UploadedFile;
 
 public class bAdministrador {
@@ -511,9 +512,7 @@ public class bAdministrador {
 
             } else {
 
-                //Escribo el mensaje de alta incorrecta
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "Ya existe un telefono con ese nombre"));
-
+                RequestContext.getCurrentInstance().execute("PF('confirmDlg').show();");
                 return "telefonoAltaIncorrecta";
             }
 
@@ -524,6 +523,59 @@ public class bAdministrador {
 
                 return "telefonoAltaIncorrecta";
 
+    }
+    
+    //Metodo para modificar un tecnico
+    public void modificarTelefono() {
+
+       //Comprobamos que ha introducido el nick y la contraseña
+        if (nombre != "" && marca != "" && precio != "") {
+
+            //Buscamos si existe un telefono con el mismo nombre
+            Telefono telefonoRepetido = ctrTelefono.findTelefonoByNick(nombre);
+
+            //Si hemos encontrado un telefono, no podremos repetirlo, si no existe lo creamos
+            if (telefonoRepetido == null) {
+
+                //Creamos un tecnico con los datos
+                Telefono telefono = new Telefono(null, nombre, marca, Float.parseFloat(precio));
+
+                //Cojo el administrador de la sesion
+                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+                manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+                HttpSession session = (HttpSession) ctx.getSession(false);
+                manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+                Administrador administrador = (Administrador) manageBeanSesion.getAdministradorLog();
+
+                //Cojo el codigo del administrador para meterselo al tecnico
+                telefono.setCodigoAdministrador(administrador);
+
+                //Damos de alta en la base de datos
+                ctrTelefono.create(telefono);
+            try {
+                //Damos de alta en la base de datos
+                //ctrTecnico.edit(tecnico);
+                //ctrTecnico.destroy(tecnicoRepetido.getCodigoTecnico());
+                ctrTelefono.edit(telefono);
+                
+                //Escribo el mensaje de alta correcta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado al telefono correctamente."));
+
+            } catch (Exception ex) {
+                Logger.getLogger(bAdministradorGestionTecnico.class.getName()).log(Level.SEVERE, null, ex);
+                        
+
+            }
+
+            }
+        else{
+            //Escribo el mensaje de alta incorrecta
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha introducido todos los datos"));
+
+        }
+        
+    }
     }
     
      //Metodo para dar de alta un telefono
@@ -546,7 +598,7 @@ public class bAdministrador {
                         new Caracteristicastelefono(Integer.parseInt(codigoTelefono), so, Integer.parseInt(ram),
                                 Float.parseFloat(pulgadas),Integer.parseInt(almacenamiento),Float.parseFloat(camaraTrasera),
                                 Float.parseFloat(camaraDelantera), Integer.parseInt(bateria), procesador, wifi, 
-                                Integer.parseInt(resolucion),
+                                resolucion,
                         color,detectorDeHuellas,dualSim,sd,bluetooth,nfc,g3,g4);
 
                 
@@ -744,25 +796,7 @@ public class bAdministrador {
 
         
     }
-    
-    //Metodo para eliminar un telefono
-    public String bajaTelefono(){
-        try {
-            //Eliminamos el telefono
-            ctrTelefono.destroy(Integer.parseInt(codigoTelefonoEliminar));
-            
-            //Escribo el mensaje de baja correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La baja del teléfono se ha realizado correctamente."));
 
-            return "telefonoAltaCorrecta";
-        } catch (Exception ex) {
-            Logger.getLogger(bAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-            //Escribo el mensaje de baja incorrecta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se ha realizado la baja del teléfono"));
-
-            return "telefonoAltaIncorrecta";
-        } 
-    }
     
     //Metodo para eliminar un premio
     public String bajaPremio(){

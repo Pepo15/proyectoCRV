@@ -3,8 +3,12 @@ package beans;
 
 
 import DTO.Administrador;
+import DTO.Caracteristicastelefono;
+import DTO.Foto;
 import DTO.Tecnico;
+import DTO.Telefono;
 import DTO.Usuario;
+import java.io.File;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -20,6 +24,10 @@ public class manageBeanSesion {
      private Usuario usuarioLog;
      private Tecnico tecnicoLog;
      private Administrador administradorLog;
+     private Tecnico tecnicoModificar;
+     private Telefono telefonoModificar;
+     private Caracteristicastelefono caracteristicasModificar;
+
  
     public manageBeanSesion() {
   
@@ -49,8 +57,29 @@ public class manageBeanSesion {
         this.administradorLog = administradorLog;
     }
 
-    
+    public Tecnico getTecnicoModificar() {
+        return tecnicoModificar;
+    }
 
+    public void setTecnicoModificar(Tecnico tecnicoModificar) {
+        this.tecnicoModificar = tecnicoModificar;
+    }
+
+    public Telefono getTelefonoModificar() {
+        return telefonoModificar;
+    }
+
+    public void setTelefonoModificar(Telefono telefonoModificar) {
+        this.telefonoModificar = telefonoModificar;
+    }
+
+    public Caracteristicastelefono getCaracteristicasModificar() {
+        return caracteristicasModificar;
+    }
+
+    public void setCaracteristicasModificar(Caracteristicastelefono caracteristicasModificar) {
+        this.caracteristicasModificar = caracteristicasModificar;
+    }
 
     public static void redireccionar (String url)
     {

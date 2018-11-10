@@ -52,26 +52,27 @@
             <to-view-id>/administradorModificarPedido.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
-    <navigation-rule>
-        <from-view-id>/administrador.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>telefonoAltaIncorrecta</from-outcome>
-            <to-view-id>/administrador.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>telefonoAltaCorrecta</from-outcome>
-            <to-view-id>/administrador.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
     <managed-bean>
         <managed-bean-name>bAdministradorGestionTecnico</managed-bean-name>
         <managed-bean-class>beans.bAdministradorGestionTecnico</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>bAdministradorGestionTelefono</managed-bean-name>
+        <managed-bean-class>beans.bAdministradorGestionTelefono</managed-bean-class>
+        <managed-bean-scope>view</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>bAdministradorModificarPedido</managed-bean-name>
         <managed-bean-class>beans.bAdministradorModificarPedido</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <navigation-rule>
+        <from-view-id>/administradorGestionTelefono.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>correcto</from-outcome>
+            <to-view-id>/administradorGestionTelefono.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
 

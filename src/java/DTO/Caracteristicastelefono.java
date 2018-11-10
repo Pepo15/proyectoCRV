@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Caracteristicastelefono.findAll", query = "SELECT c FROM Caracteristicastelefono c")
+    , @NamedQuery(name = "Caracteristicastelefono.findByCodigoTelefono", query = "SELECT c FROM Caracteristicastelefono c WHERE c.codigoTelefono = :codigoTelefono")
     , @NamedQuery(name = "Caracteristicastelefono.findByCodigoCaracteristica", query = "SELECT c FROM Caracteristicastelefono c WHERE c.codigoCaracteristica = :codigoCaracteristica")
     , @NamedQuery(name = "Caracteristicastelefono.findBySo", query = "SELECT c FROM Caracteristicastelefono c WHERE c.so = :so")
     , @NamedQuery(name = "Caracteristicastelefono.findByRam", query = "SELECT c FROM Caracteristicastelefono c WHERE c.ram = :ram")
@@ -84,7 +85,7 @@ public class Caracteristicastelefono implements Serializable {
     private boolean wifi;
     @Basic(optional = false)
     @Column(name = "resolucion")
-    private int resolucion;
+    private String resolucion;
     @Basic(optional = false)
     @Column(name = "color")
     private String color;
@@ -120,7 +121,7 @@ public class Caracteristicastelefono implements Serializable {
         this.codigoCaracteristica = codigoCaracteristica;
     }
 
-    public Caracteristicastelefono(Integer codigoCaracteristica, String so, int ram, float pulgadas, int almacenamiento, float camaraTrasera, float camaraDelantera, int bateria, String procesador, boolean wifi, int resolucion, String color, boolean detectorHuella, boolean dualSim, boolean sd, boolean bluetooth, boolean nfc, boolean g, boolean g1) {
+    public Caracteristicastelefono(Integer codigoCaracteristica, String so, int ram, float pulgadas, int almacenamiento, float camaraTrasera, float camaraDelantera, int bateria, String procesador, boolean wifi, String resolucion, String color, boolean detectorHuella, boolean dualSim, boolean sd, boolean bluetooth, boolean nfc, boolean g, boolean g1) {
         this.codigoCaracteristica = codigoCaracteristica;
         this.so = so;
         this.ram = ram;
@@ -222,11 +223,11 @@ public class Caracteristicastelefono implements Serializable {
         this.wifi = wifi;
     }
 
-    public int getResolucion() {
+    public String getResolucion() {
         return resolucion;
     }
 
-    public void setResolucion(int resolucion) {
+    public void setResolucion(String resolucion) {
         this.resolucion = resolucion;
     }
 

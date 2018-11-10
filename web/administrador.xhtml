@@ -10,7 +10,6 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-        <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
@@ -28,9 +27,18 @@ and open the template in the editor.
                      style="border: 1px solid black;
                             width: 150px;
                             height: 150px;
-                            cursor: pointer"
-                     >
+                            cursor: pointer">
                     <h:outputText value="Gestionar Tecnico"/>
+                </div>
+            </form>
+            <!--Gestion Tecnicos-->
+            <form id="gestionTelefono" action="administradorGestionTelefono.xhtml"> 
+                <div onclick="document.getElementById('gestionTelefono').submit();" 
+                     style="border: 1px solid black;
+                            width: 150px;
+                            height: 150px;
+                            cursor: pointer">
+                    <h:outputText value="Gestionar Telefono"/>
                 </div>
             </form>
             
@@ -40,8 +48,7 @@ and open the template in the editor.
                      style="border: 1px solid black;
                             width: 150px;
                             height: 150px;
-                            cursor: pointer"
-                     >
+                            cursor: pointer">
                     <h:outputText value="Modificar Pedido"/>
                 </div>
             </form>
@@ -52,60 +59,11 @@ and open the template in the editor.
                      style="border: 1px solid black;
                             width: 150px;
                             height: 150px;
-                            cursor: pointer"
-                     >
+                            cursor: pointer">
                     <h:outputText value="Estadisticas"/>
                 </div>
             </form>
             
-            <!--Añadir telefono-->
-            <h:form>
-                <h:outputText value="Nombre: "/> <h:inputText value="#{bAdministrador.nombre}"/><br></br><br></br>
-                <h:outputText value="Marca: "/> <h:inputText value="#{bAdministrador.marca}"/><br></br><br></br>
-                <h:outputText value="Precio: "/> <h:inputText value="#{bAdministrador.precio}"/><br></br><br></br>
-                <h:commandButton value="Añadir teléfono" action="#{bAdministrador.altaTelefono()}"/>
-                <br></br><br></br>
-            </h:form>
-            
-            <!--Añadir caracteristicas a un telefono-->
-            <h:form>
-                <h:selectOneMenu value="#{bAdministrador.codigoTelefono}">  
-                    <f:selectItems value="#{bAdministrador.listaTelefonos}"/>
-                </h:selectOneMenu>
-                <h:outputText value="SO: "/> <h:inputText value="#{bAdministrador.so}"/><br></br><br></br>
-                <h:outputText value="Ram: "/> <h:inputText value="#{bAdministrador.ram}"/><br></br><br></br>
-                <h:outputText value="Pulgadas: "/> <h:inputText value="#{bAdministrador.pulgadas}"/><br></br><br></br>
-                <h:outputText value="Almacenamiento: "/> <h:inputText value="#{bAdministrador.almacenamiento}"/><br></br><br></br>
-                <h:outputText value="Camara Trasera: "/> <h:inputText value="#{bAdministrador.camaraTrasera}"/><br></br><br></br>
-                <h:outputText value="Camra Delantera: "/> <h:inputText value="#{bAdministrador.camaraDelantera}"/><br></br><br></br>
-                <h:outputText value="Bateria: "/> <h:inputText value="#{bAdministrador.bateria}"/><br></br><br></br>
-                <h:outputText value="Procesador "/> <h:inputText value="#{bAdministrador.procesador}"/><br></br><br></br>
-                <h:outputText value="Wifi: "/> <h:selectBooleanCheckbox value="#{bAdministrador.wifi}"/><br></br><br></br>
-                <h:outputText value="Resolucion: "/> <h:inputText value="#{bAdministrador.resolucion}"/><br></br><br></br>
-                <h:outputText value="Color: "/> <h:inputText value="#{bAdministrador.color}"/><br></br><br></br>
-                <h:outputText value="Detector de huellas: "/> <h:selectBooleanCheckbox value="#{bAdministrador.detectorDeHuellas}"/><br></br><br></br>
-                <h:outputText value="Dual Sim: "/> <h:selectBooleanCheckbox value="#{bAdministrador.dualSim}"/><br></br><br></br>
-                <h:outputText value="SD: "/> <h:selectBooleanCheckbox value="#{bAdministrador.sd}"/><br></br><br></br>
-                <h:outputText value="Bluetooth: "/> <h:selectBooleanCheckbox value="#{bAdministrador.bluetooth}"/><br></br><br></br>
-                <h:outputText value="NFC: "/> <h:selectBooleanCheckbox value="#{bAdministrador.nfc}"/><br></br><br></br>
-                <h:outputText value="3G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g3}"/><br></br><br></br>
-                <h:outputText value="4G: "/> <h:selectBooleanCheckbox value="#{bAdministrador.g4}"/><br></br><br></br>
-                <h:commandButton value="Añadir característica" action="#{bAdministrador.altaCaracteristicasTelefono()}"/>
-                <br></br><br></br>
-            </h:form>
-            
-            <!--Añadir fotos a un telefono-->
-            <h:form enctype="multipart/form-data">
-                <h:selectOneMenu value="#{bAdministrador.codigoTelefonoFoto}">  
-                    <f:selectItems value="#{bAdministrador.listaTelefonos}"/>
-                </h:selectOneMenu>
-                <h:selectOneMenu value="#{bAdministrador.perfilFoto}">  
-                    <f:selectItems value="#{bAdministrador.listaPerfiles}"/>
-                </h:selectOneMenu>
-                <p:fileUpload value="#{bAdministrador.fileTelefono}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
-                <h:commandButton value="Añadir foto teléfono" action="#{bAdministrador.subirFotoTelefono()}"/>
-                <br></br><br></br>
-            </h:form>
             
             <!--Añadir premio-->
             <h:form>
@@ -125,14 +83,7 @@ and open the template in the editor.
                 <br></br><br></br>
             </h:form>
             
-            <!--Eliminar telefono-->
-            <h:form>
-                <h:selectOneMenu value="#{bAdministrador.codigoTelefonoEliminar}">  
-                    <f:selectItems value="#{bAdministrador.listaTelefonos}"/>
-                </h:selectOneMenu>
-                <h:commandButton value="Eliminar teléfono" action="#{bAdministrador.bajaTelefono()}"/>
-                <br></br><br></br>
-            </h:form>
+            
             
             <!--Eliminar premio-->
             <h:form>
@@ -146,7 +97,6 @@ and open the template in the editor.
             
             
             
-        </h:body>
-        </f:view>     
+        </h:body>     
     </html>
    
