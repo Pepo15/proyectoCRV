@@ -41,6 +41,16 @@ and open the template in the editor.
                     <h:outputText value="Gestionar Telefono"/>
                 </div>
             </form>
+            <!--Gestion Tecnicos-->
+            <form id="gestionPremio" action="administradorGestionPremio.xhtml"> 
+                <div onclick="document.getElementById('gestionPremio').submit();" 
+                     style="border: 1px solid black;
+                            width: 150px;
+                            height: 150px;
+                            cursor: pointer">
+                    <h:outputText value="Gestionar Premio"/>
+                </div>
+            </form>
             
             <!--Modificar Pedido-->
             <form id="modificarPedido" action="administradorModificarPedido.xhtml"> 
@@ -63,40 +73,6 @@ and open the template in the editor.
                     <h:outputText value="Estadisticas"/>
                 </div>
             </form>
-            
-            
-            <!--Añadir premio-->
-            <h:form>
-                <h:outputText value="Nombre: "/> <h:inputText value="#{bAdministrador.nombrePremio}"/><br></br><br></br>
-                <h:outputText value="Coste: "/> <h:inputText value="#{bAdministrador.coste}"/><br></br><br></br>
-                <h:commandButton value="Añadir Premio" action="#{bAdministrador.altaPremio()}"/>
-                <br></br><br></br>
-            </h:form>
-            
-            <!--Añadir fotos a un premio-->
-            <h:form enctype="multipart/form-data">
-                <h:selectOneMenu value="#{bAdministrador.codigoPremio}">  
-                    <f:selectItems value="#{bAdministrador.listaPremios}"/>
-                </h:selectOneMenu>
-                <p:fileUpload value="#{bAdministrador.filePremio}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
-                <h:commandButton value="Añadir foto premio" action="#{bAdministrador.subirFotoPremio()}"/>
-                <br></br><br></br>
-            </h:form>
-            
-            
-            
-            <!--Eliminar premio-->
-            <h:form>
-                <h:selectOneMenu value="#{bAdministrador.codigoPremioEliminar}">  
-                    <f:selectItems value="#{bAdministrador.listaPremios}"/>
-                </h:selectOneMenu>
-                <h:commandButton value="Eliminar premio" action="#{bAdministrador.bajaPremio()}"/>
-                <br></br><br></br>
-            </h:form>
-            
-            
-            
-            
-        </h:body>     
+            </h:body>     
     </html>
    

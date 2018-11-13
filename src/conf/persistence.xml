@@ -4,7 +4,6 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>DTO.Reparacionestelefono</class>
     <class>DTO.Poblacion</class>
-    <class>DTO.Premio</class>
     <class>DTO.Provincia</class>
     <class>DTO.Reparaciones</class>
     <class>DTO.Tarjeta</class>
@@ -17,6 +16,9 @@
     <class>DTO.Canjear</class>
     <class>DTO.Caracteristicastelefono</class>
     <class>DTO.Pedido</class>
+    <class>DTO.Premio</class>
+    <class>DTO.Premiosinfoto</class>
+    <class>DTO.Premioconfoto</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/crv?zeroDateTimeBehavior=convertToNull"/>

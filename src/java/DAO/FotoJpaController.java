@@ -13,6 +13,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import DTO.Telefono;
+import DTO.Premio;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -43,10 +44,19 @@ public class FotoJpaController implements Serializable {
                 codigoTelefono = em.getReference(codigoTelefono.getClass(), codigoTelefono.getCodigoTelefono());
                 foto.setCodigoTelefono(codigoTelefono);
             }
+            Premio codigoPremio = foto.getCodigoPremio();
+            if (codigoPremio != null) {
+                codigoPremio = em.getReference(codigoPremio.getClass(), codigoPremio.getCodigoPremio());
+                foto.setCodigoPremio(codigoPremio);
+            }
             em.persist(foto);
             if (codigoTelefono != null) {
                 codigoTelefono.getFotoList().add(foto);
                 codigoTelefono = em.merge(codigoTelefono);
+            }
+            if (codigoPremio != null) {
+                codigoPremio.getFotoList().add(foto);
+                codigoPremio = em.merge(codigoPremio);
             }
             em.getTransaction().commit();
         } finally {
@@ -64,9 +74,15 @@ public class FotoJpaController implements Serializable {
             Foto persistentFoto = em.find(Foto.class, foto.getCodigoFoto());
             Telefono codigoTelefonoOld = persistentFoto.getCodigoTelefono();
             Telefono codigoTelefonoNew = foto.getCodigoTelefono();
+            Premio codigoPremioOld = persistentFoto.getCodigoPremio();
+            Premio codigoPremioNew = foto.getCodigoPremio();
             if (codigoTelefonoNew != null) {
                 codigoTelefonoNew = em.getReference(codigoTelefonoNew.getClass(), codigoTelefonoNew.getCodigoTelefono());
                 foto.setCodigoTelefono(codigoTelefonoNew);
+            }
+            if (codigoPremioNew != null) {
+                codigoPremioNew = em.getReference(codigoPremioNew.getClass(), codigoPremioNew.getCodigoPremio());
+                foto.setCodigoPremio(codigoPremioNew);
             }
             foto = em.merge(foto);
             if (codigoTelefonoOld != null && !codigoTelefonoOld.equals(codigoTelefonoNew)) {
@@ -76,6 +92,14 @@ public class FotoJpaController implements Serializable {
             if (codigoTelefonoNew != null && !codigoTelefonoNew.equals(codigoTelefonoOld)) {
                 codigoTelefonoNew.getFotoList().add(foto);
                 codigoTelefonoNew = em.merge(codigoTelefonoNew);
+            }
+            if (codigoPremioOld != null && !codigoPremioOld.equals(codigoPremioNew)) {
+                codigoPremioOld.getFotoList().remove(foto);
+                codigoPremioOld = em.merge(codigoPremioOld);
+            }
+            if (codigoPremioNew != null && !codigoPremioNew.equals(codigoPremioOld)) {
+                codigoPremioNew.getFotoList().add(foto);
+                codigoPremioNew = em.merge(codigoPremioNew);
             }
             em.getTransaction().commit();
         } catch (Exception ex) {
@@ -110,6 +134,11 @@ public class FotoJpaController implements Serializable {
             if (codigoTelefono != null) {
                 codigoTelefono.getFotoList().remove(foto);
                 codigoTelefono = em.merge(codigoTelefono);
+            }
+            Premio codigoPremio = foto.getCodigoPremio();
+            if (codigoPremio != null) {
+                codigoPremio.getFotoList().remove(foto);
+                codigoPremio = em.merge(codigoPremio);
             }
             em.remove(foto);
             em.getTransaction().commit();
@@ -165,5 +194,37 @@ public class FotoJpaController implements Serializable {
             em.close();
         }
     }
+    
+    //Creamos el metodo que devuelve un telefono segun su nombre
+    public Foto findFotoByCodigoPremio(Premio premio) {
+        EntityManager em = getEntityManager();
+        try {
+        Query query=em.createNamedQuery("Foto.findByCodigoPremio").setParameter("codigoPremio", premio);
+        
+        Foto foto = (Foto) query.getResultList().get(0);
+        
+        return foto;
+        }
+        catch(Exception e){
+            return null;
+        }
+        
+        finally {
+            em.close();
+        }
+    }
+    
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findFotoByCodigoTelefono(Telefono telefono) {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Foto.findByCodigoTelefono",Foto.class).setParameter("codigoTelefono", telefono);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+    
     
 }

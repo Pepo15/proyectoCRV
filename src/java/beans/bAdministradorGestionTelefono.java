@@ -89,6 +89,8 @@ public class bAdministradorGestionTelefono {
 
     //Variable que guarda el codigo del telefono para añadir la foto 
     private String codigoTelefonoFoto;
+    
+     private String codigoTelefonoFotoBorrar;
 
     //Variable que guarda el perfil de la foto del telefono
     private String perfilFoto;
@@ -96,11 +98,8 @@ public class bAdministradorGestionTelefono {
     //Variable que guarda la lista de perfiles
     private ArrayList listaPerfiles;
     
-    //Variable que guarda el codigo de la foto para borrarlo
-    private String codigoFoto;
-    
     //Variable que guarda la lista de nombresFotos
-    private ArrayList listaFotos;
+    private List listaFotos;
 
     //Contructor
     public bAdministradorGestionTelefono() {
@@ -385,34 +384,87 @@ public class bAdministradorGestionTelefono {
         this.listaModelos = listaModelos;
     }
 
-    public String getCodigoFoto() {
-        return codigoFoto;
+    public List getListaFotos() {
+        return listaFotos;
     }
 
-    public void setCodigoFoto(String codigoFoto) {
-        this.codigoFoto = codigoFoto;
-    }
-    
-    
-
-    public void setListaFotos(ArrayList listaFotos) {
+    public void setListaFotos(List listaFotos) {
         this.listaFotos = listaFotos;
     }
-    
-    public ArrayList getListaFotos() {
-       return listaFotos;
+
+    public String getCodigoTelefonoFotoBorrar() {
+        return codigoTelefonoFotoBorrar;
     }
+
+    public void setCodigoTelefonoFotoBorrar(String codigoTelefonoFotoBorrar) {
+        this.codigoTelefonoFotoBorrar = codigoTelefonoFotoBorrar;
+    }
+
+   
+    
+    
+    
+
+    
     
     
     //Metodo que añade a un select los perfiles disponibles para una foto
     public ArrayList getListaPerfiles() {
-      if (listaPerfiles == null) {
+       return listaPerfiles;
+    }
+    
+    public void consultarPerfilesDisponibles(final AjaxBehaviorEvent event){
             listaPerfiles = new ArrayList();
+            if(codigoTelefonoFoto!=null){
+            Telefono telefono =ctrTelefono.findTelefono(Integer.parseInt(codigoTelefonoFoto));
+            List<Foto> listaPerfilesFoto = new ArrayList();
+            listaPerfilesFoto=ctrFotos.findFotoByCodigoTelefono(telefono);
+            int cantidadFotos =listaPerfilesFoto.size();
+            if(cantidadFotos==0){
             listaPerfiles.add(new SelectItem("Delante", "Delante"));
             listaPerfiles.add(new SelectItem("Detras", "Detrás"));
             listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
+            }
+            else if(cantidadFotos==3){
+                
+            }
+            else{
+                String perfilAnterior="";
+                String perfil="";
+            for (Foto foto : listaPerfilesFoto) {
+                perfilAnterior=perfil;
+                 perfil =foto.getNombre().split("-")[0];
+                if(cantidadFotos==1){
+                    
+                if(!perfil.equals("Delante")){
+                    listaPerfiles.add(new SelectItem("Delante", "Delante"));
+                }
+                if(!perfil.equals("Detras")){
+                listaPerfiles.add(new SelectItem("Detras", "Detrás"));
+                }
+                if(!perfil.equals("Perfil")){
+                listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
+                }
+                    
+                }
+                if(cantidadFotos==2){
+                  if(perfilAnterior.equals("Delante") && perfil.equals("Detras")){
+                    listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
+                }
+                  if(perfilAnterior.equals("Delante") && perfil.equals("Perfil")){
+                    listaPerfiles.add(new SelectItem("Detras", "Detras"));
+                } 
+                  if(perfilAnterior.equals("Detras") && perfil.equals("Perfil")){
+                    listaPerfiles.add(new SelectItem("Delante", "Delante"));
+                } 
+                    
+                }
+                
+            }
+            }
+            
         }
-        return listaPerfiles;
+      
     }
 
     //Metodo que añade a un select las marcas disponibles para elegir posteriormente un modelo
@@ -575,16 +627,14 @@ public class bAdministradorGestionTelefono {
 
             //Buscamos si existe unas caracteristicas para ese telefono
             Telefono telefono = ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono));
-
-            int codigoCaracteristica = telefono.getCaracteristicastelefonoList().get(0).getCodigoCaracteristica();
-
-            
-            Caracteristicastelefono caracteristicasRepetidas = ctrCaracteristicas.findCaracteristicastelefono(codigoCaracteristica);
-
             //Si hemos encontrado unas caracterisitcas para un telefono, no podremos repetirlo, 
-            if (caracteristicasRepetidas == null) {
-
-                //Creamos las caracteristicas con los datos
+            
+            int caracteristicaRepetida =telefono.getCaracteristicastelefonoList().size();
+            
+            if(caracteristicaRepetida==0){
+                
+            
+             //Creamos las caracteristicas con los datos
                 Caracteristicastelefono caracteristicas
                         = new Caracteristicastelefono(null, so, Integer.parseInt(ram),
                                 Float.parseFloat(pulgadas), Integer.parseInt(almacenamiento), Float.parseFloat(camaraTrasera),
@@ -609,8 +659,11 @@ public class bAdministradorGestionTelefono {
                 }
 
             } else {
+                int codigoCaracteristica = telefono.getCaracteristicastelefonoList().get(0).getCodigoCaracteristica();
+
                 //Si existe damos la posibilidad de modificar las caracteristicas
-                
+                Caracteristicastelefono caracteristicasRepetidas = ctrCaracteristicas.findCaracteristicastelefono(codigoCaracteristica);
+
                 //Creamos un caracteristicas para subirla a la sesion
                 Caracteristicastelefono caracteristicas
                         = new Caracteristicastelefono(caracteristicasRepetidas.getCodigoCaracteristica(),
@@ -740,12 +793,12 @@ public class bAdministradorGestionTelefono {
     }
     
     //Metodo para borrar una foto
-    public String borrarFotoTelefono(){
+    public String borrarFotoTelefono(int codigoFoto, int codigoTelefonoBorrar){
         
         //Cojo la foto
         String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
 
-        Foto foto =ctrFotos.findFoto(Integer.parseInt(codigoFoto));
+        Foto foto =ctrFotos.findFoto(codigoFoto);
         
         //CREAMOS EL FILE CON LA RUTA ENTERA
             File result = new File(path + "/../../web/imagenes/FotosTelefono/" + foto.getNombre());
@@ -755,7 +808,16 @@ public class bAdministradorGestionTelefono {
             
         try {
             //Lo borro de la base de datos
-            ctrFotos.destroy(Integer.parseInt(codigoFoto));
+            ctrFotos.destroy(codigoFoto);
+            
+            //Inicializamos la lista de modelos
+        listaFotos = new ArrayList();
+        
+        
+        //Ejecutar consulta que devuelve objetos Telefonos segun la marca indicada
+        Telefono telefono = ctrTelefono.findTelefono(codigoTelefonoBorrar);
+        
+        listaFotos = telefono.getFotoList();
             
              //Escribo el mensaje de subida correcta
              FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La foto se ha borrado correctamente."));
@@ -872,19 +934,12 @@ public class bAdministradorGestionTelefono {
         //Cojo la marca del telefono
         String codigoTelefono = (String) ((UIOutput) event.getSource()).getValue();
 
-        //Lista donde vuelco el resultado de la consulta
-        List listaM = new ArrayList();
-
+        
         //Ejecutar consulta que devuelve objetos Telefonos segun la marca indicada
         Telefono telefono = ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono));
         
-        listaM =telefono.getFotoList();
+        listaFotos = telefono.getFotoList();
 
-        //Recorrer lista con la consulta, para añadirlos a la lista del select con valor y texto
-        for (Object p : listaM) {
-            Foto foto = (Foto) p;
-            listaFotos.add(new SelectItem(foto.getCodigoFoto(), foto.getNombre()));
-        }
     }
 
     //Metodo que rellena los inputs de las caracteristicas cuando seleccionamos un modelo

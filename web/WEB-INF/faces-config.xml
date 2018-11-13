@@ -63,6 +63,11 @@
         <managed-bean-scope>view</managed-bean-scope>
     </managed-bean>
     <managed-bean>
+        <managed-bean-name>bAdministradorGestionPremio</managed-bean-name>
+        <managed-bean-class>beans.bAdministradorGestionPremio</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
         <managed-bean-name>bAdministradorModificarPedido</managed-bean-name>
         <managed-bean-class>beans.bAdministradorModificarPedido</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
@@ -72,6 +77,13 @@
         <navigation-case>
             <from-outcome>correcto</from-outcome>
             <to-view-id>/administradorGestionTelefono.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administradorGestionPremio.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>correcto</from-outcome>
+            <to-view-id>/administradorGestionPremio.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

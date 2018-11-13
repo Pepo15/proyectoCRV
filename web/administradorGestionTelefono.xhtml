@@ -15,6 +15,8 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>CRV</title>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script src="js/jquery.fancybox.min.js"></script>
+        <link rel="stylesheet" href="css/jquery.fancybox.min.css"></link>
         <script>
 
             $(document).ready(function () {
@@ -64,6 +66,11 @@ and open the template in the editor.
                 //Si hacemos el click en un checkbox llamamos otra vez a la funcion del keyup que hemos programado
                 $(":checkbox").click(function () {
                     $("#myInput").trigger("keyup");
+                });
+                
+                //Mostrar imagen en grande
+                $().fancybox({
+                    selector: '[data-fancybox="showImg"]'
                 });
 
             });//(ready
@@ -352,7 +359,7 @@ and open the template in the editor.
                     <h:selectBooleanCheckbox id="g4" value="#{bAdministradorGestionTelefono.g4}"/>
                     <br></br><br></br>
 
-                    <p:commandButton value="Añadir característica" validateClient="true" action="#{bAdministradorGestionTelefono.altaCaracteristicasTelefono()}" update="altaCaracteristica"/>
+                    <p:commandButton value="Añadir característica" validateClient="true" action="#{bAdministradorGestionTelefono.altaCaracteristicasTelefono()}" update="altaCaracteristica messages"/>
                     <br></br><br></br>
 
                 </h:panelGroup>
@@ -383,6 +390,8 @@ and open the template in the editor.
                 <h:selectOneMenu id="modelo" value="#{bAdministradorGestionTelefono.codigoTelefonoFoto}">
                     <f:selectItem itemLabel="Selecione uno " itemValue="" />
                     <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
+                    <p:ajax event="change" update="perfil"
+                            listener="#{bAdministradorGestionTelefono.consultarPerfilesDisponibles}" />
                 </h:selectOneMenu>
                 <br></br><br></br>
                 <h:outputLabel for="perfil" value="Seleccione un perfil "/>
@@ -396,9 +405,11 @@ and open the template in the editor.
             </h:form>
         </div>
         
+         
         <!--Borrar fotos a un telefono-->
         <div style="border: 1px solid green">
             <h1> Borrar foto </h1>
+            <h:panelGroup id="recargarBorrado">
             <h:form id="borrarFoto">
                 <h:outputLabel for="marcaFoto" value="Seleccione una marca: "/>
                 <h:selectOneMenu id="marcaFoto" value="#{bAdministradorGestionTelefono.marca}">
@@ -408,23 +419,31 @@ and open the template in the editor.
                             listener="#{bAdministradorGestionTelefono.consultarModelos}" />
                 </h:selectOneMenu>
 
+               
                 <h:outputLabel for="modeloFoto" value="Seleccione un modelo de la marca: "/>
-                <h:selectOneMenu id="modeloFoto" value="#{bAdministradorGestionTelefono.codigoTelefonoFoto}">
+                <h:selectOneMenu id="modeloFoto" value="#{bAdministradorGestionTelefono.codigoTelefonoFotoBorrar}">
                     <f:selectItem itemLabel="Selecione uno " itemValue="" />
                     <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
-                    <p:ajax event="change" update="nombreFoto"
+                    <p:ajax event="change" update="listaFotosBorrar"
                             listener="#{bAdministradorGestionTelefono.consultarFotos}" />
                 </h:selectOneMenu>
-                
-                <h:outputLabel for="nombreFoto" value="Seleccione una foto: "/>
-                <h:selectOneMenu id="nombreFoto" value="#{bAdministradorGestionTelefono.codigoFoto}">
-                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
-                    <f:selectItems value="#{bAdministradorGestionTelefono.listaFotos}"/>
-                </h:selectOneMenu>
-                <p:commandButton value="Borrar foto teléfono" action="#{bAdministradorGestionTelefono.borrarFotoTelefono()}" update="tablaT messages"/>
-                <br></br><br></br>
-                <br></br><br></br>
             </h:form>
+            
+                <h:panelGroup id="listaFotosBorrar">
+                <ui:repeat  var="foto" value="#{bAdministradorGestionTelefono.listaFotos}">
+                    <h:form id="borrarFotoTelefono">
+                        
+                    <a href="imagenes/FotosTelefono/#{foto.nombre}" data-fancybox="showImg">
+                        <h:graphicImage url="imagenes/FotosTelefono/#{foto.nombre}" width="30" height="30" /> 
+                    </a>
+                     <h:commandButton value="Borrar foto teléfono" action="#{bAdministradorGestionTelefono.borrarFotoTelefono(foto.codigoFoto,foto.codigoTelefono.codigoTelefono)}"/>       
+                    </h:form>
+                </ui:repeat>
+                </h:panelGroup>
+            </h:panelGroup>    
+                <br></br><br></br>
+                <br></br><br></br>
         </div>
+        
     </h:body>     
 </html>

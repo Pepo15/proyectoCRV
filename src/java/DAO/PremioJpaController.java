@@ -6,15 +6,18 @@
 package DAO;
 
 import DAO.exceptions.NonexistentEntityException;
-import DTO.Premio;
 import java.io.Serializable;
-import java.util.List;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import DTO.Foto;
+import DTO.Premio;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -32,11 +35,29 @@ public class PremioJpaController implements Serializable {
     }
 
     public void create(Premio premio) {
+        if (premio.getFotoList() == null) {
+            premio.setFotoList(new ArrayList<Foto>());
+        }
         EntityManager em = null;
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Foto> attachedFotoList = new ArrayList<Foto>();
+            for (Foto fotoListFotoToAttach : premio.getFotoList()) {
+                fotoListFotoToAttach = em.getReference(fotoListFotoToAttach.getClass(), fotoListFotoToAttach.getCodigoFoto());
+                attachedFotoList.add(fotoListFotoToAttach);
+            }
+            premio.setFotoList(attachedFotoList);
             em.persist(premio);
+            for (Foto fotoListFoto : premio.getFotoList()) {
+                Premio oldCodigoPremioOfFotoListFoto = fotoListFoto.getCodigoPremio();
+                fotoListFoto.setCodigoPremio(premio);
+                fotoListFoto = em.merge(fotoListFoto);
+                if (oldCodigoPremioOfFotoListFoto != null) {
+                    oldCodigoPremioOfFotoListFoto.getFotoList().remove(fotoListFoto);
+                    oldCodigoPremioOfFotoListFoto = em.merge(oldCodigoPremioOfFotoListFoto);
+                }
+            }
             em.getTransaction().commit();
         } finally {
             if (em != null) {
@@ -50,7 +71,34 @@ public class PremioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Premio persistentPremio = em.find(Premio.class, premio.getCodigoPremio());
+            List<Foto> fotoListOld = persistentPremio.getFotoList();
+            List<Foto> fotoListNew = premio.getFotoList();
+            List<Foto> attachedFotoListNew = new ArrayList<Foto>();
+            for (Foto fotoListNewFotoToAttach : fotoListNew) {
+                fotoListNewFotoToAttach = em.getReference(fotoListNewFotoToAttach.getClass(), fotoListNewFotoToAttach.getCodigoFoto());
+                attachedFotoListNew.add(fotoListNewFotoToAttach);
+            }
+            fotoListNew = attachedFotoListNew;
+            premio.setFotoList(fotoListNew);
             premio = em.merge(premio);
+            for (Foto fotoListOldFoto : fotoListOld) {
+                if (!fotoListNew.contains(fotoListOldFoto)) {
+                    fotoListOldFoto.setCodigoPremio(null);
+                    fotoListOldFoto = em.merge(fotoListOldFoto);
+                }
+            }
+            for (Foto fotoListNewFoto : fotoListNew) {
+                if (!fotoListOld.contains(fotoListNewFoto)) {
+                    Premio oldCodigoPremioOfFotoListNewFoto = fotoListNewFoto.getCodigoPremio();
+                    fotoListNewFoto.setCodigoPremio(premio);
+                    fotoListNewFoto = em.merge(fotoListNewFoto);
+                    if (oldCodigoPremioOfFotoListNewFoto != null && !oldCodigoPremioOfFotoListNewFoto.equals(premio)) {
+                        oldCodigoPremioOfFotoListNewFoto.getFotoList().remove(fotoListNewFoto);
+                        oldCodigoPremioOfFotoListNewFoto = em.merge(oldCodigoPremioOfFotoListNewFoto);
+                    }
+                }
+            }
             em.getTransaction().commit();
         } catch (Exception ex) {
             String msg = ex.getLocalizedMessage();
@@ -79,6 +127,11 @@ public class PremioJpaController implements Serializable {
                 premio.getCodigoPremio();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The premio with id " + id + " no longer exists.", enfe);
+            }
+            List<Foto> fotoList = premio.getFotoList();
+            for (Foto fotoListFoto : fotoList) {
+                fotoListFoto.setCodigoPremio(null);
+                fotoListFoto = em.merge(fotoListFoto);
             }
             em.remove(premio);
             em.getTransaction().commit();
@@ -152,6 +205,20 @@ public class PremioJpaController implements Serializable {
         finally {
             em.close();
         }
+    }
+    
+   
+    
+     //Creamos el metodo que devuelve un telefono segun su marca
+        public List findPremiosSinFoto() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Premio.findByDisponibles",Premio.class);
+            
+        
+        List lista= q.getResultList();
+        
+        return lista;
     }
     
 }

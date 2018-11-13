@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+    <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>CRV</title>
+        </h:head>
+        <h:body>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+            <h1><h:outputText value="Administrador"/></h1>
+            <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+            
+           <h:form id="tablaP"> 
+               <p:dataTable id="premios" value="#{bAdministradorGestionPremio.listaPremiosTabla}" var="premio" 
+                         rowKey="#{premio.codigoPremio}"
+                         editable="true"  
+                         selection="#{bAdministradorGestionPremio.miPremio}" 
+                         selectionMode="single">
+
+                   <p:ajax event="rowEdit" listener="#{bAdministradorGestionPremio.onRowEdit}" update="messages subirFoto:premio " />
+                   <p:ajax event="rowEditCancel" listener="#{bAdministradorGestionPremio.onRowCancel}" update="messages" />
+
+                <p:column headerText="Codigo Premio">
+
+                    <h:outputText value="#{premio.codigoPremio}" />
+
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{premio.nombre}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{premio.nombre}" style="width:100%" label="precio"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+
+                <p:column headerText="Coste">
+                    <p:cellEditor>
+                        <f:facet name="output"><h:outputText value="#{premio.coste}" /></f:facet>
+                        <f:facet name="input"><p:inputText value="#{premio.coste}" style="width:100%" label="precio"/></f:facet>
+                    </p:cellEditor>
+                </p:column>
+                   
+                <p:column headerText="Foto">
+                    <ui:repeat var="foto" value="#{premio.fotoList}">
+                        <h:graphicImage url="imagenes/FotosPremios/#{foto.nombre}" style="width: 30px;height: 30px;" /> 
+                    </ui:repeat>
+                </p:column>
+
+
+               <p:column style="width:32px">
+                    <p:rowEditor />
+                </p:column>
+               
+            </p:dataTable>
+
+
+            <p:contextMenu for="premios">
+                <p:menuitem value="Delete" update="tablaP messages" icon="ui-icon-close" actionListener="#{bAdministradorGestionPremio.bajaPremio()}"/>
+            </p:contextMenu>
+            
+            
+           </h:form>
+            
+            
+            
+            <h:form>
+            <p:confirmDialog widgetVar="confirmDlg" message="¿Quieres modificar el teléfono?" header="Télefono duplicado">
+                <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionPremio.modificarPremio()}" update="tablaP messages subirFoto:premio "  icon="ui-icon-check" />
+                <p:commandButton value="No" oncomplete="PF('confirmDlg').hide()" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <!--Añadir premio-->
+            <div style="border: 1px solid red">
+            <h1> Dar alta premio </h1>
+            <h:form id="altaPremio">
+                <h:outputLabel for="nombre" value="Nombre: "/> 
+                    <p:inputText id="nombre" value="#{bAdministradorGestionPremio.nombrePremio}" required="true"/>
+                    <p:message for="nombre" />
+                    <br></br><br></br>
+                    
+                <h:outputLabel for="coste" value="Coste: "/> 
+                     <p:inputText id="coste" value="#{bAdministradorGestionPremio.coste}" required="true" validatorMessage="Debe ser un número entre 0 y 99999">
+                        <f:validateRegex pattern="^\d{1,5}$" />
+                    </p:inputText>
+                    <p:message for="coste" />
+                    <br></br><br></br>
+                <p:commandButton value="Añadir Premio" validateClient="true" action="#{bAdministradorGestionPremio.altaPremio()}" update="altaPremio tablaP messages subirFoto:premio "/>
+                <br></br><br></br>
+            </h:form>
+            </div>
+            
+            
+            <!--Añadir fotos a un premio-->
+            <div style="border: 1px solid blue">
+            <h1> Subir Foto Premio </h1>
+            <h:form id="subirFoto" enctype="multipart/form-data">
+                <h:outputLabel for="premio" value="Seleccione una premio sin foto: "/>
+                <h:selectOneMenu id="premio" value="#{bAdministradorGestionPremio.codigoPremio}"> 
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionPremio.listaPremiosSinFotos}"/>
+                </h:selectOneMenu>
+                <p:fileUpload value="#{bAdministradorGestionPremio.filePremio}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
+                <h:commandButton value="Añadir foto premio" action="#{bAdministradorGestionPremio.subirFotoPremio()}"/>
+                <br></br><br></br>
+            </h:form>
+            </div>
+            
+            <!--Eliminar foto premio-->
+            <div style="border: 1px solid green">
+            <h1> Borrar Foto Premio </h1>
+            <h:form id="borrarFotoPremio">
+                <h:outputLabel for="premio" value="Seleccione una premio: "/>
+                <h:selectOneMenu id="premio" value="#{bAdministradorGestionPremio.codigoFotoEliminar}">
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItems value="#{bAdministradorGestionPremio.listaPremiosConFotos}"/>
+                </h:selectOneMenu>
+                <p:commandButton value="Eliminar premio" action="#{bAdministradorGestionPremio.borrarFotoPremio()}" update="tablaP subirFoto:premio"/>
+                <br></br><br></br>
+            </h:form>
+            </div>
+            
+            
+            
+        </h:body>     
+    </html>
+   
