@@ -43,12 +43,12 @@ public class Foto implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
-    @ManyToOne
-    private Telefono codigoTelefono;
     @JoinColumn(name = "codigoPremio", referencedColumnName = "codigoPremio")
     @ManyToOne
     private Premio codigoPremio;
+    @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
+    @ManyToOne
+    private Telefono codigoTelefono;
 
     public Foto() {
     }
@@ -78,20 +78,20 @@ public class Foto implements Serializable {
         this.nombre = nombre;
     }
 
-    public Telefono getCodigoTelefono() {
-        return codigoTelefono;
-    }
-
-    public void setCodigoTelefono(Telefono codigoTelefono) {
-        this.codigoTelefono = codigoTelefono;
-    }
-
     public Premio getCodigoPremio() {
         return codigoPremio;
     }
 
     public void setCodigoPremio(Premio codigoPremio) {
         this.codigoPremio = codigoPremio;
+    }
+
+    public Telefono getCodigoTelefono() {
+        return codigoTelefono;
+    }
+
+    public void setCodigoTelefono(Telefono codigoTelefono) {
+        this.codigoTelefono = codigoTelefono;
     }
 
     @Override

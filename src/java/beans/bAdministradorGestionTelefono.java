@@ -2,11 +2,16 @@ package beans;
 
 import DAO.CaracteristicastelefonoJpaController;
 import DAO.FotoJpaController;
+import DAO.PedidoJpaController;
+import DAO.ReparacionesJpaController;
+import DAO.ReparacionestelefonoJpaController;
 import DAO.TelefonoJpaController;
 import DAO.exceptions.NonexistentEntityException;
 import DTO.Administrador;
 import DTO.Caracteristicastelefono;
 import DTO.Foto;
+import DTO.Pedido;
+import DTO.Reparacionestelefono;
 import DTO.Telefono;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,8 +36,6 @@ import org.primefaces.model.UploadedFile;
 
 public class bAdministradorGestionTelefono {
 
-    
-
     //Driver para conectar con la base de datos
     private EntityManagerFactory emf;
 
@@ -40,7 +43,9 @@ public class bAdministradorGestionTelefono {
     private TelefonoJpaController ctrTelefono;
     private CaracteristicastelefonoJpaController ctrCaracteristicas;
     private FotoJpaController ctrFotos;
-    
+    private ReparacionestelefonoJpaController ctrReparacionesTelefono;
+    private PedidoJpaController ctrPedido;
+
     //Objeto que guarda el telefono seleccionado de una fila de la tabla
     private Telefono miTelefono;
 
@@ -89,15 +94,16 @@ public class bAdministradorGestionTelefono {
 
     //Variable que guarda el codigo del telefono para añadir la foto 
     private String codigoTelefonoFoto;
-    
-     private String codigoTelefonoFotoBorrar;
+
+    //Variable que guarda el codigo del telefono para borrar la foto 
+    private String codigoTelefonoFotoBorrar;
 
     //Variable que guarda el perfil de la foto del telefono
     private String perfilFoto;
 
     //Variable que guarda la lista de perfiles
     private ArrayList listaPerfiles;
-    
+
     //Variable que guarda la lista de nombresFotos
     private List listaFotos;
 
@@ -107,11 +113,13 @@ public class bAdministradorGestionTelefono {
         ctrTelefono = new TelefonoJpaController(emf);
         ctrCaracteristicas = new CaracteristicastelefonoJpaController(emf);
         ctrFotos = new FotoJpaController(emf);
+        ctrPedido = new PedidoJpaController(emf);
+        ctrReparacionesTelefono = new ReparacionestelefonoJpaController(emf);
 
         //Inicializamos la lista para que cuando entre ya esten cargados en la tabla los telefonos
         listaTelefonosTabla = new ArrayList();
         listaTelefonosTabla = ctrTelefono.findTelefonoEntities();
-        
+
         //Inicializamos la lista de modelos pero sin cargarlos ya que deberemos seleccionar antes una marca
         listaModelos = new ArrayList();
     }
@@ -400,77 +408,85 @@ public class bAdministradorGestionTelefono {
         this.codigoTelefonoFotoBorrar = codigoTelefonoFotoBorrar;
     }
 
-   
-    
+    public ArrayList getListaPerfiles() {
+        return listaPerfiles;
+    }
+
+    public ReparacionestelefonoJpaController getCtrReparacionesTelefono() {
+        return ctrReparacionesTelefono;
+    }
+
+    public void setCtrReparacionesTelefono(ReparacionestelefonoJpaController ctrReparacionesTelefono) {
+        this.ctrReparacionesTelefono = ctrReparacionesTelefono;
+    }
+
+    public PedidoJpaController getCtrPedido() {
+        return ctrPedido;
+    }
+
+    public void setCtrPedido(PedidoJpaController ctrPedido) {
+        this.ctrPedido = ctrPedido;
+    }
     
     
 
-    
-    
-    
-    //Metodo que añade a un select los perfiles disponibles para una foto
-    public ArrayList getListaPerfiles() {
-       return listaPerfiles;
-    }
-    
-    public void consultarPerfilesDisponibles(final AjaxBehaviorEvent event){
-            listaPerfiles = new ArrayList();
-            if(codigoTelefonoFoto!=null){
-            Telefono telefono =ctrTelefono.findTelefono(Integer.parseInt(codigoTelefonoFoto));
+    //Metodo que devuelve los perfiles en los cuales un telefono todavia no tiene una foto
+    public void consultarPerfilesDisponibles(final AjaxBehaviorEvent event) {
+        listaPerfiles = new ArrayList();
+        if (codigoTelefonoFoto != null) {
+            Telefono telefono = ctrTelefono.findTelefono(Integer.parseInt(codigoTelefonoFoto));
             List<Foto> listaPerfilesFoto = new ArrayList();
-            listaPerfilesFoto=ctrFotos.findFotoByCodigoTelefono(telefono);
-            int cantidadFotos =listaPerfilesFoto.size();
-            if(cantidadFotos==0){
-            listaPerfiles.add(new SelectItem("Delante", "Delante"));
-            listaPerfiles.add(new SelectItem("Detras", "Detrás"));
-            listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
-            }
-            else if(cantidadFotos==3){
-                
-            }
-            else{
-                String perfilAnterior="";
-                String perfil="";
-            for (Foto foto : listaPerfilesFoto) {
-                perfilAnterior=perfil;
-                 perfil =foto.getNombre().split("-")[0];
-                if(cantidadFotos==1){
-                    
-                if(!perfil.equals("Delante")){
-                    listaPerfiles.add(new SelectItem("Delante", "Delante"));
-                }
-                if(!perfil.equals("Detras")){
+            listaPerfilesFoto = ctrFotos.findFotoByCodigoTelefono(telefono);
+            int cantidadFotos = listaPerfilesFoto.size();
+            if (cantidadFotos == 0) {
+                listaPerfiles.add(new SelectItem("Delante", "Delante"));
                 listaPerfiles.add(new SelectItem("Detras", "Detrás"));
-                }
-                if(!perfil.equals("Perfil")){
                 listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
+            } else if (cantidadFotos == 3) {
+
+            } else {
+                String perfilAnterior = "";
+                String perfil = "";
+                for (Foto foto : listaPerfilesFoto) {
+                    perfilAnterior = perfil;
+                    perfil = foto.getNombre().split("-")[0];
+                    if (cantidadFotos == 1) {
+
+                        if (!perfil.equals("Delante")) {
+                            listaPerfiles.add(new SelectItem("Delante", "Delante"));
+                        }
+                        if (!perfil.equals("Detras")) {
+                            listaPerfiles.add(new SelectItem("Detras", "Detrás"));
+                        }
+                        if (!perfil.equals("Perfil")) {
+                            listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
+                        }
+
+                    }
+                    if (cantidadFotos == 2) {
+                        if (perfilAnterior.equals("Delante") && perfil.equals("Detras")) {
+                            listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
+                        }
+                        if (perfilAnterior.equals("Delante") && perfil.equals("Perfil")) {
+                            listaPerfiles.add(new SelectItem("Detras", "Detras"));
+                        }
+                        if (perfilAnterior.equals("Detras") && perfil.equals("Perfil")) {
+                            listaPerfiles.add(new SelectItem("Delante", "Delante"));
+                        }
+
+                    }
+
                 }
-                    
-                }
-                if(cantidadFotos==2){
-                  if(perfilAnterior.equals("Delante") && perfil.equals("Detras")){
-                    listaPerfiles.add(new SelectItem("Perfil", "Perfil"));
-                }
-                  if(perfilAnterior.equals("Delante") && perfil.equals("Perfil")){
-                    listaPerfiles.add(new SelectItem("Detras", "Detras"));
-                } 
-                  if(perfilAnterior.equals("Detras") && perfil.equals("Perfil")){
-                    listaPerfiles.add(new SelectItem("Delante", "Delante"));
-                } 
-                    
-                }
-                
             }
-            }
-            
+
         }
-      
+
     }
 
     //Metodo que añade a un select las marcas disponibles para elegir posteriormente un modelo
     public ArrayList getListaMarcas() {
         if (listaMarcas == null) {
-            //Inicializamos la lista de moviles
+            //Inicializamos la lista de marcas
             listaMarcas = new ArrayList();
 
             List<String> listaMar = ctrTelefono.findTodosTelefonosDistint();
@@ -484,70 +500,71 @@ public class bAdministradorGestionTelefono {
     //Metodo para dar de alta un telefono
     public String altaTelefono() {
         //Buscamos si existe un telefono con el mismo nombre
-            Telefono telefonoRepetido = ctrTelefono.findTelefonoByNick(nombre);
+        Telefono telefonoRepetido = ctrTelefono.findTelefonoByNick(nombre);
 
-            //Si hemos encontrado un telefono, no podremos repetirlo, si no existe lo creamos
-            if (telefonoRepetido == null) {
+        //Si hemos encontrado un telefono, no podremos repetirlo, si no existe lo creamos
+        if (telefonoRepetido == null) {
 
-                //Creamos un tecnico con los datos
-                Telefono telefono = new Telefono(null, nombre, marca, Float.parseFloat(precio));
+            //Creamos un tecnico con los datos
+            Telefono telefono = new Telefono(null, nombre, marca, Float.parseFloat(precio));
 
-                //Cojo el administrador de la sesion
-                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-                manageBeanSesion manageBeanSesion = new manageBeanSesion();
+            //Cojo el administrador de la sesion
+            ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+            manageBeanSesion manageBeanSesion = new manageBeanSesion();
 
-                HttpSession session = (HttpSession) ctx.getSession(false);
-                manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
-                Administrador administrador = (Administrador) manageBeanSesion.getAdministradorLog();
+            HttpSession session = (HttpSession) ctx.getSession(false);
+            manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+            Administrador administrador = (Administrador) manageBeanSesion.getAdministradorLog();
 
-                //Cojo el codigo del administrador para meterselo al tecnico
-                telefono.setCodigoAdministrador(administrador);
+            //Cojo el codigo del administrador para meterselo al tecnico
+            telefono.setCodigoAdministrador(administrador);
 
-                //Damos de alta en la base de datos el telefono
-                ctrTelefono.create(telefono);
+            //Damos de alta en la base de datos el telefono
+            ctrTelefono.create(telefono);
 
-                //Inicializamos la lista para que cuando entre ya esten cargados los telefonos
-                listaTelefonosTabla = new ArrayList();
+            //Inicializamos la lista para que cuando entre ya esten cargados los telefonos
+            listaTelefonosTabla = new ArrayList();
 
-                listaTelefonosTabla = ctrTelefono.findTelefonoEntities();
-                
-                //Inicializamos la lista de los modelos tambien para dar de alta las caracteristicas y las fotos
-                listaMarcas = null;
-                
-                listaMarcas = getListaMarcas();
-                
-                //Escribo el mensaje de alta correcta
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta al telefono correctamente."));
+            listaTelefonosTabla = ctrTelefono.findTelefonoEntities();
 
-                return "correcto";
+            //Inicializamos la lista de los marcas 
+            listaMarcas = null;
 
-            } else {
-                //Damos la opcion de modificar el telefono si esta repetido
-                
-                //Creamos un telefono con los datos
-                Telefono telefono = new Telefono(telefonoRepetido.getCodigoTelefono(), nombre, marca, Float.parseFloat(precio));
+            listaMarcas = getListaMarcas();
 
-                //Cojo el administrador de la sesion
-                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-                manageBeanSesion manageBeanSesion = new manageBeanSesion();
+            //Escribo el mensaje de alta correcta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta al telefono correctamente."));
 
-                HttpSession session = (HttpSession) ctx.getSession(false);
-                manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
-                Administrador administrador = (Administrador) manageBeanSesion.getAdministradorLog();
+            return "correcto";
 
-                //Cojo las listas con las que tiene enlace y se las añado para editarlo posteriormente
-                telefono.setCodigoAdministrador(administrador);
-                telefono.setCaracteristicastelefonoList(telefonoRepetido.getCaracteristicastelefonoList());
-                telefono.setFotoList(telefonoRepetido.getFotoList());
-                telefono.setReparacionesList(telefonoRepetido.getReparacionesList());
-                telefono.setPedidoList(telefonoRepetido.getPedidoList());
+        } else {
+            //Damos la opcion de modificar el telefono si esta repetido
 
-                //Subo el telefono a la sesion
-                subirTelefono(telefono);
+            //Creamos un telefono con los datos
+            Telefono telefono = new Telefono(telefonoRepetido.getCodigoTelefono(), nombre, marca, Float.parseFloat(precio));
 
-                RequestContext.getCurrentInstance().execute("PF('confirmDlg').show();");
-                return "correcto";
-            }
+            //Cojo el administrador de la sesion
+            ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+            manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+            HttpSession session = (HttpSession) ctx.getSession(false);
+            manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+            Administrador administrador = (Administrador) manageBeanSesion.getAdministradorLog();
+
+            //Cojo las listas con las que tiene enlace y se las añado para editarlo posteriormente
+            telefono.setCodigoAdministrador(administrador);
+            telefono.setCaracteristicastelefonoList(telefonoRepetido.getCaracteristicastelefonoList());
+            telefono.setFotoList(telefonoRepetido.getFotoList());
+            telefono.setReparacionestelefonoList(telefonoRepetido.getReparacionestelefonoList());
+            telefono.setPedidoList(telefonoRepetido.getPedidoList());
+
+            //Subo el telefono a la sesion
+            subirTelefono(telefono);
+
+            //Muestro la ventana por si quiere modificar el telefono
+            RequestContext.getCurrentInstance().execute("PF('confirmDlg').show();");
+            return "correcto";
+        }
 
     }
 
@@ -563,46 +580,80 @@ public class bAdministradorGestionTelefono {
         Telefono telefono = (Telefono) manageBeanSesion.getTelefonoModificar();
 
         try {
-            //Edito el tecnico 
+            //Edito el telefono 
             ctrTelefono.edit(telefono);
 
             //Inicializamos la lista para que cuando entre ya esten cargados los telefonos
             listaTelefonosTabla = new ArrayList();
 
             listaTelefonosTabla = ctrTelefono.findTelefonoEntities();
-            
-            //Inicializamos la lista de los modelos tambien para dar de alta las caracteristicas y las fotos
+
+            //Inicializamos la lista de los marcas 
             listaMarcas = null;
-                
+
             listaMarcas = getListaMarcas();
 
             //Escribo el mensaje de modificacion correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado al telefono correctamente."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado el telefono correctamente."));
 
         } catch (Exception ex) {
             Logger.getLogger(bAdministradorGestionTecnico.class.getName()).log(Level.SEVERE, null, ex);
 
             //Escribo el mensaje de modificacion incorrecta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha introducido todos los datos"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se ha modificado el telefono"));
 
         }
 
     }
-    
+
     //Metodo para eliminar un telefono
     public String bajaTelefono() {
         try {
-            //Cojo el telefono seleccionado de la fila y lo borro
-            ctrTelefono.destroy(miTelefono.getCodigoTelefono());
+            
+              List  <Reparacionestelefono> listaReparacionesTelefono = miTelefono.getReparacionestelefonoList();
+              for(int j = 0; j < listaReparacionesTelefono.size(); j++) {
+                  ctrReparacionesTelefono.destroy(listaReparacionesTelefono.get(j).getCodigoReparacionTelefono());
+              }
+            
+            List<Pedido> listaPedidos =miTelefono.getPedidoList();
+            for(int i = 0; i < listaPedidos.size(); i++) {
+               ctrPedido.destroy(listaPedidos.get(i).getCodigo());
+            }
+            
+            List<Foto> listaFotoss =miTelefono.getFotoList();
+            for(int i = 0; i < listaFotoss.size(); i++) {
+                
+            //Borro la foto del servidor
+            String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
 
+            Foto foto = ctrFotos.findFoto(listaFotoss.get(i).getCodigoFoto());
+
+            //CREAMOS EL FILE CON LA RUTA ENTERA
+            File result = new File(path + "/../../web/imagenes/FotosTelefono/" + foto.getNombre());
+
+            //Borro el fichero
+            result.delete();
+            
+            //Borro la foto de la base de datos
+            
+            ctrFotos.destroy(listaFotoss.get(i).getCodigoFoto());
+            }
+            
+            if(miTelefono.getCaracteristicastelefonoList().size()==1){
+                ctrCaracteristicas.destroy(miTelefono.getCaracteristicastelefonoList().get(0).getCodigoCaracteristica());
+            }
+            
+            //Borro el telefono de la base de datos
+            ctrTelefono.destroy(miTelefono.getCodigoTelefono());
+            
             //Inicializamos la lista para que cuando entre ya esten cargados los telefono
             listaTelefonosTabla = new ArrayList();
 
             listaTelefonosTabla = ctrTelefono.findTelefonoEntities();
-            
-            //Inicializamos la lista de los modelos tambien para dar de alta las caracteristicas y las foto
+
+            //Inicializamos la lista de las marcas 
             listaMarcas = null;
-            
+
             listaMarcas = getListaMarcas();
 
             //Escribo el mensaje de baja correcta
@@ -611,15 +662,15 @@ public class bAdministradorGestionTelefono {
             return "correcto";
         } catch (Exception ex) {
             Logger.getLogger(bAdministradorGestionTelefono.class.getName()).log(Level.SEVERE, null, ex);
-            
+
             //Escribo el mensaje de baja incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se ha realizado la baja del teléfono"));
 
             return "correcto";
         }
     }
-    
-    //Metodo para dar de alta un telefono
+
+    //Metodo para dar de alta las caracteristicas de un telefono
     public String altaCaracteristicasTelefono() {
         //Comprobamos que ha introducido con el select un telefono ya que los demas campos
         //se validan desde el cliente
@@ -627,19 +678,18 @@ public class bAdministradorGestionTelefono {
 
             //Buscamos si existe unas caracteristicas para ese telefono
             Telefono telefono = ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono));
+            int caracteristicaRepetida = telefono.getCaracteristicastelefonoList().size();
+            
             //Si hemos encontrado unas caracterisitcas para un telefono, no podremos repetirlo, 
-            
-            int caracteristicaRepetida =telefono.getCaracteristicastelefonoList().size();
-            
-            if(caracteristicaRepetida==0){
-                
-            
-             //Creamos las caracteristicas con los datos
+            if (caracteristicaRepetida == 0) {
+
+                //Creamos las caracteristicas con los datos
                 Caracteristicastelefono caracteristicas
                         = new Caracteristicastelefono(null, so, Integer.parseInt(ram),
-                                Float.parseFloat(pulgadas), Integer.parseInt(almacenamiento), Float.parseFloat(camaraTrasera),
-                                Float.parseFloat(camaraDelantera), Integer.parseInt(bateria), procesador, wifi,
-                                resolucion, color, detectorDeHuellas, dualSim, sd, bluetooth, nfc, g3, g4);
+                                Float.parseFloat(pulgadas), Integer.parseInt(almacenamiento), 
+                                Float.parseFloat(camaraTrasera),Float.parseFloat(camaraDelantera),
+                                Integer.parseInt(bateria), procesador, wifi,resolucion, color,
+                                detectorDeHuellas, dualSim, sd, bluetooth, nfc, g3, g4);
 
                 caracteristicas.setCodigoTelefono(ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono)));
                 try {
@@ -659,9 +709,9 @@ public class bAdministradorGestionTelefono {
                 }
 
             } else {
+                //Subimos las caracteristicas a la sesion por si las quiere modificar
                 int codigoCaracteristica = telefono.getCaracteristicastelefonoList().get(0).getCodigoCaracteristica();
 
-                //Si existe damos la posibilidad de modificar las caracteristicas
                 Caracteristicastelefono caracteristicasRepetidas = ctrCaracteristicas.findCaracteristicastelefono(codigoCaracteristica);
 
                 //Creamos un caracteristicas para subirla a la sesion
@@ -676,10 +726,10 @@ public class bAdministradorGestionTelefono {
 
                 //Subo las caracteristicas a la sesion
                 subirCaracteristica(caracteristicas);
-                
+
                 //Muestro el cuadro si quiere aceptarlas o no
                 RequestContext.getCurrentInstance().execute("PF('confirmDlgCaracteristicas').show();");
-                
+
                 return "correcto";
             }
 
@@ -713,13 +763,11 @@ public class bAdministradorGestionTelefono {
             Logger.getLogger(bAdministradorGestionTecnico.class.getName()).log(Level.SEVERE, null, ex);
 
             //Escribo el mensaje de modificacion incorrecta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se han podido moficar las caracteristicas del telefono"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se han podido modificar las caracteristicas del telefono"));
 
         }
 
     }
-
-    
 
     //Metodo que sube la foto de un telefono
     public String subirFotoTelefono() {
@@ -735,103 +783,100 @@ public class bAdministradorGestionTelefono {
 
             //CREAMOS EL FILE CON LA RUTA ENTERA
             File result = new File(path + "/../../web/imagenes/FotosTelefono/" + perfilFoto + "-" + codigoTelefonoFoto + "." + extension);
-            
+
             if (result.exists()) {
-                //Escribo el mensaje de subida incorrecta
+                //Escribo el mensaje de foto duplicada
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Ya existe una foto del perfil seleccionado para ese telefono"));
 
                 return "correcto";
-                }
-            else{
-                    
-                
-            try {
-                FileOutputStream fileOutputStream = new FileOutputStream(result);
-                byte[] buffer = new byte[BUFFER_SIZE];
-                int bulk;
-                InputStream inputStream = fileTelefono.getInputstream();
-                while (true) {
-                    bulk = inputStream.read(buffer);
-                    if (bulk < 0) {
-                        break;
+            } else {
+
+                try {
+                    FileOutputStream fileOutputStream = new FileOutputStream(result);
+                    byte[] buffer = new byte[BUFFER_SIZE];
+                    int bulk;
+                    InputStream inputStream = fileTelefono.getInputstream();
+                    while (true) {
+                        bulk = inputStream.read(buffer);
+                        if (bulk < 0) {
+                            break;
+                        }
+                        fileOutputStream.write(buffer, 0, bulk);
+                        fileOutputStream.flush();
                     }
-                    fileOutputStream.write(buffer, 0, bulk);
-                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                    inputStream.close();
+
+                    //La subo a la base de datos
+                    Foto foto = new Foto(null, perfilFoto + "-" + codigoTelefonoFoto + "." + extension);
+
+                    foto.setCodigoTelefono(ctrTelefono.findTelefono(Integer.parseInt(codigoTelefonoFoto)));
+
+                    ctrFotos.create(foto);
+                    
+                    //Escribo el mensaje de subida correcta
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La foto se ha subido correctamente."));
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                    //Escribo el mensaje de subida incorrecta
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al subir la foto al servidor."));
+
                 }
-                fileOutputStream.close();
-                inputStream.close();
-
-                
-                //La subo a la base de datos
-                Foto foto = new Foto(null, perfilFoto + "-" + codigoTelefonoFoto + "." + extension);
-
-                foto.setCodigoTelefono(ctrTelefono.findTelefono(Integer.parseInt(codigoTelefonoFoto)));
-                
-                ctrFotos.create(foto);
-                //Escribo el mensaje de subida correcta
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La foto se ha subido correctamente."));
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-                //Escribo el mensaje de subida incorrecta
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al subir la foto al servidor."));
 
             }
-
-        } }catch (Exception ex) {
+        } catch (Exception ex) {
 
             //Escribo el mensaje de subida incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al subir la foto a la base de datos."));
 
             Logger.getLogger(bAdministradorGestionTelefono.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return "correcto";
-        
+
     }
-    
+
     //Metodo para borrar una foto
-    public String borrarFotoTelefono(int codigoFoto, int codigoTelefonoBorrar){
-        
+    public String borrarFotoTelefono(int codigoFoto, int codigoTelefonoBorrar) {
+
         //Cojo la foto
         String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
 
-        Foto foto =ctrFotos.findFoto(codigoFoto);
-        
+        Foto foto = ctrFotos.findFoto(codigoFoto);
+
         //CREAMOS EL FILE CON LA RUTA ENTERA
-            File result = new File(path + "/../../web/imagenes/FotosTelefono/" + foto.getNombre());
-            
+        File result = new File(path + "/../../web/imagenes/FotosTelefono/" + foto.getNombre());
+
         //Borro el fichero
-            result.delete();
-            
+        result.delete();
+
         try {
             //Lo borro de la base de datos
             ctrFotos.destroy(codigoFoto);
-            
-            //Inicializamos la lista de modelos
-        listaFotos = new ArrayList();
+
+            //Inicializamos la lista de fotos
+            listaFotos = new ArrayList();
+
+            //Reiniciamos la lista de fotos del telefono elegido
+            Telefono telefono = ctrTelefono.findTelefono(codigoTelefonoBorrar);
+
+            listaFotos = telefono.getFotoList();
+
+            //Escribo el mensaje de borrado correcto
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La foto se ha borrado correctamente."));
         
-        
-        //Ejecutar consulta que devuelve objetos Telefonos segun la marca indicada
-        Telefono telefono = ctrTelefono.findTelefono(codigoTelefonoBorrar);
-        
-        listaFotos = telefono.getFotoList();
-            
-             //Escribo el mensaje de subida correcta
-             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La foto se ha borrado correctamente."));
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(bAdministradorGestionTelefono.class.getName()).log(Level.SEVERE, null, ex);
-            
-            //Escribo el mensaje de subida incorrecta
+
+            //Escribo el mensaje de borrado incorrecto
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al borrar la foto de la base de datos."));
         }
-        
+
         return "correcto";
-           
+
     }
-    
 
     //Metodo para subir un telefono a la sesion
     public void subirTelefono(Telefono telefono) {
@@ -882,25 +927,28 @@ public class bAdministradorGestionTelefono {
             
             //Inicializamos la lista de los modelos tambien para dar de alta las caracteristicas y las foto
             listaMarcas = null;
-            
+
             listaMarcas = getListaMarcas();
-            
+
             //Escribo el mensaje de modificacion correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado al telefono correctamente."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado el telefono correctamente."));
+       
         } catch (NonexistentEntityException ex) {
             Logger.getLogger(bAdministradorGestionTelefono.class.getName()).log(Level.SEVERE, null, ex);
-             //Escribo el mensaje de modificacion incorrecta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha introducido todos los datos"));
+            
+            //Escribo el mensaje de modificacion incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se ha modificado el telefono"));
 
         } catch (Exception ex) {
             Logger.getLogger(bAdministradorGestionTelefono.class.getName()).log(Level.SEVERE, null, ex);
-             //Escribo el mensaje de modificacion incorrecta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No ha introducido todos los datos"));
+            
+            //Escribo el mensaje de modificacion incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se ha modificado el telefono"));
 
         }
     }
 
-    public void onRowCancel(RowEditEvent event) {   
+    public void onRowCancel(RowEditEvent event) {
     }
 
     //Metodo que rellena la lista de modelos según la marca que elijamos
@@ -908,7 +956,7 @@ public class bAdministradorGestionTelefono {
 
         //Inicializamos la lista de modelos
         listaModelos = new ArrayList();
-        
+
         //Cojo la marca del telefono
         String marcaTelefono = (String) ((UIOutput) event.getSource()).getValue();
 
@@ -924,20 +972,19 @@ public class bAdministradorGestionTelefono {
             listaModelos.add(new SelectItem(tele.getCodigoTelefono(), tele.getNombre()));
         }
     }
-    
+
     //Metodo que rellena la lista de fotos según el modelo que elijamos
     public void consultarFotos(final AjaxBehaviorEvent event) {
 
-        //Inicializamos la lista de modelos
+        //Inicializamos la lista de fotos
         listaFotos = new ArrayList();
-        
-        //Cojo la marca del telefono
+
+        //Cojo el codigo del telefono
         String codigoTelefono = (String) ((UIOutput) event.getSource()).getValue();
 
-        
         //Ejecutar consulta que devuelve objetos Telefonos segun la marca indicada
         Telefono telefono = ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono));
-        
+
         listaFotos = telefono.getFotoList();
 
     }
@@ -945,12 +992,10 @@ public class bAdministradorGestionTelefono {
     //Metodo que rellena los inputs de las caracteristicas cuando seleccionamos un modelo
     public void consultarCaracteristicas(final AjaxBehaviorEvent event) {
 
-        //Coger el codigo de la provincia seleccionada para coger las poblaciones de esa provincia
-        //es decir con el mismo codigo
         int codigoTelefonoCaracteristica = Integer.parseInt(codigoTelefono);
 
-        //Ejecutar consulta que devuelve objetos Poblacion
         Caracteristicastelefono caracteristica = ctrCaracteristicas.findCaracteristicasByTelefono(ctrTelefono.findTelefono(codigoTelefonoCaracteristica));
+        
         if (caracteristica != null) {
             so = caracteristica.getSo();
             ram = String.valueOf(caracteristica.getRam());
@@ -970,7 +1015,9 @@ public class bAdministradorGestionTelefono {
             nfc = caracteristica.getNfc();
             g3 = caracteristica.getG();
             g4 = caracteristica.getG1();
-        } else {
+        } 
+        
+        else {
             so = "";
             ram = "";
             pulgadas = "";

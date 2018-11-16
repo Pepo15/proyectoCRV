@@ -48,11 +48,11 @@ public class Tecnico implements Serializable {
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
-    @OneToMany(mappedBy = "codigoTecnico")
-    private List<Pedido> pedidoList;
     @JoinColumn(name = "codigoAdministrador", referencedColumnName = "codigoAdministrador")
     @ManyToOne(optional = false)
     private Administrador codigoAdministrador;
+    @OneToMany(mappedBy = "codigoTecnico")
+    private List<Pedido> pedidoList;
 
     public Tecnico() {
     }
@@ -91,6 +91,14 @@ public class Tecnico implements Serializable {
         this.password = password;
     }
 
+    public Administrador getCodigoAdministrador() {
+        return codigoAdministrador;
+    }
+
+    public void setCodigoAdministrador(Administrador codigoAdministrador) {
+        this.codigoAdministrador = codigoAdministrador;
+    }
+
     @XmlTransient
     public List<Pedido> getPedidoList() {
         return pedidoList;
@@ -98,14 +106,6 @@ public class Tecnico implements Serializable {
 
     public void setPedidoList(List<Pedido> pedidoList) {
         this.pedidoList = pedidoList;
-    }
-
-    public Administrador getCodigoAdministrador() {
-        return codigoAdministrador;
-    }
-
-    public void setCodigoAdministrador(Administrador codigoAdministrador) {
-        this.codigoAdministrador = codigoAdministrador;
     }
 
     @Override

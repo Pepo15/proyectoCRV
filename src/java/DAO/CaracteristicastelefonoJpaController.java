@@ -174,7 +174,7 @@ public class CaracteristicastelefonoJpaController implements Serializable {
         Caracteristicastelefono caracteristica = (Caracteristicastelefono) query.getResultList().get(0);
         
         return caracteristica;
-        }
+}
         catch(Exception e){
             return null;
         }

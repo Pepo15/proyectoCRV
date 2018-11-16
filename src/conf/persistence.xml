@@ -11,7 +11,6 @@
     <class>DTO.Direccion</class>
     <class>DTO.Usuario</class>
     <class>DTO.Tecnico</class>
-    <class>DTO.Foto</class>
     <class>DTO.Telefono</class>
     <class>DTO.Canjear</class>
     <class>DTO.Caracteristicastelefono</class>
@@ -19,6 +18,8 @@
     <class>DTO.Premio</class>
     <class>DTO.Premiosinfoto</class>
     <class>DTO.Premioconfoto</class>
+    <class>DTO.Foto</class>
+    <class>DTO.Telefonosinreparacion</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/crv?zeroDateTimeBehavior=convertToNull"/>

@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     ,@NamedQuery(name = "Telefono.findDistinct", query = "SELECT DISTINCT t.marca FROM Telefono t")
     , @NamedQuery(name = "Telefono.findByCodigoTelefono", query = "SELECT t FROM Telefono t WHERE t.codigoTelefono = :codigoTelefono")
     , @NamedQuery(name = "Telefono.findByNombre", query = "SELECT t FROM Telefono t WHERE t.nombre = :nombre")
-    , @NamedQuery(name = "Telefono.findByMarca", query = "SELECT DISTINCT t FROM Telefono t WHERE t.marca = :marca ")
+    , @NamedQuery(name = "Telefono.findByMarca", query = "SELECT t FROM Telefono t WHERE t.marca = :marca")
     , @NamedQuery(name = "Telefono.findByPrecio", query = "SELECT t FROM Telefono t WHERE t.precio = :precio")})
 public class Telefono implements Serializable {
 
@@ -57,11 +57,11 @@ public class Telefono implements Serializable {
     @OneToMany(mappedBy = "codigoTelefono")
     private List<Foto> fotoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
-    private List<Reparaciones> reparacionesList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
     private List<Caracteristicastelefono> caracteristicastelefonoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
     private List<Pedido> pedidoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoTelefono")
+    private List<Reparacionestelefono> reparacionestelefonoList;
     @JoinColumn(name = "codigoAdministrador", referencedColumnName = "codigoAdministrador")
     @ManyToOne(optional = false)
     private Administrador codigoAdministrador;
@@ -122,15 +122,6 @@ public class Telefono implements Serializable {
     }
 
     @XmlTransient
-    public List<Reparaciones> getReparacionesList() {
-        return reparacionesList;
-    }
-
-    public void setReparacionesList(List<Reparaciones> reparacionesList) {
-        this.reparacionesList = reparacionesList;
-    }
-
-    @XmlTransient
     public List<Caracteristicastelefono> getCaracteristicastelefonoList() {
         return caracteristicastelefonoList;
     }
@@ -146,6 +137,15 @@ public class Telefono implements Serializable {
 
     public void setPedidoList(List<Pedido> pedidoList) {
         this.pedidoList = pedidoList;
+    }
+
+    @XmlTransient
+    public List<Reparacionestelefono> getReparacionestelefonoList() {
+        return reparacionestelefonoList;
+    }
+
+    public void setReparacionestelefonoList(List<Reparacionestelefono> reparacionestelefonoList) {
+        this.reparacionestelefonoList = reparacionestelefonoList;
     }
 
     public Administrador getCodigoAdministrador() {

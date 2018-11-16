@@ -47,6 +47,8 @@ public class Premio implements Serializable {
     @Column(name = "coste")
     private int coste;
     @OneToMany(mappedBy = "codigoPremio")
+    private List<Canjear> canjearList;
+    @OneToMany(mappedBy = "codigoPremio")
     private List<Foto> fotoList;
 
     public Premio() {
@@ -84,6 +86,15 @@ public class Premio implements Serializable {
 
     public void setCoste(int coste) {
         this.coste = coste;
+    }
+
+    @XmlTransient
+    public List<Canjear> getCanjearList() {
+        return canjearList;
+    }
+
+    public void setCanjearList(List<Canjear> canjearList) {
+        this.canjearList = canjearList;
     }
 
     @XmlTransient

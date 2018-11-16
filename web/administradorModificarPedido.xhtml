@@ -6,13 +6,12 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 
-    <html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:p="http://primefaces.org/ui">
-        <f:view>
+    <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
@@ -21,85 +20,83 @@ and open the template in the editor.
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            
+
             <h1><h:outputText value="Administrador"/></h1>
             <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
-           
+
             <!--Pedidos-->
             <h2>Ver pedidos</h2>
-            <c:forEach var="pedido" varStatus="estado" items="#{bAdministradorModificarPedido.listaPedidos}" >
-                
-                #{bAdministradorModificarPedido.setCodigoPedido(pedido.codigoPedido)}
-                
-                 #{bAdministradorModificarPedido.codigoPedido}
-                #{bAdministradorModificarPedido.codigoPedidoAnterior}
-                
+            <h:panelGroup id="recargaPedidos">
+                <c:forEach var="pedido" varStatus="estado" items="#{bAdministradorModificarPedido.listaPedidos}" >
+
+                    #{bAdministradorModificarPedido.setCodigoPedido(pedido.codigoPedido)}
 
                     <h:panelGroup  rendered="#{bAdministradorModificarPedido.cabeceraPedido()}">
-                    <div id="datosPedido" style="border: 1px solid red">
-                        <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministradorModificarPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministradorModificarPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
-                     </div>
+                        <div id="datosPedido" style="border: 1px solid red">
+                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Tipo "/> <h:outputText value="#{bAdministradorModificarPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                            <h:outputText value="Estado "/> <h:outputText value="#{bAdministradorModificarPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        </div>
                     </h:panelGroup>
-                    
-                   <h:panelGroup rendered="#{!bAdministradorModificarPedido.cabeceraPedido()}">
+
+                    <h:panelGroup rendered="#{!bAdministradorModificarPedido.cabeceraPedido()}">
                         <div id="pedido" style="border:1px solid black">
                             <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
                             <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
                             <h:outputText value="Fecha "/> <h:outputText value="#{pedido.fecha}"/><br></br><br></br>    
                         </div> 
                         <div id="datosPedido" style="border: 1px solid red">
-                        <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                        <h:outputText value="Tipo "/> <h:outputText value="#{bAdministradorModificarPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                        <h:outputText value="Estado "/> <h:outputText value="#{bAdministradorModificarPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
-                        
+                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Tipo "/> <h:outputText value="#{bAdministradorModificarPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                            <h:outputText value="Estado "/> <h:outputText value="#{bAdministradorModificarPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                            <h:outputText value="Ubicacion "/> <h:outputText value="#{bAdministradorModificarPedido.conocerPoblacion(pedido.codigoPoblacion)}"/><br></br><br></br>
+
                         </div>
-                   </h:panelGroup>
-                <h:form>
-                    <h:commandButton  value="Cambiar estado" action="#{bAdministradorModificarPedido.cambiarEstado(pedido.codigo)}">
-                        <f:ajax  event="action" render=":result" />
-                    </h:commandButton>
-                </h:form>
-                
-                <h:form>
-                    <h:commandButton  value="Cambiar ubicacion" action="#{bAdministradorModificarPedido.cambiarUbicacion(pedido.codigo)}">
-                        <f:ajax  event="action" render=":result2" />
-                    </h:commandButton>
-                </h:form>
-                
-                   
-                #{bAdministradorModificarPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
-            </c:forEach>
-                <h:form id="result" >
-                    
-            <h:panelGroup  rendered="#{bAdministradorModificarPedido.estado}">
-                 <div id="dialog" style="border: 1px solid blue">
-                    <h:selectOneMenu value="#{bAdministradorModificarPedido.estadoNuevo}">  
-                        <f:selectItems value="#{bAdministradorModificarPedido.listaEstados}"/>
-                    </h:selectOneMenu>
+                    </h:panelGroup>
+                    <h:form>
+                        <h:commandButton  value="Cambiar estado" action="#{bAdministradorModificarPedido.cambiarEstado(pedido.codigo)}">
+                            <f:ajax  event="action" render=":result" />
+                        </h:commandButton>
+                    </h:form>
+
+                    <h:form>
+                        <h:commandButton  value="Cambiar ubicacion" action="#{bAdministradorModificarPedido.cambiarUbicacion(pedido.codigo)}">
+                            <f:ajax  event="action" render=":result2" />
+                        </h:commandButton>
+                    </h:form>
+
+
+                    #{bAdministradorModificarPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
+                </c:forEach>
+            </h:panelGroup>
+            <h:form id="result" >
+
+                <h:panelGroup id="cambiaEstado" rendered="#{bAdministradorModificarPedido.estado}">
+                    <div id="dialog" style="border: 1px solid blue">
+                        <h:selectOneMenu value="#{bAdministradorModificarPedido.estadoNuevo}">  
+                            <f:selectItems value="#{bAdministradorModificarPedido.listaEstados}"/>
+                        </h:selectOneMenu>
                     </div>
-                    <h:commandButton value="Cambiar estado" action="#{bAdministradorModificarPedido.modificarEstado()}" />
-                    
-            </h:panelGroup> 
-                </h:form>   
-            
-            
-                <!--Ventana modal cambiar ubicacion-->
+                    <p:commandButton value="Cambiar estado" action="#{bAdministradorModificarPedido.modificarEstado()}" update="recargaPedidos result messages"/>
+
+                </h:panelGroup> 
+            </h:form>   
+
+
+            <!--Ventana modal cambiar ubicacion-->
             <h:form id="result2" >
                 <h:panelGroup rendered="#{bAdministradorModificarPedido.ubicacion}" >
-                 <div id="ubicacion" style="border: 1px solid pink">
-                     <p:selectOneMenu id="poblacion" value="#{bAdministradorModificarPedido.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                         <f:selectItems value="#{bAdministradorModificarPedido.listaPoblaciones}" />
-                     </p:selectOneMenu>
-                 </div>
-                    
-                <h:commandButton value="Cambiar ubicacion" action="#{bAdministradorModificarPedido.modificarUbicacion()}" />
-                            </h:panelGroup>
+                    <div id="ubicacion" style="border: 1px solid pink">
+                        <p:selectOneMenu id="poblacion" value="#{bAdministradorModificarPedido.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
+                            <f:selectItems value="#{bAdministradorModificarPedido.listaPoblaciones}" />
+                        </p:selectOneMenu>
+                    </div>
 
-                </h:form>  
-				
+                    <p:commandButton value="Cambiar ubicacion" action="#{bAdministradorModificarPedido.modificarUbicacion()}" update="recargaPedidos result2 messages" />
+                </h:panelGroup>
+
+            </h:form>  
+
         </h:body>
-        </f:view>     
-    </html>
-   
+    </f:view>     
+</html>

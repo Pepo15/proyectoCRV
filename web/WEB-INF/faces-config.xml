@@ -10,11 +10,6 @@
         <managed-bean-class>beans.bLogin</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
   </managed-bean>
-  <managed-bean>
-        <managed-bean-name>bAdministrador</managed-bean-name>
-        <managed-bean-class>beans.bAdministrador</managed-bean-class>
-        <managed-bean-scope>session</managed-bean-scope>
-  </managed-bean>
     <navigation-rule>
         <from-view-id>/login.xhtml</from-view-id>
         <navigation-case>
@@ -37,11 +32,7 @@
     <navigation-rule>
         <from-view-id>/administradorGestionTecnico.xhtml</from-view-id>
         <navigation-case>
-            <from-outcome>tecnicoAltaCorrecta</from-outcome>
-            <to-view-id>/administradorGestionTecnico.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>tecnicoAltaIncorrecta</from-outcome>
+            <from-outcome>correcto</from-outcome>
             <to-view-id>/administradorGestionTecnico.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
@@ -72,6 +63,11 @@
         <managed-bean-class>beans.bAdministradorModificarPedido</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>bAdministradorModificarReparacion</managed-bean-name>
+        <managed-bean-class>beans.bAdministradorModificarReparacion</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <navigation-rule>
         <from-view-id>/administradorGestionTelefono.xhtml</from-view-id>
         <navigation-case>
@@ -84,6 +80,13 @@
         <navigation-case>
             <from-outcome>correcto</from-outcome>
             <to-view-id>/administradorGestionPremio.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/administradorModificarReparaciones.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>correcto</from-outcome>
+            <to-view-id>/administradorModificarReparaciones.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

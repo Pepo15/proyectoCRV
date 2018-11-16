@@ -263,7 +263,7 @@ public class AdministradorJpaController implements Serializable {
         Administrador administrador = (Administrador) query.getResultList().get(0);
         
         return administrador;
-        }
+}
         catch(Exception e){
             return null;
         }

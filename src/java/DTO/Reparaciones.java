@@ -14,8 +14,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -45,9 +43,6 @@ public class Reparaciones implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
-    @ManyToOne(optional = false)
-    private Telefono codigoTelefono;
     @OneToMany(mappedBy = "codigoReparacion")
     private List<Pedido> pedidoList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "codigoReparacion")
@@ -79,14 +74,6 @@ public class Reparaciones implements Serializable {
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    public Telefono getCodigoTelefono() {
-        return codigoTelefono;
-    }
-
-    public void setCodigoTelefono(Telefono codigoTelefono) {
-        this.codigoTelefono = codigoTelefono;
     }
 
     @XmlTransient

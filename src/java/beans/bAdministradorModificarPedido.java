@@ -14,52 +14,50 @@ import javax.faces.model.SelectItem;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-
 public class bAdministradorModificarPedido {
-    
+
     //Driver para conectar con la base de datos
     private EntityManagerFactory emf;
-    
-    //Control para gestionar los pedidos
+
+    //Control para gestionar la base de datos
     private PedidoJpaController ctrPedido;
-    
-    //Control para gestionar las poblaciones
     private PoblacionJpaController ctrPoblacion;
-    
+
     //Variable que almacena el codigo del pedido anterior
     private int codigoPedidoAnterior;
+
+    //Variable que almacena el codigo del pedido
     private int codigoPedido;
-    
+
     //Guardamos el codigo del pedido, para saber que pedido desamos modificar
     private int codigoPedidoModificar;
-    
+
     //Variable que almacena la poblacion que queremos agregar
     private String codigoPoblacion;
-    
-    //Variable para saber si debemos mostrar ventana estado o no
-    private boolean estado = false;
-
-    //Variable para saber si debemos mostrar ventana estado o no
-    private boolean ubicacion = false;
 
     //Variable donde guardaremos el nuevo estado
     private String estadoNuevo;
-    
+
+    //Variable para saber si debemos mostrar ventana estado o no
+    private boolean estado = false;
+
+    //Variable para saber si debemos mostrar ventana ubicacion o no
+    private boolean ubicacion = false;
+
     //Lista donde guardamos los pedidos
     private List listaPedidos;
-    
+
     //Lista donde guardamos todas las poblaciones
     private ArrayList listaPoblaciones;
 
     //Lista que guarda los valores del select de estados
     private ArrayList listaEstados = null;
 
-    
     public bAdministradorModificarPedido() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
         ctrPoblacion = new PoblacionJpaController(emf);
         ctrPedido = new PedidoJpaController(emf);
-                
+
         //Inicializamos la lista para que cuando entre ya esten cargados
         listaPedidos = new ArrayList();
 
@@ -161,7 +159,7 @@ public class bAdministradorModificarPedido {
     public void setListaEstados(ArrayList listaEstados) {
         this.listaEstados = listaEstados;
     }
-    
+
     //Metodo para pintar un pedido
     public boolean cabeceraPedido() {
         if (codigoPedido == codigoPedidoAnterior) {
@@ -172,7 +170,7 @@ public class bAdministradorModificarPedido {
         }
 
     }
-    
+
     //Metodo para saber que tipo de pedido es
     public String saberTipo(int tipo) {
         if (tipo == 1) {
@@ -215,12 +213,26 @@ public class bAdministradorModificarPedido {
             //Actualizo en la base de datos el pedido
             ctrPedido.edit(pedido);
 
-//Escribo el mensaje de modificacion correcta
+            //Inicializamos la lista para que actualice los cambios
+            listaPedidos = new ArrayList();
+
+            listaPedidos = ctrPedido.findPedidoEntities();
+
+            //Restablezco los parametros para que me pinte la cabecera de los pedidos
+            codigoPedido = 0;
+            codigoPedidoAnterior = 1;
+
+            //Cierro la ventana modal de cambiar estado
+            estado = false;
+
+            //Escribo el mensaje de modificacion correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La modificación del estado se ha realizado correctamente."));
+        
         } catch (Exception ex) {
-            Logger.getLogger(bAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-//Escribo el mensaje de modificacion incorrecta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modifcar la ubicación del pedido"));
+            Logger.getLogger(bAdministradorModificarPedido.class.getName()).log(Level.SEVERE, null, ex);
+            
+            //Escribo el mensaje de modificacion incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modifcar el estado del pedido"));
         }
 
         return "volver";
@@ -268,6 +280,14 @@ public class bAdministradorModificarPedido {
 
         return "volver";
     }
+    
+    //Metodo que devuelve el nombre de la poblacion donde se encuentra el pedido
+    public String conocerPoblacion(int codigoPoblacion) {
+        
+        Poblacion poblacion = ctrPoblacion.findPoblacion(codigoPoblacion);
+
+        return poblacion.getNombrePoblacion();
+    }
 
     //Metodo que cambia la poblacion en la que se encuentra un pedido
     public String modificarUbicacion() {
@@ -280,17 +300,29 @@ public class bAdministradorModificarPedido {
         try {
             //Actualizo en la base de datos el pedido
             ctrPedido.edit(pedido);
-//Escribo el mensaje de modificacion correcta
+
+            //Inicializamos la lista para que actualice los cambios
+            listaPedidos = new ArrayList();
+
+            listaPedidos = ctrPedido.findPedidoEntities();
+
+            //Restablezco los parametros para que me pinte la cabecera de los pedidos
+            codigoPedido = 0;
+            codigoPedidoAnterior = 1;
+
+            //Cierro la ventana modal de cambiar estado
+            ubicacion = false;
+
+            //Escribo el mensaje de modificacion correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La modificación de la ubicación se ha realizado correctamente."));
 
         } catch (Exception ex) {
-            Logger.getLogger(bAdministrador.class.getName()).log(Level.SEVERE, null, ex);
-//Escribo el mensaje de modificacion incorrecta
+            Logger.getLogger(bAdministradorModificarPedido.class.getName()).log(Level.SEVERE, null, ex);
+            
+            //Escribo el mensaje de modificacion incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modifcar la ubicación del pedido"));
         }
         return "volver";
     }
-    
-    
-    
+
 }

@@ -11,11 +11,13 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import DTO.Telefono;
 import DTO.Reparaciones;
 import DTO.Reparacionestelefono;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -37,12 +39,21 @@ public class ReparacionestelefonoJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            Telefono codigoTelefono = reparacionestelefono.getCodigoTelefono();
+            if (codigoTelefono != null) {
+                codigoTelefono = em.getReference(codigoTelefono.getClass(), codigoTelefono.getCodigoTelefono());
+                reparacionestelefono.setCodigoTelefono(codigoTelefono);
+            }
             Reparaciones codigoReparacion = reparacionestelefono.getCodigoReparacion();
             if (codigoReparacion != null) {
                 codigoReparacion = em.getReference(codigoReparacion.getClass(), codigoReparacion.getCodigoReparacion());
                 reparacionestelefono.setCodigoReparacion(codigoReparacion);
             }
             em.persist(reparacionestelefono);
+            if (codigoTelefono != null) {
+                codigoTelefono.getReparacionestelefonoList().add(reparacionestelefono);
+                codigoTelefono = em.merge(codigoTelefono);
+            }
             if (codigoReparacion != null) {
                 codigoReparacion.getReparacionestelefonoList().add(reparacionestelefono);
                 codigoReparacion = em.merge(codigoReparacion);
@@ -61,13 +72,27 @@ public class ReparacionestelefonoJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Reparacionestelefono persistentReparacionestelefono = em.find(Reparacionestelefono.class, reparacionestelefono.getCodigoReparacionTelefono());
+            Telefono codigoTelefonoOld = persistentReparacionestelefono.getCodigoTelefono();
+            Telefono codigoTelefonoNew = reparacionestelefono.getCodigoTelefono();
             Reparaciones codigoReparacionOld = persistentReparacionestelefono.getCodigoReparacion();
             Reparaciones codigoReparacionNew = reparacionestelefono.getCodigoReparacion();
+            if (codigoTelefonoNew != null) {
+                codigoTelefonoNew = em.getReference(codigoTelefonoNew.getClass(), codigoTelefonoNew.getCodigoTelefono());
+                reparacionestelefono.setCodigoTelefono(codigoTelefonoNew);
+            }
             if (codigoReparacionNew != null) {
                 codigoReparacionNew = em.getReference(codigoReparacionNew.getClass(), codigoReparacionNew.getCodigoReparacion());
                 reparacionestelefono.setCodigoReparacion(codigoReparacionNew);
             }
             reparacionestelefono = em.merge(reparacionestelefono);
+            if (codigoTelefonoOld != null && !codigoTelefonoOld.equals(codigoTelefonoNew)) {
+                codigoTelefonoOld.getReparacionestelefonoList().remove(reparacionestelefono);
+                codigoTelefonoOld = em.merge(codigoTelefonoOld);
+            }
+            if (codigoTelefonoNew != null && !codigoTelefonoNew.equals(codigoTelefonoOld)) {
+                codigoTelefonoNew.getReparacionestelefonoList().add(reparacionestelefono);
+                codigoTelefonoNew = em.merge(codigoTelefonoNew);
+            }
             if (codigoReparacionOld != null && !codigoReparacionOld.equals(codigoReparacionNew)) {
                 codigoReparacionOld.getReparacionestelefonoList().remove(reparacionestelefono);
                 codigoReparacionOld = em.merge(codigoReparacionOld);
@@ -104,6 +129,11 @@ public class ReparacionestelefonoJpaController implements Serializable {
                 reparacionestelefono.getCodigoReparacionTelefono();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The reparacionestelefono with id " + id + " no longer exists.", enfe);
+            }
+            Telefono codigoTelefono = reparacionestelefono.getCodigoTelefono();
+            if (codigoTelefono != null) {
+                codigoTelefono.getReparacionestelefonoList().remove(reparacionestelefono);
+                codigoTelefono = em.merge(codigoTelefono);
             }
             Reparaciones codigoReparacion = reparacionestelefono.getCodigoReparacion();
             if (codigoReparacion != null) {
@@ -163,6 +193,19 @@ public class ReparacionestelefonoJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findReparacionByTelefono(Telefono telefono) {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Reparacionestelefono.findByCodigoTelefono",Reparacionestelefono.class);
+            
+        q.setParameter("codigoTelefono",telefono);
+        
+        List lista= q.getResultList();
+        
+        return lista;
     }
     
 }

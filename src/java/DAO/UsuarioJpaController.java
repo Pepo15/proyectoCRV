@@ -373,7 +373,7 @@ public class UsuarioJpaController implements Serializable {
 
             return usuario;
 
-        }
+}
         catch(Exception e){
             return null;
         }

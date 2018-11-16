@@ -6,73 +6,82 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 
-    <html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-        <h:head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>CRV</title>
-        </h:head>
-        <h:body>
-            <p:messages id="messages" showDetail="true" closable="true">
-                <p:autoUpdate />
-            </p:messages>
-            <h1><h:outputText value="Administrador"/></h1>
-            <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
-            
-            <!--Gestion Tecnicos-->
-            <form id="gestionTecnico" action="administradorGestionTecnico.xhtml"> 
-                <div onclick="document.getElementById('gestionTecnico').submit();" 
-                     style="border: 1px solid black;
-                            width: 150px;
-                            height: 150px;
-                            cursor: pointer">
-                    <h:outputText value="Gestionar Tecnico"/>
-                </div>
-            </form>
-            <!--Gestion Tecnicos-->
-            <form id="gestionTelefono" action="administradorGestionTelefono.xhtml"> 
-                <div onclick="document.getElementById('gestionTelefono').submit();" 
-                     style="border: 1px solid black;
-                            width: 150px;
-                            height: 150px;
-                            cursor: pointer">
-                    <h:outputText value="Gestionar Telefono"/>
-                </div>
-            </form>
-            <!--Gestion Tecnicos-->
-            <form id="gestionPremio" action="administradorGestionPremio.xhtml"> 
-                <div onclick="document.getElementById('gestionPremio').submit();" 
-                     style="border: 1px solid black;
-                            width: 150px;
-                            height: 150px;
-                            cursor: pointer">
-                    <h:outputText value="Gestionar Premio"/>
-                </div>
-            </form>
-            
-            <!--Modificar Pedido-->
-            <form id="modificarPedido" action="administradorModificarPedido.xhtml"> 
-                <div onclick="document.getElementById('modificarPedido').submit();" 
-                     style="border: 1px solid black;
-                            width: 150px;
-                            height: 150px;
-                            cursor: pointer">
-                    <h:outputText value="Modificar Pedido"/>
-                </div>
-            </form>
-            
-            <!--Estadisticas-->
-            <form id="estadisticas" action="administradorEstadisticas.xhtml"> 
-                <div onclick="document.getElementById('estadisticas').submit();" 
-                     style="border: 1px solid black;
-                            width: 150px;
-                            height: 150px;
-                            cursor: pointer">
-                    <h:outputText value="Estadisticas"/>
-                </div>
-            </form>
-            </h:body>     
-    </html>
-   
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>CRV</title>
+    </h:head>
+    <h:body>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+        <h1><h:outputText value="Administrador"/></h1>
+        <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+
+        <!--Gestion Tecnicos-->
+        <form id="gestionTecnico" action="administradorGestionTecnico.xhtml"> 
+            <div onclick="document.getElementById('gestionTecnico').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="Gestionar Tecnico"/>
+            </div>
+        </form>
+        <!--Gestion Tecnicos-->
+        <form id="gestionTelefono" action="administradorGestionTelefono.xhtml"> 
+            <div onclick="document.getElementById('gestionTelefono').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="Gestionar Telefono"/>
+            </div>
+        </form>
+        <!--Gestion Tecnicos-->
+        <form id="gestionPremio" action="administradorGestionPremio.xhtml"> 
+            <div onclick="document.getElementById('gestionPremio').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="Gestionar Premio"/>
+            </div>
+        </form>
+
+        <!--Modificar Pedido-->
+        <form id="modificarPedido" action="administradorModificarPedido.xhtml"> 
+            <div onclick="document.getElementById('modificarPedido').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="Modificar Pedido"/>
+            </div>
+        </form>
+        <!--Modificar Pedido-->
+        <form id="modificarReparaciones" action="administradorModificarReparaciones.xhtml"> 
+            <div onclick="document.getElementById('modificarReparaciones').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="Modificar Reparaciones"/>
+            </div>
+        </form>
+
+        <!--Estadisticas-->
+        <form id="estadisticas" action="administradorEstadisticas.xhtml"> 
+            <div onclick="document.getElementById('estadisticas').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="Estadisticas"/>
+            </div>
+        </form>
+    </h:body>     
+</html>

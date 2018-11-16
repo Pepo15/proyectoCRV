@@ -1,4 +1,3 @@
-
 package beans;
 
 import DAO.AdministradorJpaController;
@@ -20,12 +19,11 @@ import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
 import org.primefaces.context.RequestContext;
 
-
 public class bAdministradorGestionTecnico {
-    
+
     //Driver para conectar con la base de datos
     private EntityManagerFactory emf;
-    
+
     //Control para gestionar la base de datos
     private TecnicoJpaController ctrTecnico;
     private AdministradorJpaController ctrAdministrador;
@@ -35,22 +33,20 @@ public class bAdministradorGestionTecnico {
     private String nick;
     private String password;
     private Boolean existe;
-    
+
     //Lista donde guardamos los tenicos
     private List listaTecnicos;
-    
+
     //Guardamos la fila de la tabla, para saber el tecnico que deseamos borrar
     private HtmlDataTable tabla;
-    
-    
 
     public bAdministradorGestionTecnico() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
         ctrTecnico = new TecnicoJpaController(emf);
         ctrAdministrador = new AdministradorJpaController(emf);
         ctrUsuario = new UsuarioJpaController(emf);
-        
-         //Inicializamos la lista para que cuando entre ya esten cargados
+
+        //Inicializamos la lista para que cuando entre ya esten cargados
         listaTecnicos = new ArrayList();
 
         listaTecnicos = ctrTecnico.findTecnicoEntities();
@@ -112,18 +108,18 @@ public class bAdministradorGestionTecnico {
     public void setExiste(Boolean existe) {
         this.existe = existe;
     }
-    
+
     //Metodo para dar de alta un tecnico
     public String altaTecnico() {
-            //Buscamos si existe un tecnico con el mismo nombre
-            Tecnico tecnicoRepetido = ctrTecnico.findTecnicoByNick(nick);
-            
-            //Buscamos si existe un cliente o administrador con ese nombre
-            Administrador administradorRepetido = ctrAdministrador.findAdministradorByNick(nick);
-            Usuario usuarioRepetido = ctrUsuario.findUsuarioByNick(nick);
-            
-            //Si existe alguno no podremos darlo de alta para que no cause errores al iniciar sesion
-            if(administradorRepetido ==null && usuarioRepetido==null){
+        //Buscamos si existe un tecnico con el mismo nombre
+        Tecnico tecnicoRepetido = ctrTecnico.findTecnicoByNick(nick);
+
+        //Buscamos si existe un cliente o administrador con ese nombre
+        Administrador administradorRepetido = ctrAdministrador.findAdministradorByNick(nick);
+        Usuario usuarioRepetido = ctrUsuario.findUsuarioByNick(nick);
+
+        //Si existe alguno no podremos darlo de alta para que no cause errores al iniciar sesion
+        if (administradorRepetido == null && usuarioRepetido == null) {
 
             //Si hemos encontrado un tecnico, no podremos repetirlo, si no existe lo creamos
             if (tecnicoRepetido == null) {
@@ -153,7 +149,7 @@ public class bAdministradorGestionTecnico {
                 //Escribo el mensaje de alta correcta
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta al tecnico correctamente."));
 
-                return "tecnicoAltaCorrecta";
+                return "correcto";
 
             } else {
                 //Creamos un tecnico con los datos
@@ -170,53 +166,55 @@ public class bAdministradorGestionTecnico {
                 //Cojo el codigo del administrador para meterselo al tecnico
                 tecnico.setCodigoAdministrador(administrador);
                 tecnico.setPedidoList(tecnicoRepetido.getPedidoList());
-                subirTecnico(tecnico);
-                
-                RequestContext.getCurrentInstance().execute("PF('confirmDlg').show();");
-                return "tecnicoAltaIncorrecta";
-                
-            }       
-            }
-            else{
-                
-                //Escribo el mensaje de que no puede elegir ese nick
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "FATAL!", "El nick elegido no esta disponible."));
 
-                return "tecnicoAltaCorrecta";
-                
+                //Subo el tecnico a la sesion por si quiero modificarlo
+                subirTecnico(tecnico);
+
+                //Muestro ventana por si quiere modificar
+                RequestContext.getCurrentInstance().execute("PF('confirmDlg').show();");
+                return "correcto";
+
             }
+        } else {
+
+            //Escribo el mensaje de que no puede elegir ese nick
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "FATAL!", "El nick elegido no esta disponible."));
+
+            return "correcto";
+
+        }
     }
-    
+
     //Metodo para modificar un tecnico
     public void modificarTecnico() {
 
-                //Cojo el tecnico de la sesion
-                ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-                manageBeanSesion manageBeanSesion = new manageBeanSesion();
+        //Cojo el tecnico de la sesion
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
 
-                HttpSession session = (HttpSession) ctx.getSession(false);
-                manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
-                Tecnico tecnico = (Tecnico) manageBeanSesion.getTecnicoModificar();
+        HttpSession session = (HttpSession) ctx.getSession(false);
+        manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        Tecnico tecnico = (Tecnico) manageBeanSesion.getTecnicoModificar();
 
-               
-            try {
-                //Edito el tecnico
-                ctrTecnico.edit(tecnico);
-                
-                 //Actualizamos la tabla
-                listaTecnicos = new ArrayList();
-                listaTecnicos = ctrTecnico.findTecnicoEntities();
+        try {
+            //Edito el tecnico
+            ctrTecnico.edit(tecnico);
 
-                //Escribo el mensaje de alta correcta
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado al tecnico correctamente."));
+            //Actualizamos la tabla
+            listaTecnicos = new ArrayList();
+            listaTecnicos = ctrTecnico.findTecnicoEntities();
 
-            } catch (Exception ex) {
-                Logger.getLogger(bAdministradorGestionTecnico.class.getName()).log(Level.SEVERE, null, ex);
-                
-                //Escribo el mensaje de alta incorrecta
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al editar el tecnico"));
-            }     
+            //Escribo el mensaje de modificacion correcta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha modificado al tecnico correctamente."));
+
+        } catch (Exception ex) {
+            Logger.getLogger(bAdministradorGestionTecnico.class.getName()).log(Level.SEVERE, null, ex);
+
+            //Escribo el mensaje de modificacion incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modificar el tecnico"));
+        }
     }
+
     //Metodo para dar de baja a un tecnico
     public void bajaTecnico() {
         //Recuperamos el objeto(tecnico) seleccionado es decir la fila donde se hizo click
@@ -229,34 +227,33 @@ public class bAdministradorGestionTecnico {
             //Actualizamos la tabla
             listaTecnicos = new ArrayList();
             listaTecnicos = ctrTecnico.findTecnicoEntities();
-            
+
             //Escribo el mensaje de baja correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La baja del tecnico se ha realizado correctamente."));    
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La baja del tecnico se ha realizado correctamente."));
         } catch (Exception ex) {
             //Escribo el mensaje de baja incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "No se ha realizado la baja del técnico"));
         }
     }
-    
+
     //Metodo para subir el tecnico a la sesion para poder modificarlo
-    public  void subirTecnico(Tecnico tecnico)
-    {
+    public void subirTecnico(Tecnico tecnico) {
         //Coger contexto
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-        
-        manageBeanSesion manageBeanSesion=new manageBeanSesion();
-        
+
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
         //Coger session del contexto
-        HttpSession session= (HttpSession)ctx.getSession(false);
-            
-        if(session.getAttribute("manageBeanSesion")!=null){
-            manageBeanSesion=(manageBeanSesion) session.getAttribute("manageBeanSesion");
-        }else{
-           session.setAttribute("manageBeanSesion",manageBeanSesion);
-            }
-           
+        HttpSession session = (HttpSession) ctx.getSession(false);
+
+        if (session.getAttribute("manageBeanSesion") != null) {
+            manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        } else {
+            session.setAttribute("manageBeanSesion", manageBeanSesion);
+        }
+
         //Añadirle como propiedad el tecnico
         manageBeanSesion.setTecnicoModificar(tecnico);
     }
-    
+
 }

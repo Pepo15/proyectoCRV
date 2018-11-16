@@ -11,10 +11,11 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DTO.Foto;
-import DTO.Premio;
+import DTO.Canjear;
 import java.util.ArrayList;
 import java.util.List;
+import DTO.Foto;
+import DTO.Premio;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
@@ -35,6 +36,9 @@ public class PremioJpaController implements Serializable {
     }
 
     public void create(Premio premio) {
+        if (premio.getCanjearList() == null) {
+            premio.setCanjearList(new ArrayList<Canjear>());
+        }
         if (premio.getFotoList() == null) {
             premio.setFotoList(new ArrayList<Foto>());
         }
@@ -42,6 +46,12 @@ public class PremioJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
+            List<Canjear> attachedCanjearList = new ArrayList<Canjear>();
+            for (Canjear canjearListCanjearToAttach : premio.getCanjearList()) {
+                canjearListCanjearToAttach = em.getReference(canjearListCanjearToAttach.getClass(), canjearListCanjearToAttach.getCodigoCanjear());
+                attachedCanjearList.add(canjearListCanjearToAttach);
+            }
+            premio.setCanjearList(attachedCanjearList);
             List<Foto> attachedFotoList = new ArrayList<Foto>();
             for (Foto fotoListFotoToAttach : premio.getFotoList()) {
                 fotoListFotoToAttach = em.getReference(fotoListFotoToAttach.getClass(), fotoListFotoToAttach.getCodigoFoto());
@@ -49,6 +59,15 @@ public class PremioJpaController implements Serializable {
             }
             premio.setFotoList(attachedFotoList);
             em.persist(premio);
+            for (Canjear canjearListCanjear : premio.getCanjearList()) {
+                Premio oldCodigoPremioOfCanjearListCanjear = canjearListCanjear.getCodigoPremio();
+                canjearListCanjear.setCodigoPremio(premio);
+                canjearListCanjear = em.merge(canjearListCanjear);
+                if (oldCodigoPremioOfCanjearListCanjear != null) {
+                    oldCodigoPremioOfCanjearListCanjear.getCanjearList().remove(canjearListCanjear);
+                    oldCodigoPremioOfCanjearListCanjear = em.merge(oldCodigoPremioOfCanjearListCanjear);
+                }
+            }
             for (Foto fotoListFoto : premio.getFotoList()) {
                 Premio oldCodigoPremioOfFotoListFoto = fotoListFoto.getCodigoPremio();
                 fotoListFoto.setCodigoPremio(premio);
@@ -72,8 +91,17 @@ public class PremioJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Premio persistentPremio = em.find(Premio.class, premio.getCodigoPremio());
+            List<Canjear> canjearListOld = persistentPremio.getCanjearList();
+            List<Canjear> canjearListNew = premio.getCanjearList();
             List<Foto> fotoListOld = persistentPremio.getFotoList();
             List<Foto> fotoListNew = premio.getFotoList();
+            List<Canjear> attachedCanjearListNew = new ArrayList<Canjear>();
+            for (Canjear canjearListNewCanjearToAttach : canjearListNew) {
+                canjearListNewCanjearToAttach = em.getReference(canjearListNewCanjearToAttach.getClass(), canjearListNewCanjearToAttach.getCodigoCanjear());
+                attachedCanjearListNew.add(canjearListNewCanjearToAttach);
+            }
+            canjearListNew = attachedCanjearListNew;
+            premio.setCanjearList(canjearListNew);
             List<Foto> attachedFotoListNew = new ArrayList<Foto>();
             for (Foto fotoListNewFotoToAttach : fotoListNew) {
                 fotoListNewFotoToAttach = em.getReference(fotoListNewFotoToAttach.getClass(), fotoListNewFotoToAttach.getCodigoFoto());
@@ -82,6 +110,23 @@ public class PremioJpaController implements Serializable {
             fotoListNew = attachedFotoListNew;
             premio.setFotoList(fotoListNew);
             premio = em.merge(premio);
+            for (Canjear canjearListOldCanjear : canjearListOld) {
+                if (!canjearListNew.contains(canjearListOldCanjear)) {
+                    canjearListOldCanjear.setCodigoPremio(null);
+                    canjearListOldCanjear = em.merge(canjearListOldCanjear);
+                }
+            }
+            for (Canjear canjearListNewCanjear : canjearListNew) {
+                if (!canjearListOld.contains(canjearListNewCanjear)) {
+                    Premio oldCodigoPremioOfCanjearListNewCanjear = canjearListNewCanjear.getCodigoPremio();
+                    canjearListNewCanjear.setCodigoPremio(premio);
+                    canjearListNewCanjear = em.merge(canjearListNewCanjear);
+                    if (oldCodigoPremioOfCanjearListNewCanjear != null && !oldCodigoPremioOfCanjearListNewCanjear.equals(premio)) {
+                        oldCodigoPremioOfCanjearListNewCanjear.getCanjearList().remove(canjearListNewCanjear);
+                        oldCodigoPremioOfCanjearListNewCanjear = em.merge(oldCodigoPremioOfCanjearListNewCanjear);
+                    }
+                }
+            }
             for (Foto fotoListOldFoto : fotoListOld) {
                 if (!fotoListNew.contains(fotoListOldFoto)) {
                     fotoListOldFoto.setCodigoPremio(null);
@@ -127,6 +172,11 @@ public class PremioJpaController implements Serializable {
                 premio.getCodigoPremio();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The premio with id " + id + " no longer exists.", enfe);
+            }
+            List<Canjear> canjearList = premio.getCanjearList();
+            for (Canjear canjearListCanjear : canjearList) {
+                canjearListCanjear.setCodigoPremio(null);
+                canjearListCanjear = em.merge(canjearListCanjear);
             }
             List<Foto> fotoList = premio.getFotoList();
             for (Foto fotoListFoto : fotoList) {
@@ -197,7 +247,7 @@ public class PremioJpaController implements Serializable {
         Premio premio = (Premio) query.getResultList().get(0);
         
         return premio;
-        }
+}
         catch(Exception e){
             return null;
         }

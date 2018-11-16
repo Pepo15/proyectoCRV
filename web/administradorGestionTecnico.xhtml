@@ -6,79 +6,86 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 
-    <html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui">
-        <h:head>
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>CRV</title>
-        </h:head>
-        <h:body>
-            <p:messages id="messages" showDetail="true" closable="true">
-                <p:autoUpdate />
-            </p:messages>
-            <h1><h:outputText value="Administrador"/></h1>
-            <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
-             <h:form id="tablaT">
-                 <h:dataTable binding="#{bAdministradorGestionTecnico.tabla}" value="#{bAdministradorGestionTecnico.listaTecnicos}" var="tecnico" border="8"
-                             cellpadding="5" cellspacing="3" width="50%">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>CRV</title>
+    </h:head>
+    <h:body>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+        <h1><h:outputText value="Administrador"/></h1>
+        <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+        
+        <h:form id="tablaT">
+            <h:dataTable binding="#{bAdministradorGestionTecnico.tabla}"
+                         value="#{bAdministradorGestionTecnico.listaTecnicos}"
+                         var="tecnico" 
+                         border="8"
+                         cellpadding="5" 
+                         cellspacing="3" 
+                         width="50%">
 
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Codigo técnico"/>
-                        </f:facet>
-                        <h:outputText value="#{tecnico.codigoTecnico}"/>
-                    </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Codigo técnico"/>
+                    </f:facet>
+                    <h:outputText value="#{tecnico.codigoTecnico}"/>
+                </h:column>
 
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Nick"/>
-                        </f:facet>
-                        <h:outputText value="#{tecnico.nick}"/>
-                    </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Nick"/>
+                    </f:facet>
+                    <h:outputText value="#{tecnico.nick}"/>
+                </h:column>
 
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Contraseña"/>
-                        </f:facet>
-                        <h:outputText value="#{tecnico.password}"/>
-                    </h:column>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Contraseña"/>
+                    </f:facet>
+                    <h:outputText value="#{tecnico.password}"/>
+                </h:column>
 
-                    <h:column>
-                        <f:facet name="header">
-                            <h:outputText value="Dar de baja"/>
-                        </f:facet>
-                       <p:commandButton value="Baja"  actionListener="#{bAdministradorGestionTecnico.bajaTecnico()}" update="tablaT" style="width: 30px;height: 30px;"/>
-                    </h:column>
-                   
-                 </h:dataTable>
-                 </h:form>
+                <h:column>
+                    <f:facet name="header">
+                        <h:outputText value="Dar de baja"/>
+                    </f:facet>
+                    <p:commandButton value="Baja"  actionListener="#{bAdministradorGestionTecnico.bajaTecnico()}" update="tablaT messages" style="width: 30px;height: 30px;"/>
+                </h:column>
+
+            </h:dataTable>
+        </h:form>
+
+
+
+        <!--Alta Técnico-->
+        <h2>Dar alta técnico</h2>
+        <h:form id="altaTecnico">
+            <h:outputLabel for="nick" value="Nick: "/> 
+            <p:inputText id="nick" value="#{bAdministradorGestionTecnico.nick}" required="true"/>
+            <p:message for="nick" />
+            <br></br><br></br>
+
+            <h:outputLabel for="contra" value="Contraseña: "/> 
+            <p:inputText id="contra" value="#{bAdministradorGestionTecnico.password}" required="true"/>
+            <p:message for="contra" />
+            <br></br><br></br>
             
-            
-          
-            <!--Alta Técnico-->
-            <h2>Dar alta técnico</h2>
-            <h:form id="altaTecnico">
-                <h:outputLabel for="nick" value="Nick: "/> 
-                    <p:inputText id="nick" value="#{bAdministradorGestionTecnico.nick}" required="true"/>
-                    <p:message for="nick" />
-                    <br></br><br></br>
-                    
-                <h:outputLabel for="contra" value="Contraseña: "/> 
-                    <p:inputText id="contra" value="#{bAdministradorGestionTecnico.password}" required="true"/>
-                    <p:message for="contra" />
-                    <br></br><br></br>
-               <p:commandButton value="Alta" actionListener="#{bAdministradorGestionTecnico.altaTecnico()}" update="altaTecnico tablaT messages"/>
-                <br></br><br></br>
-            </h:form>
-            <h:form>
-                <p:confirmDialog widgetVar="confirmDlg" message="¿Quieres modificar sus tecnicos?" header="Técnico duplicado">
-                    <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionTecnico.modificarTecnico()}" update="tablaT"  icon="ui-icon-check" />
-                    <p:commandButton value="No" oncomplete="PF('confirmDlg').hide()" icon="ui-icon-close" />
-                </p:confirmDialog>
-            </h:form>
-            
-        </h:body>     
-    </html>
-   
+            <p:commandButton value="Alta" actionListener="#{bAdministradorGestionTecnico.altaTecnico()}" update="altaTecnico tablaT messages"/>
+            <br></br><br></br>
+        </h:form>
+        
+        <h:form>
+            <p:confirmDialog widgetVar="confirmDlg" message="¿Quieres modificar el tecnico?" header="Técnico duplicado">
+                <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionTecnico.modificarTecnico()}" update="tablaT messages"  icon="ui-icon-check" />
+                <p:commandButton value="No" oncomplete="PF('confirmDlg').hide()" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+
+    </h:body>     
+</html>

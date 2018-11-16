@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Reparacionestelefono.findAll", query = "SELECT r FROM Reparacionestelefono r")
     , @NamedQuery(name = "Reparacionestelefono.findByCodigoReparacionTelefono", query = "SELECT r FROM Reparacionestelefono r WHERE r.codigoReparacionTelefono = :codigoReparacionTelefono")
+    , @NamedQuery(name = "Reparacionestelefono.findByCodigoTelefono", query = "SELECT r FROM Reparacionestelefono r WHERE r.codigoTelefono = :codigoTelefono")
     , @NamedQuery(name = "Reparacionestelefono.findByPrecio", query = "SELECT r FROM Reparacionestelefono r WHERE r.precio = :precio")})
 public class Reparacionestelefono implements Serializable {
 
@@ -41,6 +42,9 @@ public class Reparacionestelefono implements Serializable {
     @Basic(optional = false)
     @Column(name = "precio")
     private int precio;
+    @JoinColumn(name = "codigoTelefono", referencedColumnName = "codigoTelefono")
+    @ManyToOne(optional = false)
+    private Telefono codigoTelefono;
     @JoinColumn(name = "codigoReparacion", referencedColumnName = "codigoReparacion")
     @ManyToOne(optional = false)
     private Reparaciones codigoReparacion;
@@ -71,6 +75,14 @@ public class Reparacionestelefono implements Serializable {
 
     public void setPrecio(int precio) {
         this.precio = precio;
+    }
+
+    public Telefono getCodigoTelefono() {
+        return codigoTelefono;
+    }
+
+    public void setCodigoTelefono(Telefono codigoTelefono) {
+        this.codigoTelefono = codigoTelefono;
     }
 
     public Reparaciones getCodigoReparacion() {

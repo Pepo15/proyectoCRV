@@ -67,7 +67,7 @@ and open the template in the editor.
                 $(":checkbox").click(function () {
                     $("#myInput").trigger("keyup");
                 });
-                
+
                 //Mostrar imagen en grande
                 $().fancybox({
                     selector: '[data-fancybox="showImg"]'
@@ -86,20 +86,26 @@ and open the template in the editor.
         <h1><h:outputText value="Administrador"/></h1>
         <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
 
-
+        <!--Elementos para filtrar la tabla-->
         <label><input type="checkbox" id="marca" value="2"></input> Marca</label><br></br>
         <label><input type="checkbox" id="modelo" value="1"></input> Modelo</label><br></br>
         <input id="myInput" type="text" placeholder="Search.."></input>
 
         <h:form id="tablaT">
 
-            <p:dataTable id="telefonos" value="#{bAdministradorGestionTelefono.listaTelefonosTabla}" var="telefono" rowKey="#{telefono.codigoTelefono}"
-                         editable="true"  selection="#{bAdministradorGestionTelefono.miTelefono}" selectionMode="single"  rows="2"
+            <p:dataTable id="telefonos" 
+                         value="#{bAdministradorGestionTelefono.listaTelefonosTabla}" 
+                         var="telefono" 
+                         rowKey="#{telefono.codigoTelefono}"
+                         editable="true"  
+                         selection="#{bAdministradorGestionTelefono.miTelefono}" 
+                         selectionMode="single"  
+                         rows="2"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15" >
 
-                <p:ajax event="rowEdit" listener="#{bAdministradorGestionTelefono.onRowEdit}" update="messages altaCaracteristica:marca altaFoto:marca" />
+                <p:ajax event="rowEdit" listener="#{bAdministradorGestionTelefono.onRowEdit}" update="messages altaCaracteristica:marca altaFoto:marca borrarFoto:marcaFoto" />
                 <p:ajax event="rowEditCancel" listener="#{bAdministradorGestionTelefono.onRowCancel}" update="messages" />
 
                 <p:column headerText="Codigo Telefono">
@@ -111,14 +117,14 @@ and open the template in the editor.
                 <p:column headerText="Nombre">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{telefono.nombre}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{telefono.nombre}" style="width:100%" label="precio"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{telefono.nombre}" style="width:100%" label="nombre"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
                 <p:column headerText="Marca">
                     <p:cellEditor>
                         <f:facet name="output"><h:outputText value="#{telefono.marca}" /></f:facet>
-                        <f:facet name="input"><p:inputText value="#{telefono.marca}" style="width:100%" label="precio"/></f:facet>
+                        <f:facet name="input"><p:inputText value="#{telefono.marca}" style="width:100%" label="marca"/></f:facet>
                     </p:cellEditor>
                 </p:column>
 
@@ -139,7 +145,7 @@ and open the template in the editor.
                 <p:column style="width:32px">
                     <p:rowEditor />
                 </p:column>
-               
+
             </p:dataTable>
 
 
@@ -155,6 +161,7 @@ and open the template in the editor.
                         <f:facet name="header">
                             <h:outputText value="#{bAdministradorGestionTelefono.miTelefono.nombre}" />
                         </f:facet>
+                        
                         <ui:repeat var="caracteristica" value="#{bAdministradorGestionTelefono.miTelefono.caracteristicastelefonoList}">
 
                             <h:outputText value="Sistema Operativo: " />
@@ -198,10 +205,6 @@ and open the template in the editor.
                     </p:panelGrid>
                 </p:outputPanel>
             </p:dialog>
-
-
-
-
         </h:form>
 
 
@@ -212,29 +215,29 @@ and open the template in the editor.
             <h1> Dar alta telefono </h1>
             <h:form id="altaTelefono">
                 <h:outputLabel for="nombre" value="Nombre: "/> 
-                    <p:inputText id="nombre" value="#{bAdministradorGestionTelefono.nombre}" required="true"/>
-                    <p:message for="nombre" />
-                    <br></br><br></br>
-                    
+                <p:inputText id="nombre" value="#{bAdministradorGestionTelefono.nombre}" required="true"/>
+                <p:message for="nombre" />
+                <br></br><br></br>
+
                 <h:outputLabel for="marca" value="Marca: "/> 
-                    <p:inputText id="marca" value="#{bAdministradorGestionTelefono.marca}" required="true"/>
-                    <p:message for="marca" />
-                    <br></br><br></br>
-                    
-                     <h:outputLabel for="precio" value="Precio: "/>
-                    <p:inputText id="precio" value="#{bAdministradorGestionTelefono.precio}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 9999.99">
-                        <f:validateRegex pattern="^\d{1,4}(\.\d{1,2})?$" />
-                    </p:inputText>
-                    <p:message for="precio" />
-                
-                    <p:commandButton value="Añadir teléfono" validateClient="true" action="#{bAdministradorGestionTelefono.altaTelefono()}" update="altaTelefono tablaT messages altaCaracteristica:marca altaFoto:marca"/>
+                <p:inputText id="marca" value="#{bAdministradorGestionTelefono.marca}" required="true"/>
+                <p:message for="marca" />
+                <br></br><br></br>
+
+                <h:outputLabel for="precio" value="Precio: "/>
+                <p:inputText id="precio" value="#{bAdministradorGestionTelefono.precio}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 9999.99">
+                    <f:validateRegex pattern="^\d{1,4}(\.\d{1,2})?$" />
+                </p:inputText>
+                <p:message for="precio" />
+
+                <p:commandButton value="Añadir teléfono" validateClient="true" action="#{bAdministradorGestionTelefono.altaTelefono()}" update="altaTelefono tablaT messages altaCaracteristica:marca altaFoto:marca borrarFoto:marcaFoto "/>
                 <br></br><br></br>
             </h:form>
         </div>
 
         <h:form>
             <p:confirmDialog widgetVar="confirmDlg" message="¿Quieres modificar el teléfono?" header="Télefono duplicado">
-                <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionTelefono.modificarTelefono()}" update="tablaT messages altaCaracteristica:marca altaFoto:marca"  icon="ui-icon-check" />
+                <p:commandButton value="Si" oncomplete="PF('confirmDlg').hide()"  actionListener="#{bAdministradorGestionTelefono.modificarTelefono()}" update="altaTelefono tablaT messages altaCaracteristica:marca altaFoto:marca borrarFoto:marcaFoto"  icon="ui-icon-check" />
                 <p:commandButton value="No" oncomplete="PF('confirmDlg').hide()" icon="ui-icon-close" />
             </p:confirmDialog>
         </h:form>
@@ -359,7 +362,7 @@ and open the template in the editor.
                     <h:selectBooleanCheckbox id="g4" value="#{bAdministradorGestionTelefono.g4}"/>
                     <br></br><br></br>
 
-                    <p:commandButton value="Añadir característica" validateClient="true" action="#{bAdministradorGestionTelefono.altaCaracteristicasTelefono()}" update="altaCaracteristica messages"/>
+                    <p:commandButton value="Añadir característica" validateClient="true" action="#{bAdministradorGestionTelefono.altaCaracteristicasTelefono()}" update="tablaT altaCaracteristica messages"/>
                     <br></br><br></br>
 
                 </h:panelGroup>
@@ -368,7 +371,7 @@ and open the template in the editor.
 
         <h:form>
             <p:confirmDialog widgetVar="confirmDlgCaracteristicas" message="¿Quieres modificar las caracteristicas existentes?" header="Características duplicado">
-                <p:commandButton value="Si" oncomplete="PF('confirmDlgCaracteristicas').hide()"  actionListener="#{bAdministradorGestionTelefono.modificarCaracteristicas()}" update="tablaT"  icon="ui-icon-check" />
+                <p:commandButton value="Si" oncomplete="PF('confirmDlgCaracteristicas').hide()"  actionListener="#{bAdministradorGestionTelefono.modificarCaracteristicas()}" update="tablaT altaCaracteristica messages"  icon="ui-icon-check" />
                 <p:commandButton value="No" oncomplete="PF('confirmDlgCaracteristicas').hide()" icon="ui-icon-close" />
             </p:confirmDialog>
         </h:form>
@@ -396,7 +399,7 @@ and open the template in the editor.
                 <br></br><br></br>
                 <h:outputLabel for="perfil" value="Seleccione un perfil "/>
                 <h:selectOneMenu id="perfil" value="#{bAdministradorGestionTelefono.perfilFoto}">
-                     <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
                     <f:selectItems value="#{bAdministradorGestionTelefono.listaPerfiles}"/>
                 </h:selectOneMenu>
                 <p:fileUpload value="#{bAdministradorGestionTelefono.fileTelefono}" mode="simple" skinSimple="true"></p:fileUpload><br></br>
@@ -404,46 +407,46 @@ and open the template in the editor.
                 <br></br><br></br>
             </h:form>
         </div>
-        
-         
+
+
         <!--Borrar fotos a un telefono-->
         <div style="border: 1px solid green">
             <h1> Borrar foto </h1>
             <h:panelGroup id="recargarBorrado">
-            <h:form id="borrarFoto">
-                <h:outputLabel for="marcaFoto" value="Seleccione una marca: "/>
-                <h:selectOneMenu id="marcaFoto" value="#{bAdministradorGestionTelefono.marca}">
-                    <f:selectItem itemLabel="Selecione una " itemValue="" />
-                    <f:selectItems value="#{bAdministradorGestionTelefono.listaMarcas}"/>
-                    <p:ajax event="change" update="modeloFoto"
-                            listener="#{bAdministradorGestionTelefono.consultarModelos}" />
-                </h:selectOneMenu>
+                <h:form id="borrarFoto">
+                    <h:outputLabel for="marcaFoto" value="Seleccione una marca: "/>
+                    <h:selectOneMenu id="marcaFoto" value="#{bAdministradorGestionTelefono.marca}">
+                        <f:selectItem itemLabel="Selecione una " itemValue="" />
+                        <f:selectItems value="#{bAdministradorGestionTelefono.listaMarcas}"/>
+                        <p:ajax event="change" update="modeloFoto"
+                                listener="#{bAdministradorGestionTelefono.consultarModelos}" />
+                    </h:selectOneMenu>
 
-               
-                <h:outputLabel for="modeloFoto" value="Seleccione un modelo de la marca: "/>
-                <h:selectOneMenu id="modeloFoto" value="#{bAdministradorGestionTelefono.codigoTelefonoFotoBorrar}">
-                    <f:selectItem itemLabel="Selecione uno " itemValue="" />
-                    <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
-                    <p:ajax event="change" update="listaFotosBorrar"
-                            listener="#{bAdministradorGestionTelefono.consultarFotos}" />
-                </h:selectOneMenu>
-            </h:form>
-            
+
+                    <h:outputLabel for="modeloFoto" value="Seleccione un modelo de la marca: "/>
+                    <h:selectOneMenu id="modeloFoto" value="#{bAdministradorGestionTelefono.codigoTelefonoFotoBorrar}">
+                        <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                        <f:selectItems value="#{bAdministradorGestionTelefono.listaModelos}"/>
+                        <p:ajax event="change" update="listaFotosBorrar"
+                                listener="#{bAdministradorGestionTelefono.consultarFotos}" />
+                    </h:selectOneMenu>
+                </h:form>
+
                 <h:panelGroup id="listaFotosBorrar">
-                <ui:repeat  var="foto" value="#{bAdministradorGestionTelefono.listaFotos}">
-                    <h:form id="borrarFotoTelefono">
-                        
-                    <a href="imagenes/FotosTelefono/#{foto.nombre}" data-fancybox="showImg">
-                        <h:graphicImage url="imagenes/FotosTelefono/#{foto.nombre}" width="30" height="30" /> 
-                    </a>
-                     <h:commandButton value="Borrar foto teléfono" action="#{bAdministradorGestionTelefono.borrarFotoTelefono(foto.codigoFoto,foto.codigoTelefono.codigoTelefono)}"/>       
-                    </h:form>
-                </ui:repeat>
+                    <ui:repeat  var="foto" value="#{bAdministradorGestionTelefono.listaFotos}">
+                        <h:form id="borrarFotoTelefono">
+
+                            <a href="imagenes/FotosTelefono/#{foto.nombre}" data-fancybox="showImg">
+                                <h:graphicImage url="imagenes/FotosTelefono/#{foto.nombre}" width="30" height="30" /> 
+                            </a>
+                            <h:commandButton value="Borrar foto teléfono" action="#{bAdministradorGestionTelefono.borrarFotoTelefono(foto.codigoFoto,foto.codigoTelefono.codigoTelefono)}"/>       
+                        </h:form>
+                    </ui:repeat>
                 </h:panelGroup>
             </h:panelGroup>    
-                <br></br><br></br>
-                <br></br><br></br>
+            <br></br><br></br>
+            <br></br><br></br>
         </div>
-        
+
     </h:body>     
 </html>

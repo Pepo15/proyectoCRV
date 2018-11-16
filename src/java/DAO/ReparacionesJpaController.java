@@ -12,7 +12,6 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import DTO.Telefono;
 import DTO.Pedido;
 import DTO.Reparaciones;
 import java.util.ArrayList;
@@ -47,11 +46,6 @@ public class ReparacionesJpaController implements Serializable {
         try {
             em = getEntityManager();
             em.getTransaction().begin();
-            Telefono codigoTelefono = reparaciones.getCodigoTelefono();
-            if (codigoTelefono != null) {
-                codigoTelefono = em.getReference(codigoTelefono.getClass(), codigoTelefono.getCodigoTelefono());
-                reparaciones.setCodigoTelefono(codigoTelefono);
-            }
             List<Pedido> attachedPedidoList = new ArrayList<Pedido>();
             for (Pedido pedidoListPedidoToAttach : reparaciones.getPedidoList()) {
                 pedidoListPedidoToAttach = em.getReference(pedidoListPedidoToAttach.getClass(), pedidoListPedidoToAttach.getCodigo());
@@ -65,10 +59,6 @@ public class ReparacionesJpaController implements Serializable {
             }
             reparaciones.setReparacionestelefonoList(attachedReparacionestelefonoList);
             em.persist(reparaciones);
-            if (codigoTelefono != null) {
-                codigoTelefono.getReparacionesList().add(reparaciones);
-                codigoTelefono = em.merge(codigoTelefono);
-            }
             for (Pedido pedidoListPedido : reparaciones.getPedidoList()) {
                 Reparaciones oldCodigoReparacionOfPedidoListPedido = pedidoListPedido.getCodigoReparacion();
                 pedidoListPedido.setCodigoReparacion(reparaciones);
@@ -101,8 +91,6 @@ public class ReparacionesJpaController implements Serializable {
             em = getEntityManager();
             em.getTransaction().begin();
             Reparaciones persistentReparaciones = em.find(Reparaciones.class, reparaciones.getCodigoReparacion());
-            Telefono codigoTelefonoOld = persistentReparaciones.getCodigoTelefono();
-            Telefono codigoTelefonoNew = reparaciones.getCodigoTelefono();
             List<Pedido> pedidoListOld = persistentReparaciones.getPedidoList();
             List<Pedido> pedidoListNew = reparaciones.getPedidoList();
             List<Reparacionestelefono> reparacionestelefonoListOld = persistentReparaciones.getReparacionestelefonoList();
@@ -119,10 +107,6 @@ public class ReparacionesJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (codigoTelefonoNew != null) {
-                codigoTelefonoNew = em.getReference(codigoTelefonoNew.getClass(), codigoTelefonoNew.getCodigoTelefono());
-                reparaciones.setCodigoTelefono(codigoTelefonoNew);
-            }
             List<Pedido> attachedPedidoListNew = new ArrayList<Pedido>();
             for (Pedido pedidoListNewPedidoToAttach : pedidoListNew) {
                 pedidoListNewPedidoToAttach = em.getReference(pedidoListNewPedidoToAttach.getClass(), pedidoListNewPedidoToAttach.getCodigo());
@@ -138,14 +122,6 @@ public class ReparacionesJpaController implements Serializable {
             reparacionestelefonoListNew = attachedReparacionestelefonoListNew;
             reparaciones.setReparacionestelefonoList(reparacionestelefonoListNew);
             reparaciones = em.merge(reparaciones);
-            if (codigoTelefonoOld != null && !codigoTelefonoOld.equals(codigoTelefonoNew)) {
-                codigoTelefonoOld.getReparacionesList().remove(reparaciones);
-                codigoTelefonoOld = em.merge(codigoTelefonoOld);
-            }
-            if (codigoTelefonoNew != null && !codigoTelefonoNew.equals(codigoTelefonoOld)) {
-                codigoTelefonoNew.getReparacionesList().add(reparaciones);
-                codigoTelefonoNew = em.merge(codigoTelefonoNew);
-            }
             for (Pedido pedidoListOldPedido : pedidoListOld) {
                 if (!pedidoListNew.contains(pedidoListOldPedido)) {
                     pedidoListOldPedido.setCodigoReparacion(null);
@@ -214,11 +190,6 @@ public class ReparacionesJpaController implements Serializable {
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Telefono codigoTelefono = reparaciones.getCodigoTelefono();
-            if (codigoTelefono != null) {
-                codigoTelefono.getReparacionesList().remove(reparaciones);
-                codigoTelefono = em.merge(codigoTelefono);
-            }
             List<Pedido> pedidoList = reparaciones.getPedidoList();
             for (Pedido pedidoListPedido : pedidoList) {
                 pedidoListPedido.setCodigoReparacion(null);
@@ -275,6 +246,25 @@ public class ReparacionesJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
+            em.close();
+        }
+    }
+    
+    //Creamos el metodo que devuelve una Reparacion segun su nombre
+    public Reparaciones findReparacionByNombre(String nombre) {
+        EntityManager em = getEntityManager();
+        try {
+        Query query=em.createNamedQuery("Reparaciones.findByNombre").setParameter("nombre", nombre);
+        
+        Reparaciones reparacion = (Reparaciones) query.getResultList().get(0);
+        
+        return reparacion;
+}
+        catch(Exception e){
+            return null;
+        }
+        
+        finally {
             em.close();
         }
     }

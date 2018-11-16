@@ -84,7 +84,6 @@ public class TecnicoJpaController implements Serializable {
             Administrador codigoAdministradorOld = persistentTecnico.getCodigoAdministrador();
             Administrador codigoAdministradorNew = tecnico.getCodigoAdministrador();
             List<Pedido> pedidoListOld = persistentTecnico.getPedidoList();
-            
             List<Pedido> pedidoListNew = tecnico.getPedidoList();
             if (codigoAdministradorNew != null) {
                 codigoAdministradorNew = em.getReference(codigoAdministradorNew.getClass(), codigoAdministradorNew.getCodigoAdministrador());
@@ -226,7 +225,7 @@ public class TecnicoJpaController implements Serializable {
         Tecnico tecnico = (Tecnico) query.getResultList().get(0);
         
         return tecnico;
-        }
+}
         catch(Exception e){
             return null;
         }
