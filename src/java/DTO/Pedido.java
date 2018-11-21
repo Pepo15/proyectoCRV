@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Pedido.findAll", query = "SELECT p FROM Pedido p")
     , @NamedQuery(name = "Pedido.findByCodigo", query = "SELECT p FROM Pedido p WHERE p.codigo = :codigo")
     , @NamedQuery(name = "Pedido.findByCodigoPedido", query = "SELECT p FROM Pedido p WHERE p.codigoPedido = :codigoPedido")
+    , @NamedQuery(name = "Pedido.findByCodigoTecnico", query = "SELECT p FROM Pedido p WHERE p.codigoTecnico = :codigoTecnico")
     , @NamedQuery(name = "Pedido.findByCodigoPoblacion", query = "SELECT p FROM Pedido p WHERE p.codigoPoblacion = :codigoPoblacion")
     , @NamedQuery(name = "Pedido.findByTipo", query = "SELECT p FROM Pedido p WHERE p.tipo = :tipo")
     , @NamedQuery(name = "Pedido.findByPrecio", query = "SELECT p FROM Pedido p WHERE p.precio = :precio")

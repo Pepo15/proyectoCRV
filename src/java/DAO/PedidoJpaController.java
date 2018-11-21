@@ -21,6 +21,7 @@ import DTO.Usuario;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -306,6 +307,38 @@ public class PedidoJpaController implements Serializable {
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
         } finally {
+            em.close();
+        }
+    }
+    
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findPedidoByCodigoTecnico(Tecnico tecnico) {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Pedido.findByCodigoTecnico",Pedido.class);
+            
+        q.setParameter("codigoTecnico",tecnico);
+        
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+    //Creamos el metodo que devuelve un telefono segun su nombre
+    public Pedido findPedidoByCodigoPedido(int codigoPedido) {
+        EntityManager em = getEntityManager();
+        try {
+        Query query=em.createNamedQuery("Pedido.findByCodigoPedido").setParameter("codigoPedido", codigoPedido);
+        
+        Pedido pedido = (Pedido) query.getResultList().get(0);
+        
+        return pedido;
+}
+        catch(Exception e){
+            return null;
+        }
+        
+        finally {
             em.close();
         }
     }

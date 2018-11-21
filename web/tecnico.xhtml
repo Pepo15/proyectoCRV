@@ -8,16 +8,89 @@ and open the template in the editor.
 
     <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
         <f:view>
-        <head>
+        <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
-        </head>
-        <body>
+        </h:head>
+        <h:body>
+            
+             <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+            
+            
             <h1><h:outputText value="Tecnico"/></h1>
             <h1><h:outputText value="#{manageBeanSesion.tecnicoLog.nick}, Bienvenido a su perfil!"/></h1>
             
-        </body>
+            <!--Pedidos-->
+            <h2>Ver pedidos</h2>
+            <h:panelGroup id="recargaPedidos">
+                <c:forEach var="pedido" varStatus="estado" items="#{bTecnico.listaPedidos}" >
+
+                    #{bTecnico.setCodigoPedido(pedido.codigoPedido)}
+
+                    <h:panelGroup  rendered="#{bTecnico.cabeceraPedido()}">
+                        <div id="datosPedido" style="border: 1px solid red">
+                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Tipo "/> <h:outputText value="#{bTecnico.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                            <h:outputText value="Estado "/> <h:outputText value="#{bTecnico.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{!bTecnico.cabeceraPedido()}">
+                        <div id="pedido" style="border:1px solid black">
+                            <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
+                            <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
+                            <h:outputText value="Fecha "/> <h:outputText value="#{pedido.fecha}"/><br></br><br></br>    
+                        </div> 
+                        <div id="datosPedido" style="border: 1px solid red">
+                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Tipo "/> <h:outputText value="#{bTecnico.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                            <h:outputText value="Estado "/> <h:outputText value="#{bTecnico.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                            <h:outputText value="Ubicacion "/> <h:outputText value="#{bTecnico.conocerPoblacion(pedido.codigoPoblacion)}"/><br></br><br></br>
+
+                        </div>
+                    </h:panelGroup>
+                    
+                    
+                    <h:form>
+                        <h:commandButton  value="Cambiar estado" action="#{bTecnico.cambiarEstado(pedido.codigo)}">
+                            <f:ajax  event="action" render=":result" />
+                        </h:commandButton>
+                    </h:form>
+                    
+                    <h:form>
+                        <h:commandButton  value="Borrar" rendered="#{bTecnico.permitirEliminar(pedido.codigo)}" action="#{bTecnico.borrarPedido(pedido.codigo)}"/>
+                           
+                    </h:form>
+
+
+                    #{bTecnico.setCodigoPedidoAnterior(pedido.codigoPedido)}
+                </c:forEach>
+            </h:panelGroup>
+            
+            <h:panelGroup  rendered="#{bTecnico.noExiste}">
+                <h1> No hay pedidos</h1>
+            </h:panelGroup>
+            
+            <h:form id="result" >
+
+                <h:panelGroup id="cambiaEstado" rendered="#{bTecnico.estado}">
+                    <div id="dialog" style="border: 1px solid blue">
+                        <h:selectOneMenu value="#{bTecnico.estadoNuevo}">  
+                            <f:selectItems value="#{bTecnico.listaEstados}"/>
+                        </h:selectOneMenu>
+                    </div>
+                    <p:commandButton value="Cambiar estado" action="#{bTecnico.modificarEstado()}" update="recargaPedidos result messages"/>
+
+                </h:panelGroup> 
+            </h:form>
+            
+            
+        </h:body>
         </f:view>     
     </html>

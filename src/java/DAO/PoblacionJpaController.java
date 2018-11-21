@@ -13,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
@@ -133,6 +134,19 @@ public class PoblacionJpaController implements Serializable {
         } finally {
             em.close();
         }
+    }
+    
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findPoblacionByProvincia(int codigoProvincia) {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Poblacion.findByCodigoProvincia",Poblacion.class);
+            
+        q.setParameter("codigoProvincia",codigoProvincia);
+        
+        List lista= q.getResultList();
+        
+        return lista;
     }
     
 }
