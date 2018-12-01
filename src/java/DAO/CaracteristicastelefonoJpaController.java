@@ -16,6 +16,7 @@ import DTO.Telefono;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -182,6 +183,116 @@ public class CaracteristicastelefonoJpaController implements Serializable {
         finally {
             em.close();
         }
+    }
+    
+    //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosSODistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctSO",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+    //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosRamDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctRam",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosPulgadasDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctPulgadas",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosAlmacenamientoDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctAlmacenamiento",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosCamaraTraseraDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctCamaraTrasera",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosCamaraDelanteraDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctCamaraDelantera",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosBateriaDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctBateria",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosProcesadorDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctProcesador",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+     //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosResolucionDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctResolucion",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
+      //Creamos el metodo que devuelve los SO que hay entre todos los telefonos
+    public List findTodosColorDistint() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Caracteristicastelefono.findDistinctColor",Caracteristicastelefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
     }
     
 }

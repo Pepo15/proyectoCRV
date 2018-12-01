@@ -17,7 +17,7 @@ and open the template in the editor.
             <title>CRV</title>
             <script src="js/jquery.validate.min.js"></script>    
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-           <!--    <script>
+             <script>
                  $(function(){//Ready
                       
                       $.validator.addMethod('passwordMatch',function(value,element){
@@ -31,6 +31,29 @@ and open the template in the editor.
                               return true;
                           }
                       }, "Your Password Must Match");
+                      
+                      
+
+                      
+                       $.validator.addMethod('existNick',function(value,element){
+                      
+                      var datos = 'Nick='+$("#modificarUsuario\\:nick").val();
+                       var response;  
+                         //Ponemos el nombre del servlet que nos dará la respuesta y los datos para poder encontrarlas
+                        $.getJSON("CompruebaDatos", datos, function (result) {
+
+                           response=result.Nick;
+                              
+                        });
+                        
+                        if(response){
+                            return false;
+                        }
+                        else{
+                            return true;
+                        }
+                        
+                      },"Ya existe ese nick");
 
                           $('#modificarUsuarioPass').validate({
                               rules: {
@@ -44,44 +67,31 @@ and open the template in the editor.
                               }
 
                           }); //..VAlidate
+                          
+                           $('#modificarUsuario\\:nick').keypress(function(event){
+                                if(event.which === 8){
+                    
+                                    $("#textoEmail").text("");
+                                        }}); 
 
                           $('#modificarUsuario').validate({
                               rules: {
-                                  'modificarUsuario:nick': {
-                                      required: true,
-                                      remote: {
-                                          url: "CompruebaDatos",
-                                          type: "POST",
-                                          data: {
-                                              Nick: function () {
-                                                  return $("#modificarUsuario\\:nick").val();
-                                              }
-                                          },
-                                          success: function (data, status, xhr) {
-                                              if (data.Nick) {
-                                                  $("#textoEmail").text("El email ya tiene una solicitud realizada.");
-                                              } else {
-                                                  $("#textoEmail").text("");
-                                              }
-                                          }
-                                      }
-
-
-                                  }},
+                                  'modificarUsuario:nick': {required: true, existNick: true}
+                                  },
 
                               messages: {
 
-                                  'modificarUsuario:nick': {required: "El email debe ser obligatorio."}
+                                  'modificarUsuario:nick': {required: "El nick debe ser obligatorio.",
+                                  existNick: "Ya existe ese nick"}
                               }
 
                           });
-
-
-                      });
+                          
+                             
               
+                }); 
               
-              
-              </script>-->
+              </script>
 
         </h:head>
         <h:body>
@@ -95,15 +105,26 @@ and open the template in the editor.
                               
                               
             <!--Gestion Pedidos-->
-        <form id="gestiosPedidos" action="usuarioGestionPedidos.xhtml"> 
-            <div onclick="document.getElementById('gestionPedido').submit();" 
+        <form id="gestionPedidos" action="usuarioGestionPedidos.xhtml"> 
+            <div onclick="document.getElementById('gestionPedidos').submit();" 
                  style="border: 1px solid black;
                  width: 150px;
                  height: 150px;
                  cursor: pointer">
                 <h:outputText value="Gestionar Pedidos"/>
             </div>
-        </form>                  
+        </form>         
+            
+             <!--Para ir a comprar es provisional-->
+        <form id="comprar" action="comprar.xhtml"> 
+            <div onclick="document.getElementById('comprar').submit();" 
+                 style="border: 1px solid black;
+                 width: 150px;
+                 height: 150px;
+                 cursor: pointer">
+                <h:outputText value="comprar"/>
+            </div>
+        </form>    
 
             <!--Modificar datos personales-->
             <div style="border: 1px solid red">

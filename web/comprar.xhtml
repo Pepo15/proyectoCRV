@@ -1,0 +1,776 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>CRV</title> 
+            <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            <script>
+
+                $(document).ready(function () {
+                    var min = 0;
+                    var max = 0;
+                    $(" :checkbox").click(function () {
+                        filtrado();
+                    });
+                    $("#slider").on('slidestop', function (event) {
+                        
+                        filtrado();
+                    });
+                    
+                     $("#myInput").on("keyup", function () {
+                     filtrado();
+                    });
+                    
+                    function filtrado(){
+                        var objeto = {};
+                        var lista1= {};
+                        var lista2= {};
+                            $("#telefonos #contenedorTelefono").hide();
+                            
+                            
+                            //soooooooo
+                            var listaSo =$("#soFiltrado :checkbox:checked").size();
+                            
+                            if(listaSo>1){
+                                $("#soFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#soFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            //soooooooo
+                            
+                            //marca
+                            var listaMarca =$("#marcaFiltrado :checkbox:checked").size();
+                            
+                            if(listaMarca>1){
+                                $("#marcaFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#marcaFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            //marca
+                            
+                            //raaam
+                            var listaRam =$("#ramFiltrado :checkbox:checked").size();
+                            
+                            if(listaRam>1){
+                                $("#ramFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#ramFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                        //raaam
+                        
+                        //precio
+                          var listaPrecios =$("#precioFiltrado :checkbox:checked").size();
+                            
+                            if(listaAlmacenamiento>1){
+                                $("#almacenamientoFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#almacenamientoFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //precio
+                         
+                         //pulgadas
+                          var listaPulgadas =$("#pulgadasFiltrado :checkbox:checked").size();
+                            
+                            if(listaPulgadas>1){
+                                $("#pulgadasFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#pulgadasFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //pulgadas
+                         
+                         //almaaa
+                          var listaAlmacenamiento =$("#almacenamientoFiltrado :checkbox:checked").size();
+                            
+                            if(listaAlmacenamiento>1){
+                                $("#almacenamientoFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#almacenamientoFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //almaaa
+                         
+                         //camaraTrasera
+                          var listaCamaraTrasera =$("#camaraTraseraFiltrado :checkbox:checked").size();
+                            
+                            if(listaCamaraTrasera>1){
+                                $("#camaraTraseraFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#camaraTraseraFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //camaraTrasera
+                         
+                         //camaraDelantera
+                          var listaCamaraDelantera =$("#camaraDelanteraFiltrado :checkbox:checked").size();
+                            
+                            if(listaCamaraDelantera>1){
+                                $("#camaraDelanteraoFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#camaraDelanteraFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //camaraDelantera
+                         
+                         //bateria
+                          var listaBateria =$("#bateriaFiltrado :checkbox:checked").size();
+                            
+                            if(listaBateria>1){
+                                $("#bateriaFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#bateriaFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //bateria
+                         
+                          //procesador
+                          var listaProcesador =$("#procesadorFiltrado :checkbox:checked").size();
+                            
+                            if(listaProcesador>1){
+                                $("#procesadorFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#procesadorFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //procesador
+                         
+                          //resolucion
+                          var listaResolucion =$("#resolucionFiltrado :checkbox:checked").size();
+                            
+                            if(listaResolucion>1){
+                                $("#resolucionFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#resolucionFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //resolucion
+                         
+                         //color
+                          var listaColor =$("#colorFiltrado :checkbox:checked").size();
+                            
+                            if(listaColor>1){
+                                $("#colorFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista2[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                            else{
+                                 $("#colorFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = $(this).val();
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                            }
+                         //color
+                         
+                            //wifi
+                                $("#wifiFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                         //wifi
+                         
+                         //detectorHuella
+                                $("#detectorHuellasFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                         //detectorHuella
+                         
+                          //dualSim
+                                $("#dualSimFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                               
+                            });
+                         //dualSim
+                         
+                         //sd
+                                $("#sdFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                               
+                            });
+                         //sd
+                         
+                         //bluetooth
+                                $("#bluetoothFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+
+                            });
+                         //bluetooth
+                         
+                         //nfc
+                         $("#nfcFiltrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                              
+                            });
+                         //nfc
+                         
+                         //3g
+                                $("#g3Filtrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                                
+                            });
+                         //3g
+                         
+                         //4g
+                                $("#g4Filtrado :checkbox:checked").each(function () {
+                                var idDivFiltro = $(this).attr("id");
+                                var idDivFiltroValor = "1";
+                                lista1[idDivFiltro+""+idDivFiltroValor] = idDivFiltroValor;
+                            });
+                         //4g
+                         
+                        if(Object.keys(lista1).length===1 &amp;&amp; Object.keys(lista2).length===0){
+                            
+                            $.each(lista1, function (clave1, valor1) {
+                                var mostrar = "#" + clave1 + "Telefono" + valor1;
+                              
+                                 $(mostrar).parent().parent().show();    
+                                 });
+                            }
+                            
+                        else if(Object.keys(lista1).length>=2 &amp;&amp; Object.keys(lista2).length===0){
+                            
+                             var contador=0;
+                             var idMostrar="";
+                            $.each(lista1, function (clave1, valor1) {
+                                if(contador===0){
+                            idMostrar += "#" +clave1 + "Telefono" + valor1;
+                        }
+                        else{
+                         idMostrar += " ~ #" + clave1 + "Telefono" + valor1;
+                     }
+                            contador++;
+                            });
+                            
+                            
+                        $(idMostrar).parent().parent().show();
+                                
+                            } 
+                            
+                        else if(Object.keys(lista1).length===0 &amp;&amp; Object.keys(lista2).length>=2){
+                           
+                            
+                                $.each(lista2, function (clave2, valor2) {
+                                var mostrar = "#" + clave2 + "Telefono" + valor2;
+                              
+                                 $(mostrar).parent().parent().show();    
+                            });
+                                 
+                            }
+                        else{
+                        $.each(lista1, function (clave1, valor1) {
+                            var mostrar1 = "#" + clave1 + "Telefono" + valor1;
+                            
+                            var mostrar=""
+                            
+                            var contador=0;
+                            
+                            $.each(lista2, function (clave2, valor2) {
+                               
+                               
+                               if(contador==0){
+                                    mostrar = "#" + clave2 + "Telefono" + valor2;
+                               }
+                               mostrar=mostrar  +" ~ #" + clave1+ "Telefono" +valor1;
+                               
+                              mostrar1 = mostrar1 +" ~ #" + clave2+ "Telefono" +valor2;
+                                
+                                   
+                                   
+                            });
+                             $(mostrar).parent().parent().show();  
+                              $(mostrar1).parent().parent().show();  
+                        });
+                     }   
+                          var listaPrecios =document.querySelectorAll("#precio");
+                          min= $("#txt6").val();
+                           max= $("#txt7").val(); 
+                           listaPrecios.forEach(function(valor, index) {
+                               var mostrar =valor.parentElement.parentElement;
+                               var estado =   mostrar.style.display;
+                              
+                               
+                               var precio=parseInt(valor.value);
+                               if(Object.keys(lista1).length>0 || Object.keys(lista2).length>0){
+                               if(estado=="block"){
+                                    if(precio >= min){
+                                       
+                                    if(max >= precio){
+                                      
+                                        $(mostrar).show();
+                                   }
+                                   else{
+                                        $(mostrar).hide();
+                                   }
+                               }
+                               else{
+                                   $(mostrar).hide();
+                               }
+                               }
+                           }
+                           else{
+                               if(precio >= min){
+                                    if(max >= precio){
+                                        $(mostrar).show();
+                                   }
+                           }
+                       }
+                               
+});
+
+
+                   var textoEscrito = $("#myInput").val().toLowerCase();
+                   
+                    var listaTelefonos =document.querySelectorAll("#nombreTelefono");
+                
+                 listaTelefonos.forEach(function(valor, index) {
+                               var mostrar =valor.parentElement.parentElement;
+                               var estado =   mostrar.style.display;
+                               var nombreTelefono=valor.value;
+                              var posicionEncontrado = nombreTelefono.toString().toLowerCase().indexOf(textoEscrito);
+                              
+                              if(estado=="block"){
+                                    if(posicionEncontrado>-1){
+                               }
+                               else{
+                                   $(mostrar).hide();
+                               }
+                               }
+                           
+                });
+                        
+                    
+                    }
+
+                }); //(ready
+
+
+
+            </script>
+        </h:head>
+        <h:body>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+            <h1><h:outputText value="Usuario"/></h1>
+            <h1><h:outputText value="#{manageBeanSesion.usuarioLog.nombre}, Bienvenido a su perfil!"/></h1>
+            <h2><h:outputText value="Su apellido es: #{manageBeanSesion.usuarioLog.apellido1}
+                              #{manageBeanSesion.usuarioLog.apellido2}"/></h2>
+                   
+                             
+<input id="myInput" type="text" placeholder="Search.."></input>
+                                           
+            <!-- Mostrar Teléfonos-->
+            <h:panelGroup id="telefonos" style="position: fixed; top:0;right: 0;">
+                <c:forEach var="telefono" varStatus="estado" items="#{bComprar.listaTelefonos}" >
+                    <!--Télefono-->
+                    <div id="contenedorTelefono"
+                         style="border: 1px solid red;
+                         width: 250px;">
+                        <form id="comprarTelefono" action="comprarTelefono.xhtml"> 
+                            <div onclick="document.getElementById('comprarTelefono').submit();" 
+                                 style="border: 1px solid black;
+                                 width: 250px;
+                                 height: 250px;
+                                 cursor: pointer">
+                            </div>    
+                        </form>         
+                        <form id="comprar#{telefono.codigoTelefono}">
+
+                            <h:graphicImage url="imagenes/FotosTelefono/#{bComprar.conocerFoto(telefono)}" width="50" height="50" /> 
+                            <ui:repeat var="caracteristica" value="#{telefono.caracteristicastelefonoList}">
+                                <input type="hidden" id="nombreTelefono" value="#{telefono.nombre}"/>
+                                <input type="hidden" id="so#{caracteristica.so}Telefono#{caracteristica.so}" value="#{caracteristica.so}"/>
+                                <input type="hidden" id="marca#{telefono.marca}Telefono#{telefono.marca}" value="#{telefono.marca}"/>
+                                <input type="hidden" id="ram#{caracteristica.ram}Telefono#{caracteristica.ram}" value="#{caracteristica.ram}"/> 
+                                <input type="hidden" id="precio" value="#{telefono.precio}"/> 
+                                <input type="hidden" id="pulgadas#{bComprar.arreglarID(caracteristica.pulgadas)}Telefono#{bComprar.arreglarID(caracteristica.pulgadas)}" value="#{bComprar.arreglarID(caracteristica.pulgadas)}"/> 
+                                <input type="hidden" id="almacenamiento#{caracteristica.almacenamiento}Telefono#{caracteristica.almacenamiento}" value="#{caracteristica.almacenamiento}"/> 
+                                <input type="hidden" id="camaraTrasera#{bComprar.arreglarID(caracteristica.camaraTrasera)}Telefono#{bComprar.arreglarID(caracteristica.camaraTrasera)}" value="#{bComprar.arreglarID(caracteristica.camaraTrasera)}"/> 
+                                <input type="hidden" id="camaraDelantera#{bComprar.arreglarID(caracteristica.camaraDelantera)}Telefono#{bComprar.arreglarID(caracteristica.camaraDelantera)}" value="#{bComprar.arreglarID(caracteristica.camaraDelantera)}"/> 
+                                <input type="hidden" id="bateria#{caracteristica.bateria}Telefono#{caracteristica.bateria}" value="#{caracteristica.bateria}"/>
+                                <input type="hidden" id="procesador#{caracteristica.procesador}Telefono#{caracteristica.procesador}" value="#{caracteristica.procesador}"/>
+                                <input type="hidden" id="color#{caracteristica.color}Telefono#{caracteristica.color}" value="#{caracteristica.color}"/>
+                                <input type="hidden" id="wifi#{bComprar.arreglarID2(caracteristica.wifi)}Telefono#{bComprar.arreglarID2(caracteristica.wifi)}" value="#{bComprar.arreglarID2(caracteristica.wifi)}"/>
+                                <input type="hidden" id="detectorHuellas#{bComprar.arreglarID2(caracteristica.detectorHuella)}Telefono#{bComprar.arreglarID2(caracteristica.detectorHuella)}" value="#{bComprar.arreglarID2(caracteristica.detectorHuella)}"/>
+                                <input type="hidden" id="dualSim#{bComprar.arreglarID2(caracteristica.dualSim)}Telefono#{bComprar.arreglarID2(caracteristica.dualSim)}" value="#{bComprar.arreglarID2(caracteristica.dualSim)}"/>
+                                <input type="hidden" id="sd#{bComprar.arreglarID2(caracteristica.sd)}Telefono#{bComprar.arreglarID2(caracteristica.sd)}" value="#{bComprar.arreglarID2(caracteristica.sd)}"/>
+                                <input type="hidden" id="bluetooth#{bComprar.arreglarID2(caracteristica.bluetooth)}Telefono#{bComprar.arreglarID2(caracteristica.bluetooth)}" value="#{bComprar.arreglarID2(caracteristica.bluetooth)}"/>
+                                <input type="hidden" id="nfc#{bComprar.arreglarID2(caracteristica.nfc)}Telefono#{bComprar.arreglarID2(caracteristica.nfc)}" value="#{bComprar.arreglarID2(caracteristica.nfc)}"/>
+                                <input type="hidden" id="g3#{bComprar.arreglarID2(caracteristica.g)}Telefono#{bComprar.arreglarID2(caracteristica.g)}" value="#{bComprar.arreglarID2(caracteristica.g)}"/>
+                                <input type="hidden" id="g4#{bComprar.arreglarID2(caracteristica.g1)}Telefono#{bComprar.arreglarID2(caracteristica.g1)}" value="#{bComprar.arreglarID2(caracteristica.g1)}"/>
+                                          
+
+                                <h:outputText value="#{telefono.nombre}  #{caracteristica.ram}/#{caracteristica.almacenamiento} GB"/>
+                            </ui:repeat>     
+                            <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(telefono)}" />
+                        </form>
+                    </div>
+
+
+                </c:forEach>
+            </h:panelGroup>
+            
+            <!--SO-->
+            <h:panelGroup id="soFiltrado">
+                <h1>Sistema Operativo</h1>
+                <c:forEach var="so" varStatus="estado" items="#{bComprar.listaSO}" >
+                    <h:form>
+                        <h:outputLabel for="so" value="#{so}"/>
+                        <input type="checkbox" id="so" value="#{so}"></input> 
+                        <br></br><br></br>  
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--Marca-->
+            <h:panelGroup id="marcaFiltrado">
+                <h1>Marca</h1>
+                <c:forEach var="marca" varStatus="estado" items="#{bComprar.listaMarcas}" >
+                    <h:form>
+                        <h:outputLabel for="marca" value="#{marca}"/>
+                        <input type="checkbox" id="marca" value="#{marca}"></input> 
+                        <br></br><br></br>
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--Precio-->
+
+            <h1>Precio</h1>
+            <h:form prependId="false">
+                <h:panelGrid columns="1" style="margin-bottom: 10px">
+                    <h:outputText id="displayRange" value="Between #{bComprar.min} and #{bComprar.max}" />
+                    <p:slider id="slider" for="txt6,txt7" display="displayRange" style="width: 400px" range="true" minValue="0" maxValue="1500" displayTemplate="Between {min} and {max}" />
+                </h:panelGrid>
+                <h:inputHidden id="txt6" value="#{bComprar.min}" />
+                <h:inputHidden id="txt7" value="#{bComprar.max}" />
+            </h:form>
+            <!--Ram-->
+            <h:panelGroup id="ramFiltrado">
+                <h1>Ram</h1>
+                <c:forEach var="ram" varStatus="estado" items="#{bComprar.listaRam}" >
+                    <h:form>
+                        <h:outputLabel for="ram#{ram}" value="#{ram}"/>
+                        <input type="checkbox" id="ram" value="#{ram}"></input> 
+                        <br></br><br></br>  
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--Pulgadas-->
+            <h:panelGroup id="pulgadasFiltrado">
+                <h1>Pulgadas</h1>
+                <c:forEach var="pulgadas" varStatus="estado" items="#{bComprar.listaPulgadas}" >
+                    <h:form>
+                        <h:outputLabel for="pulgadas#{pulgadas}" value="#{pulgadas}"/>
+                        
+                        <input type="checkbox" id="pulgadas" value="#{bComprar.arreglarID(pulgadas)}"></input>
+                        <br></br><br></br> 
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--Almacenamiento-->
+            <h:panelGroup id="almacenamientoFiltrado">
+                <h1>Almacenamiento</h1>
+                <c:forEach var="almacenamiento" varStatus="estado" items="#{bComprar.listaAlmacenamiento}" >
+                    <h:form>
+                        <h:outputLabel for="almacenamiento#{almacenamiento}" value="#{almacenamiento}"/>
+                        <input type="checkbox" id="almacenamiento" value="#{almacenamiento}"></input> 
+                        <br></br><br></br>  
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--CamaraTrasera-->
+            <h:panelGroup id="camaraTraseraFiltrado">
+                <h1>CamaraTrasera</h1>
+                <c:forEach var="camaraTrasera" varStatus="estado" items="#{bComprar.listaCamaraTrasera}" >
+                    <h:form>
+                        <h:outputLabel for="camaraTrasera#{camaraTrasera}" value="#{camaraTrasera}"/>
+                        <input type="checkbox" id="camaraTrasera" value="#{bComprar.arreglarID(camaraTrasera)}"></input>
+                        <br></br><br></br> 
+
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--CamaraDelantera-->
+            <h:panelGroup id="camaraDelanteraFiltrado">
+                <h1>CamaraDelantera</h1>
+                <c:forEach var="camaraDelantera" varStatus="estado" items="#{bComprar.listaCamaraDelantera}" >
+                    <h:form>
+                        <h:outputLabel for="camaraDelantera#{camaraDelantera}" value="#{camaraDelantera}"/>
+                        
+                        <input type="checkbox" id="camaraDelantera" value="#{bComprar.arreglarID(camaraDelantera)}"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--Bateria-->
+            <h:panelGroup id="bateriaFiltrado">
+                <h1>Bateria</h1>
+                <c:forEach var="bateria" varStatus="estado" items="#{bComprar.listaBateria}" >
+                    <h:form>
+                        <h:outputLabel for="bateria#{bateria}" value="#{bateria}"/>
+                            <input type="checkbox" id="bateria" value="#{bateria}"></input> 
+                        <br></br><br></br> 
+
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+
+            <!--Procesador-->
+            <h:panelGroup id="procesadorFiltrado">
+                <h1>Procesador</h1>
+                <c:forEach var="procesador" varStatus="estado" items="#{bComprar.listaProcesador}" >
+                    <h:form>
+                        <h:outputLabel for="procesador#{procesado}" value="#{procesador}"/>
+                        <input type="checkbox" id="procesador" value="#{procesador}"></input> 
+                        <br></br><br></br>  
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+
+            <!--Resolucion-->
+            <h:panelGroup id="resolucionFiltrado">
+                <h1>Resolucion</h1>
+                <c:forEach var="resolucion" varStatus="estado" items="#{bComprar.listaResolucion}" >
+                    <h:form>
+                        <h:outputLabel for="resolucion#{resolucion}" value="#{bComprar.arreglarResolucion(resolucion)}"/>
+                        <input type="checkbox" id="resolucion" value="#{resolucion}"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+            
+            
+            <!--Color-->
+            <h:panelGroup id="colorFiltrado">
+                <h1>Color</h1>
+                <c:forEach var="color" varStatus="estado" items="#{bComprar.listaColor}" >
+                    <h:form>
+                        <h:outputLabel for="color#{color}" value="#{color}"/>
+                        <input type="checkbox" id="color" value="#{color}"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+                </c:forEach>
+            </h:panelGroup>
+            
+             <!--Otros-->
+            <h:panelGroup id="otrosFiltrado">
+                <h1>Otros</h1>
+                
+                <!--wifi-->
+            <h:panelGroup id="wifiFiltrado">
+                   <h:form>
+                        <h:outputLabel for="wifi" value="Wifi"/>
+                        <input type="checkbox" id="wifi"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+            
+                <!--Otros-->
+            <h:panelGroup id="detectorHuellasFiltrado">
+                <h:form>
+                        <h:outputLabel for="detectorHuellas" value="Detector de Huellas"/>
+                        <input type="checkbox" id="detectorHuellas" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+                
+            <!--Otros-->
+            <h:panelGroup id="dualSimFiltrado">    
+                <h:form>
+                        <h:outputLabel for="dualSim" value="Dual Sim"/>
+                        <input type="checkbox" id="dualSim" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+            
+            <!--Otros-->
+            <h:panelGroup id="sdFiltrado">
+                <h:form>
+                        <h:outputLabel for="sd" value="SD"/>
+                        <input type="checkbox" id="sd" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+            
+            <!--Otros-->
+            <h:panelGroup id="bluetoothFiltrado">
+                 <h:form>
+                        <h:outputLabel for="bluetooth" value="Bluetooth"/>
+                        <input type="checkbox" id="bluetooth" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+                
+            <!--Otros-->
+            <h:panelGroup id="nfcFiltrado">
+                 <h:form>
+                        <h:outputLabel for="nfc" value="NFC"/>
+                        <input type="checkbox" id="nfc" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+            
+            <!--Otros-->
+            <h:panelGroup id="g3Filtrado">
+                 <h:form>
+                        <h:outputLabel for="g3" value="3G"/>
+                        <input type="checkbox" id="g3" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>
+            
+            <!--Otros-->
+            <h:panelGroup id="g4Filtrado">
+                 <h:form>
+                        <h:outputLabel for="g4" value="4G"/>
+                        <input type="checkbox" id="g4" value="0"></input>
+                        <br></br><br></br>  
+
+                    </h:form>
+            </h:panelGroup>    
+              
+            </h:panelGroup>
+
+
+
+        </h:body>
+    </f:view>    
+</html>

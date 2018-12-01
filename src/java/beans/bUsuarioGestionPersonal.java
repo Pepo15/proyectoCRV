@@ -578,7 +578,7 @@ public class bUsuarioGestionPersonal {
         Usuario usuarioRepetido = ctrUsuario.findUsuarioByNick(nick);
 
         //Si existe alguno no podremos darlo de alta para que no cause errores al iniciar sesion
-        if (administradorRepetido == null && tecnicoRepetido == null && usuarioSesion.getNick() == usuarioRepetido.getNick()) {
+        if (administradorRepetido == null && tecnicoRepetido == null && usuarioRepetido!=null) {
             try {
                 //Creo un usuario con los datos proporcioandos el resto lo cojo de los que ya tenia
                 Usuario usuario = new Usuario(usuarioSesion.getCodigoUsuario(),

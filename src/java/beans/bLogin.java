@@ -5,7 +5,10 @@ import DAO.TecnicoJpaController;
 import DAO.UsuarioJpaController;
 import DTO.Administrador;
 import DTO.Tecnico;
+import DTO.Telefono;
 import DTO.Usuario;
+import java.util.ArrayList;
+import java.util.List;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
@@ -35,6 +38,9 @@ public class bLogin {
 
     //Mensaje que devolveremos para poder comprobar el logeo
     private String mens;
+    
+    //Lista con los articulos de la compra(Carrito)
+    private List<Telefono> listaCarrito;
 
     //Contructor
     public bLogin() {
@@ -125,7 +131,16 @@ public class bLogin {
     public void setMens(String mens) {
         this.mens = mens;
     }
-    
+
+    public List<Telefono> getListaCarrito() {
+        return listaCarrito;
+    }
+
+    public void setListaCarrito(List<Telefono> listaCarrito) {
+        this.listaCarrito = listaCarrito;
+    }
+
+ 
     //Metodo para comprobar el logeo
     public String compruebaLogin(){
         //Resetear valores
@@ -144,6 +159,10 @@ public class bLogin {
             //puesto que el login es de request y se pierde
             usuarioLogeado=usuario;
             subirUsuario();
+            
+            //Subo el carrito a la sesion para saber que articulos compra
+            listaCarrito=new ArrayList();
+            subirCarrito();
             
             return "usuario";
             }
@@ -195,6 +214,33 @@ public class bLogin {
   
             //Añadirle como propiedad el usuario que se ha logeado
             manageBeanSesion.setUsuarioLog(usuarioLogeado);          
+    }
+    
+    //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
+    public  void subirCarrito()
+    {
+        //Coger contexto
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        
+        //Crear un objeto bTienda para añadirle despues el cliente como atributo
+        manageBeanSesion manageBeanSesion=new manageBeanSesion();
+        
+            
+            //Coger session del contexto
+            HttpSession session= (HttpSession)ctx.getSession(false);
+            
+            //Compruebo si se ha creado el beanTienda en la sesion sino lo creo,
+            //se crea automaticamente cuando se pone en el .jsp bTienda.(lo que sea) es decir cuando se menciona
+            //tambien podriamos quitar esto y poner en el login.jsp en el titulo un outputText con value
+            // bTienda.nada() un metodo que no haga nada y nada mas que por ponerlo ya se crea automaticamente
+            if(session.getAttribute("manageBeanSesion")!=null){
+                manageBeanSesion=(manageBeanSesion) session.getAttribute("manageBeanSesion");
+            }else{
+                session.setAttribute("manageBeanSesion",manageBeanSesion);
+            }
+  
+            //Añadirle como propiedad el usuario que se ha logeado
+            manageBeanSesion.setListaCarrito(listaCarrito);          
     }
     
     //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion

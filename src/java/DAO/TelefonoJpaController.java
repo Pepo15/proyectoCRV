@@ -427,6 +427,6 @@ public class TelefonoJpaController implements Serializable {
         List lista= q.getResultList();
         
         return lista;
-    }
+    } 
     
 }

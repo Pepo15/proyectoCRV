@@ -17,71 +17,54 @@ and open the template in the editor.
             <title>CRV</title>
             <script src="js/jquery.validate.min.js"></script>    
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-           <!--    <script>
-                 $(function(){//Ready
-                      
-                      $.validator.addMethod('passwordMatch',function(value,element){
-                         
-                          var password = $('#modificarUsuarioPass\\:password').val();
-                          var confirmPassword = $('#modificarUsuarioPass\\:passwordR').val();
-                          if(password !== confirmPassword){
-                              return false;
-                          }
-                          else{
-                              return true;
-                          }
-                      }, "Your Password Must Match");
+            <script src="http://code.jquerygeo.com/jquery.geo-1.1.0.min.js"></script>
+            <script>
+                $(function () {//Ready
 
-                          $('#modificarUsuarioPass').validate({
-                              rules: {
-                                  'modificarUsuarioPass:password': {required: true},
-                                  'modificarUsuarioPass:passwordR': {required: true, passwordMatch: true}
-                              },
-                              messages: {
-                                  'modificarUsuarioPass:password': {required: "Contraseña obligatoria"},
-                                  'modificarUsuarioPass:passwordR': {required: "Repetir contraseña obligatorio",
-                                      passwordMatch: "Las contraseñas deben ser iguales"}
-                              }
+                    var latitud;
+                    var longitud;
 
-                          }); //..VAlidate
-
-                          $('#modificarUsuario').validate({
-                              rules: {
-                                  'modificarUsuario:nick': {
-                                      required: true,
-                                      remote: {
-                                          url: "CompruebaDatos",
-                                          type: "POST",
-                                          data: {
-                                              Nick: function () {
-                                                  return $("#modificarUsuario\\:nick").val();
-                                              }
-                                          },
-                                          success: function (data, status, xhr) {
-                                              if (data.Nick) {
-                                                  $("#textoEmail").text("El email ya tiene una solicitud realizada.");
-                                              } else {
-                                                  $("#textoEmail").text("");
-                                              }
-                                          }
-                                      }
+                    $("#recargaPedidos").on("click","#coordenadas", function () {
+                        var codigoPedido = $(this).attr("class");
+                        var datos = 'codigoPoblacion='+codigoPedido;
 
 
-                                  }},
+                        //Ponemos el nombre del servlet que nos dará la respuesta y los datos para poder encontrarlas
+                        $.getJSON("CompruebaDatos", datos, function (result) {
 
-                              messages: {
+                            //Recorro el resultado. i->es la clave, field->es el valor 
+                            $.each(result, function (i, field) {
 
-                                  'modificarUsuario:nick': {required: "El email debe ser obligatorio."}
-                              }
+                                //Cogemos el select de las provincias y le añadimos los options
+                                if (i == "Latitud") {
 
-                          });
+                                    latitud = field;
+                                } else {
+                                    longitud = field;
+                                }
+                            });
+
+                            //Pinto mapa
+                            var map = $("#mapa").geomap({
+                                center: [longitud, latitud],
+                                zoom: 7
+                            });
+                            $("#mapa").geomap("append",
+                                    {
+                                        type: "Point",
+                                        coordinates: [longitud, latitud] // Coordinates are lng/lat
+                                    }
+                            );
+                        });
 
 
-                      });
-              
-              
-              
-              </script>-->
+
+                    });//Click boton
+
+
+
+                });//Ready
+            </script>
 
         </h:head>
         <h:body>
@@ -92,226 +75,88 @@ and open the template in the editor.
             <h1><h:outputText value="#{manageBeanSesion.usuarioLog.nombre}, Bienvenido a su perfil!"/></h1>
             <h2><h:outputText value="Su apellido es: #{manageBeanSesion.usuarioLog.apellido1}
                               #{manageBeanSesion.usuarioLog.apellido2}"/></h2>
-                              
-                              
-            <!--Gestion Pedidos-->
-        <form id="gestiosPedidos" action="usuarioGestionPedidos.xhtml"> 
-            <div onclick="document.getElementById('gestionPedido').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Gestionar Pedidos"/>
-            </div>
-        </form>                  
-
-            <!--Modificar datos personales-->
-            <div style="border: 1px solid red">
-                <h1> Modificar datos personales </h1>
-                <h:form id="modificarUsuario">
-                    <h:outputLabel for="nick" value="Nick: "/> 
-                    <h:inputText id="nick" value="#{bUsuarioGestionPersonal.nick}"/>
-                    <span id="textoEmail"></span>
-
-                    <h:outputLabel for="correo" value="Email: "/> 
-                    <h:inputText id="correo" value="#{bUsuarioGestionPersonal.email}"/>
-                    
-                    <br></br><br></br>
-
-                    <h:commandButton value="Modificar datos" action="#{bUsuarioGestionPersonal.modificarUsuario()}" />
-                    <br></br><br></br>
-                </h:form>
-            </div>
-
-            <!--Modificar contraseña-->
-            <div style="border: 1px solid blue">
-                <h1> Modificar datos personales </h1>
-                <h:form id="modificarUsuarioPass">
-                    <h:outputLabel for="password" value="Contraseña: "/> 
-                    <h:inputText id="password" value="#{bUsuarioGestionPersonal.password}"/>
-                    <br></br><br></br>
-
-                    <h:outputLabel for="passwordR" value="Repita contraseña: "/> 
-                    <h:inputText id="passwordR" value="#{bUsuarioGestionPersonal.passwordR}"/>
-                    <br></br><br></br>
-
-                    <h:commandButton value="Modificar datos" action="#{bUsuarioGestionPersonal.modificarPassword()}"/>
-                    <br></br><br></br>
-                </h:form>
-            </div>  
-
-            <!-- Mostrar direcciones-->
-            <h:panelGroup id="direcciones">
-                <c:forEach var="direccion" varStatus="estado" items="#{bUsuarioGestionPersonal.listaDirecciones}" >
 
 
-                    <div id="direccion" style="border:1px solid green">
-                        <h:outputText value="Calle "/> <h:outputText value="#{direccion.nombre}"/><br></br><br></br>
-                        <h:outputText value="Poblacion "/> <h:outputText value="#{bUsuarioGestionPersonal.conocerPoblacion(direccion.codigoPoblacion)}"/><br></br><br></br>
-                        <h:outputText value="Provincia "/> <h:outputText value="#{bUsuarioGestionPersonal.conocerProvincia(direccion.codigoProvincia)}"/><br></br><br></br>  
-                        <h:outputText value="CP "/> <h:outputText value="#{bUsuarioGestionPersonal.cp}"/><br></br><br></br>
-                        <h:outputText value="Telefono "/> <h:outputText value="#{direccion.telefono}"/><br></br><br></br>
-                    
+            <!--Pedidos-->
+            <h2>Ver pedidos</h2>
+            <h:panelGroup id="recargaPedidos">
+                <c:forEach var="pedido" varStatus="estado" items="#{bUsuarioGestionPedido.listaPedidos}" >
+
+                    #{bUsuarioGestionPedido.setCodigoPedido(pedido.codigoPedido)}
+
+                    <h:panelGroup  rendered="#{bUsuarioGestionPedido.cabeceraPedido()}">
+                        <div id="datosPedido" style="border: 1px solid red">
+                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Tipo "/> <h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                            <h:outputText value="Estado "/> <h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        </div>
+                    </h:panelGroup>
+
+                    <h:panelGroup rendered="#{!bUsuarioGestionPedido.cabeceraPedido()}">
+                        <div id="pedido" style="border:1px solid black">
+                            <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
+                            <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
+                            <h:outputText value="Fecha "/> <h:outputText value="#{pedido.fecha}"/><br></br><br></br>    
+                        </div> 
+                        <div id="datosPedido" style="border: 1px solid red">
+                            <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}" width="50" height="50" /> 
+
+                            <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
+                            <h:outputText value="Tipo "/> <h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
+                            <h:outputText value="Estado "/> <h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                        </div>
+                    </h:panelGroup>
                     <h:form>
-                        <h:commandButton  value="Editar" action="#{bUsuarioGestionPersonal.editarDireccion(direccion.codigoDireccion)}">
+                        <h:commandButton  value="Cambiar estado" action="#{bUsuarioGestionPedido.cambiarEstado(pedido.codigo)}">
                             <f:ajax  event="action" render=":result" />
                         </h:commandButton>
                     </h:form>
 
-                    <h:form>
-                        <h:commandButton  value="Borrar" action="#{bUsuarioGestionPersonal.borrarDireccion(direccion.codigoDireccion)}"/>
 
+                    <input type="button" id="coordenadas" class="#{pedido.codigoPoblacion}" value="Coordenadas"/>
+
+
+                    <h:form>
+                        <h:commandButton  value="Ver pdf estado" action="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
                     </h:form>
-                    </div>
+
+
+                    #{bUsuarioGestionPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
                 </c:forEach>
             </h:panelGroup>
-            
-            
-            <h:panelGroup  rendered="#{bUsuarioGestionPersonal.noExiste}">
-                <h1> No hay direcciones</h1>
-            </h:panelGroup>
-            
-            <!--Añadir direccion-->
-            <div style="border: 1px solid red">
-                <h1> Modificar datos personales </h1>
-                <h:form id="altaDireccion">
-                    <h:outputLabel for="direccion" value="Direccion: "/> 
-                        <h:inputText id="direccion" value="#{bUsuarioGestionPersonal.direccionAlta}" required="true"/>
-                        <br></br><br></br>
-
-                        <h:outputLabel for="provincia" value="Elija una provincia: "/> 
-                        <p:selectOneMenu id="provincia" value="#{bUsuarioGestionPersonal.codigoProvinciaAlta}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaProvincias}" />
-                            <p:ajax event="change" update="poblacion"
-                                    listener="#{bUsuarioGestionPersonal.consultarPoblacion}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="poblacion" value="Elija una poblacion: "/> 
-                        <p:selectOneMenu id="poblacion" value="#{bUsuarioGestionPersonal.codigoPoblacionAlta}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaPoblaciones}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="telefono" value="Telefono: "/> 
-                        <h:inputText id="telefono" value="#{bUsuarioGestionPersonal.telefonoAlta}" required="true"/>
-
-                    <p:commandButton value="Modificar datos" validateClient="true" action="#{bUsuarioGestionPersonal.altaDireccion()}" update="altaDireccion direcciones messages"/>
-                    <br></br><br></br>
-                </h:form>
-            </div>
-            
-            
             <h:form id="result" >
-                <!--Cambiar direccion-->
-                <h:panelGroup id="cambiarDireccion" rendered="#{bUsuarioGestionPersonal.direccion}">
+
+                <h:panelGroup id="cambiaEstado" rendered="#{bUsuarioGestionPedido.estado}">
                     <div id="dialog" style="border: 1px solid blue">
-                        <h:outputLabel for="direccion" value="Direccion: "/> 
-                        <h:inputText id="direccion" value="#{bUsuarioGestionPersonal.direccionModificar}" required="true"/>
-                        <br></br><br></br>
-
-                        <h:outputLabel for="provincia" value="Elija una provincia: "/> 
-                        <p:selectOneMenu id="provincia" value="#{bUsuarioGestionPersonal.codigoProvinciaModificar}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaProvincias}" />
-                            <p:ajax event="change" update="poblacion"
-                                    listener="#{bUsuarioGestionPersonal.consultarPoblacion}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="poblacion" value="Elija una poblacion: "/> 
-                        <p:selectOneMenu id="poblacion" value="#{bUsuarioGestionPersonal.codigoPoblacionModificar}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaPoblaciones}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="telefono" value="Telefono: "/> 
-                        <h:inputText id="telefono" value="#{bUsuarioGestionPersonal.telefono}" required="true"/>
-
-                        <p:commandButton value="Cambiar estado" action="#{bUsuarioGestionPersonal.modificarDireccion()}" update="direcciones result messages"/>
-
+                        <h:selectOneMenu value="#{bUsuarioGestionPedido.estadoNuevo}">  
+                            <f:selectItems value="#{bUsuarioGestionPedido.listaEstados}"/>
+                        </h:selectOneMenu>
                     </div>
+                    <p:commandButton value="Cambiar estado" action="#{bUsuarioGestionPedido.modificarEstado()}" update="recargaPedidos result messages"/>
 
                 </h:panelGroup> 
-            </h:form>
-
-            <!-- Mostrar tarjetas-->
-            <h:panelGroup id="tarjetas">
-                <c:forEach var="tarjeta" varStatus="estado" items="#{bUsuarioGestionPersonal.listaTarjetas}" >
+            </h:form>   
 
 
-                    <div id="tarjeta" style="border:1px solid black">
-                        <h:outputText value="Número Tarjeta: "/> <h:outputText value="#{tarjeta.numeroTarjeta}"/><br></br><br></br>
-                        <h:outputText value="Fecha de vencimiento: "/> <h:outputText value="#{bUsuarioGestionPersonal.conocerFecha(tarjeta.fechaCaducidad)}"/><br></br><br></br>  
-                        <h:outputText value="CVV "/> <h:outputText value="#{tarjeta.cvv}"/><br></br><br></br>  
-                    
-                    <h:form>
-                        <h:commandButton  value="Editar" action="#{bUsuarioGestionPersonal.editarTarjeta(tarjeta.codigoTarjeta)}">
-                            <f:ajax  event="action" render=":resultT" />
-                        </h:commandButton>
-                    </h:form>
-
-                    <h:form>
-                        <h:commandButton  value="Borrar" action="#{bUsuarioGestionPersonal.borrarTarjeta(tarjeta.codigoTarjeta)}"/>
-
-                    </h:form>
-                    </div>
-                </c:forEach>
-            </h:panelGroup>
-
-            <h:panelGroup  rendered="#{bUsuarioGestionPersonal.noExisteT}">
-                <h1> No hay tarjetas</h1>
-            </h:panelGroup>
-            
-             <!--Añadir tarjetas-->
-            <div id="dialog" style="border: 1px solid blue">
-                <h:form id="altaTarjetas" >
-               
-                        <h:outputLabel for="numeroTarjeta" value="Número tarjeta: "/> 
-                        <h:inputText id="numeroTarjeta" value="#{bUsuarioGestionPersonal.numeroTarjetaAlta}" required="true"/>
-                        <br></br><br></br>
-
-                        <h:outputLabel for="mes" value="Elija un mes "/> 
-                        <p:selectOneMenu id="mes" value="#{bUsuarioGestionPersonal.mesAlta}" >
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaMeses}" />
+            <!--Ventana modal cambiar ubicacion-->
+            <h:form id="result2" >
+                <h:panelGroup rendered="#{bUsuarioGestionPedido.ubicacion}" >
+                    <div id="ubicacion" style="border: 1px solid pink">
+                        <p:selectOneMenu id="poblacion" value="#{bUsuarioGestionPedido.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
+                            <f:selectItems value="#{bUsuarioGestionPedido.listaPoblaciones}" />
                         </p:selectOneMenu>
-
-                        <h:outputLabel for="anio" value="Elija un año: "/> 
-                        <p:selectOneMenu id="anio" value="#{bUsuarioGestionPersonal.anioAlta}">
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaAnios}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="cvv" value="Cvv "/> 
-                        <h:inputText id="cvv" value="#{bUsuarioGestionPersonal.cvvAlta}" required="true"/>
-
-                        <p:commandButton value="Cambiar estado" action="#{bUsuarioGestionPersonal.altaTarjeta()}" update="tarjetas resultT messages"/>
-
-                    
-                </h:form>
-            </div> 
-            <h:form id="resultT" >
-                <!--Cambiar tarjetas-->
-                <h:panelGroup id="cambiarTarjeta" rendered="#{bUsuarioGestionPersonal.tarjeta}">
-                    <div id="dialog" style="border: 1px solid blue">
-                        <h:outputLabel for="numeroTarjeta" value="Número tarjeta: "/> 
-                        <h:inputText id="numeroTarjeta" value="#{bUsuarioGestionPersonal.numeroTarjeta}" required="true"/>
-                        <br></br><br></br>
-
-                        <h:outputLabel for="mes" value="Elija un mes "/> 
-                        <p:selectOneMenu id="mes" value="#{bUsuarioGestionPersonal.mes}" >
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaMeses}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="anio" value="Elija un año: "/> 
-                        <p:selectOneMenu id="anio" value="#{bUsuarioGestionPersonal.anio}">
-                            <f:selectItems value="#{bUsuarioGestionPersonal.listaAnios}" />
-                        </p:selectOneMenu>
-
-                        <h:outputLabel for="cvv" value="Cvv "/> 
-                        <h:inputText id="cvv" value="#{bUsuarioGestionPersonal.cvv}" required="true"/>
-
-                        <p:commandButton value="Cambiar estado" action="#{bUsuarioGestionPersonal.modificarTarjeta()}" update="tarjetas resultT messages"/>
-
                     </div>
 
-                </h:panelGroup> 
-            </h:form>
+                    <p:commandButton value="Cambiar ubicacion" action="#{bUsuarioGestionPedidos.modificarUbicacion()}" update="recargaPedidos result2 messages" />
+                </h:panelGroup>
 
+            </h:form>  
+
+            <div id="mapa" style="height: 500px">
+
+
+            </div>
 
         </h:body>
     </f:view>    

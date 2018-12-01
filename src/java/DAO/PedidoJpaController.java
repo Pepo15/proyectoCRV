@@ -343,4 +343,17 @@ public class PedidoJpaController implements Serializable {
         }
     }
     
+    //Creamos el metodo que devuelve un telefono segun su marca
+    public List findListaPedidoByCodigoPedido(int codigoPedido) {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Pedido.findByCodigoPedido",Pedido.class);
+            
+        q.setParameter("codigoPedido",codigoPedido);
+        
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    
 }

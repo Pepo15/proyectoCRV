@@ -5,7 +5,9 @@
  */
 
 
+import DAO.PoblacionJpaController;
 import DAO.UsuarioJpaController;
+import DTO.Poblacion;
 import DTO.Usuario;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
@@ -33,8 +35,11 @@ public class CompruebaDatos extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         boolean acceso = false;
+        
+        Poblacion poblacion = null;
 
         String nick = request.getParameter("Nick");
+        if(nick!=null){
         try {
             //Leemos el objeto JSON y almacenamos su valor en la variable de email
             acceso = compruebaNick(nick);
@@ -51,6 +56,27 @@ public class CompruebaDatos extends HttpServlet {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+        String codigoPoblacion = request.getParameter("codigoPoblacion");
+        if(codigoPoblacion!=null){
+        try {
+            //Leemos el objeto JSON y almacenamos su valor en la variable de email
+            poblacion = compruebaPoblacion(Integer.parseInt(codigoPoblacion));
+
+            //Preparamos la salida del objeto JSON
+            JsonObject object = new JsonObject();
+            object.addProperty("Latitud", poblacion.getLatitud());
+            object.addProperty("Longitud", poblacion.getLongitud());
+
+            String jsonS = object.toString();
+            out.println(jsonS);
+
+            //----------------------------------------------------------**/
+            out.flush();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
     }
 
     @Override
@@ -77,6 +103,20 @@ public class CompruebaDatos extends HttpServlet {
             return false;
         } else {
             return true;
+        }
+    }
+    
+    public Poblacion compruebaPoblacion(int codigoPoblacion) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("CRVPU");
+        PoblacionJpaController ctrPoblacion = new PoblacionJpaController(emf);
+        
+        Poblacion pobla = ctrPoblacion.findPoblacion(codigoPoblacion);
+
+        //Si es distinto a nulo, significa que ya existe alguien
+        if (pobla==null) {
+            return null;
+        } else {
+            return pobla;
         }
     }
 }

@@ -10,6 +10,7 @@ import DTO.Tecnico;
 import DTO.Telefono;
 import DTO.Usuario;
 import java.io.File;
+import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
@@ -29,6 +30,7 @@ public class manageBeanSesion {
      private Telefono telefonoModificar;
      private Caracteristicastelefono caracteristicasModificar;
      private Premio premioModificar;
+     private List<Telefono> listaCarrito;
 
  
     public manageBeanSesion() {
@@ -90,8 +92,14 @@ public class manageBeanSesion {
     public void setPremioModificar(Premio premioModificar) {
         this.premioModificar = premioModificar;
     }
-    
-    
+
+    public List<Telefono> getListaCarrito() {
+        return listaCarrito;
+    }
+
+    public void setListaCarrito(List<Telefono> listaCarrito) {
+        this.listaCarrito = listaCarrito;
+    }
 
     public static void redireccionar (String url)
     {

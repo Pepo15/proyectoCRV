@@ -78,6 +78,16 @@
         <managed-bean-class>beans.bUsuarioGestionPersonal</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>bUsuarioGestionPedido</managed-bean-name>
+        <managed-bean-class>beans.bUsuarioGestionPedido</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
+    <managed-bean>
+        <managed-bean-name>bComprar</managed-bean-name>
+        <managed-bean-class>beans.bComprar</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <navigation-rule>
         <from-view-id>/administradorGestionTelefono.xhtml</from-view-id>
         <navigation-case>
