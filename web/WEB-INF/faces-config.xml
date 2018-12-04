@@ -123,5 +123,19 @@
             <to-view-id>/usuario.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/comprarTelefono.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>correcto</from-outcome>
+            <to-view-id>/comprarTelefono.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/cesta.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>finalizar</from-outcome>
+            <to-view-id>/finalizarPedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
 

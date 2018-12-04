@@ -487,15 +487,19 @@ and open the template in the editor.
                     <div id="contenedorTelefono"
                          style="border: 1px solid red;
                          width: 250px;">
-                        <form id="comprarTelefono" action="comprarTelefono.xhtml"> 
-                            <div onclick="document.getElementById('comprarTelefono').submit();" 
+                        <form id="comprarTelefono#{telefono.codigoTelefono}" action="comprarTelefono.xhtml"> 
+                            <div onclick="document.getElementById('comprarTelefono#{telefono.codigoTelefono}').submit();" 
                                  style="border: 1px solid black;
                                  width: 250px;
                                  height: 250px;
                                  cursor: pointer">
                             </div>    
-                        </form>         
-                        <form id="comprar#{telefono.codigoTelefono}">
+                            <p>ee</p>
+                            <h:inputHidden id="telefonito#{telefono.codigoTelefono}"  value="#{telefono.codigoTelefono}"/>
+                        </form> 
+                        
+                        
+                        <h:form id="comprar#{telefono.codigoTelefono}">
 
                             <h:graphicImage url="imagenes/FotosTelefono/#{bComprar.conocerFoto(telefono)}" width="50" height="50" /> 
                             <ui:repeat var="caracteristica" value="#{telefono.caracteristicastelefonoList}">
@@ -524,7 +528,7 @@ and open the template in the editor.
                                 <h:outputText value="#{telefono.nombre}  #{caracteristica.ram}/#{caracteristica.almacenamiento} GB"/>
                             </ui:repeat>     
                             <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(telefono)}" />
-                        </form>
+                        </h:form>
                     </div>
 
 

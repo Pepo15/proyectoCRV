@@ -8,6 +8,7 @@ import DTO.Foto;
 import DTO.Premio;
 import DTO.Tecnico;
 import DTO.Telefono;
+import DTO.TelefonoCesta;
 import DTO.Usuario;
 import java.io.File;
 import java.util.List;
@@ -30,7 +31,7 @@ public class manageBeanSesion {
      private Telefono telefonoModificar;
      private Caracteristicastelefono caracteristicasModificar;
      private Premio premioModificar;
-     private List<Telefono> listaCarrito;
+     private List<TelefonoCesta> listaCarrito;
 
  
     public manageBeanSesion() {
@@ -93,14 +94,14 @@ public class manageBeanSesion {
         this.premioModificar = premioModificar;
     }
 
-    public List<Telefono> getListaCarrito() {
+    public List<TelefonoCesta> getListaCarrito() {
         return listaCarrito;
     }
 
-    public void setListaCarrito(List<Telefono> listaCarrito) {
+    public void setListaCarrito(List<TelefonoCesta> listaCarrito) {
         this.listaCarrito = listaCarrito;
     }
-
+    
     public static void redireccionar (String url)
     {
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();

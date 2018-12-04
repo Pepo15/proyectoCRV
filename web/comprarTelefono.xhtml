@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <f:view>
+        <h:head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+            <title>CRV</title> 
+            <link rel="stylesheet" href="css/main.css"></link>
+              
+            <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+            
+        </h:head>
+        <h:body>
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+            <h1><h:outputText value="Usuario"/></h1>
+            <h1><h:outputText value="#{manageBeanSesion.usuarioLog.nombre}, Bienvenido a su perfil!"/></h1>
+            <h2><h:outputText value="Su apellido es: #{manageBeanSesion.usuarioLog.apellido1}
+                              #{manageBeanSesion.usuarioLog.apellido2}"/></h2>
+
+
+            
+          
+            <h:form>
+                #{bComprar.conocerTelefono()}
+                <h:outputText value="#{bComprar.telefonoVer.nombre}"/>
+                <p:spinner id="basic" value="#{bComprar.cantidad}" />
+                <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
+            </h:form>     
+                <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+
+                    <h:panelGroup rendered="#{estado.index eq 0}">
+                        <div class="show" href="imagenes/FotosTelefono/#{foto.nombre}">
+                            <img src="imagenes/FotosTelefono/#{foto.nombre}" id="show-img"></img>
+                        </div>
+                    </h:panelGroup>
+                </ui:repeat>    
+                <div class="small-img">
+                    <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-left" alt="" id="prev-img"></img>
+                    <div class="small-container">
+                        <div id="small-img-roll">
+
+                            <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+
+                                <img src="imagenes/FotosTelefono/#{foto.nombre}" class="show-small-img" alt=""></img>
+                            </ui:repeat>    
+
+                        </div>
+                    </div>
+                    <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-right" alt="" id="next-img"></img>
+                </div>
+<script src="js/zoom-image.js"></script>
+                <script src="js/main.js"></script>
+                
+            
+
+
+
+
+            <h:panelGroup id="datosTecnicos" >
+                <ui:repeat var="caracteristica" value="#{bComprar.telefonoVer.caracteristicastelefonoList}">
+
+                    <h:outputText value="Sistema Operativo: " />
+                    <h:outputText value="#{caracteristica.so}" /><br></br>
+                    <h:outputText value="Ram:" />
+                    <h:outputText value="#{caracteristica.ram}" /><br></br>
+                    <h:outputText value="Pulgadas" />
+                    <h:outputText value="#{caracteristica.pulgadas}" /><br></br>
+                    <h:outputText value="Almacenamiento:" />
+                    <h:outputText value="#{caracteristica.almacenamiento}" /><br></br>
+                    <h:outputText value="Camara trasera: " />
+                    <h:outputText value="#{caracteristica.camaraTrasera}" /><br></br>
+                    <h:outputText value="Camara delantera: " />
+                    <h:outputText value="#{caracteristica.camaraDelantera}" /><br></br>
+                    <h:outputText value="Bateria: " />
+                    <h:outputText value="#{caracteristica.bateria}" /><br></br>
+                    <h:outputText value="Procesador: " />
+                    <h:outputText value="#{caracteristica.procesador}" /><br></br>
+                    <h:outputText value="Resolucion " />
+                    <h:outputText value="#{caracteristica.resolucion}" /><br></br>
+                    <h:outputText value="Color: " />
+                    <h:outputText value="#{caracteristica.color}" /><br></br>
+                    <h:outputText value="Wifi: " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.wifi)}" /><br></br>
+                    <h:outputText value="Detector de huellas: " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.detectorHuella)}" /><br></br>
+                    <h:outputText value="Dual sim:  " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.dualSim)}" /><br></br>
+                    <h:outputText value="SD: " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.sd)}" /><br></br>
+                    <h:outputText value="Bluetooth " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.bluetooth)}" /><br></br>
+                    <h:outputText value="NFC: " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.nfc)}" /><br></br>
+                    <h:outputText value="3G " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g)}" /><br></br>
+                    <h:outputText value="4G " />
+                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g1)}" /><br></br>
+                </ui:repeat>
+            </h:panelGroup> 
+
+
+
+        </h:body>
+    </f:view>    
+</html>

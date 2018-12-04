@@ -6,6 +6,7 @@ import DAO.UsuarioJpaController;
 import DTO.Administrador;
 import DTO.Tecnico;
 import DTO.Telefono;
+import DTO.TelefonoCesta;
 import DTO.Usuario;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ public class bLogin {
     private String mens;
     
     //Lista con los articulos de la compra(Carrito)
-    private List<Telefono> listaCarrito;
+    private List<TelefonoCesta> listaCarrito;
 
     //Contructor
     public bLogin() {
@@ -132,13 +133,15 @@ public class bLogin {
         this.mens = mens;
     }
 
-    public List<Telefono> getListaCarrito() {
+    public List<TelefonoCesta> getListaCarrito() {
         return listaCarrito;
     }
 
-    public void setListaCarrito(List<Telefono> listaCarrito) {
+    public void setListaCarrito(List<TelefonoCesta> listaCarrito) {
         this.listaCarrito = listaCarrito;
     }
+
+    
 
  
     //Metodo para comprobar el logeo

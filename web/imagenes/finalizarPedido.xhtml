@@ -10,89 +10,17 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>CRV</title>
-            <script src="js/jquery.validate.min.js"></script>    
+            <title>CRV</title> 
+            <link rel="stylesheet" href="css/main.css"></link>
+              
+            <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
             <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-             <script>
-                 $(function(){//Ready
-                      
-                      $.validator.addMethod('passwordMatch',function(value,element){
-                         
-                          var password = $('#modificarUsuarioPass\\:password').val();
-                          var confirmPassword = $('#modificarUsuarioPass\\:passwordR').val();
-                          if(password !== confirmPassword){
-                              return false;
-                          }
-                          else{
-                              return true;
-                          }
-                      }, "Your Password Must Match");
-                      
-                      
-
-                      
-                       $.validator.addMethod('existNick',function(value,element){
-                      
-                      var datos = 'Nick='+$("#modificarUsuario\\:nick").val();
-                       var response;  
-                         //Ponemos el nombre del servlet que nos dará la respuesta y los datos para poder encontrarlas
-                        $.getJSON("CompruebaDatos", datos, function (result) {
-
-                           response=result.Nick;
-                              
-                        });
-                        
-                        if(response){
-                            return false;
-                        }
-                        else{
-                            return true;
-                        }
-                        
-                      },"Ya existe ese nick");
-
-                          $('#modificarUsuarioPass').validate({
-                              rules: {
-                                  'modificarUsuarioPass:password': {required: true},
-                                  'modificarUsuarioPass:passwordR': {required: true, passwordMatch: true}
-                              },
-                              messages: {
-                                  'modificarUsuarioPass:password': {required: "Contraseña obligatoria"},
-                                  'modificarUsuarioPass:passwordR': {required: "Repetir contraseña obligatorio",
-                                      passwordMatch: "Las contraseñas deben ser iguales"}
-                              }
-
-                          }); //..VAlidate
-                          
-                           $('#modificarUsuario\\:nick').keypress(function(event){
-                                if(event.which === 8){
-                    
-                                    $("#textoEmail").text("");
-                                        }}); 
-
-                          $('#modificarUsuario').validate({
-                              rules: {
-                                  'modificarUsuario:nick': {required: true, existNick: true}
-                                  },
-
-                              messages: {
-
-                                  'modificarUsuario:nick': {required: "El nick debe ser obligatorio.",
-                                  existNick: "Ya existe ese nick"}
-                              }
-
-                          });
-                          
-                             
-              
-                }); 
-              
-              </script>
-
+            
         </h:head>
         <h:body>
             <p:messages id="messages" showDetail="true" closable="true">
@@ -102,75 +30,7 @@ and open the template in the editor.
             <h1><h:outputText value="#{manageBeanSesion.usuarioLog.nombre}, Bienvenido a su perfil!"/></h1>
             <h2><h:outputText value="Su apellido es: #{manageBeanSesion.usuarioLog.apellido1}
                               #{manageBeanSesion.usuarioLog.apellido2}"/></h2>
-                              
-                              
-            <!--Gestion Pedidos-->
-        <form id="gestionPedidos" action="usuarioGestionPedidos.xhtml"> 
-            <div onclick="document.getElementById('gestionPedidos').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Gestionar Pedidos"/>
-            </div>
-        </form>         
-            
-             <!--Para ir a comprar es provisional-->
-        <form id="comprar" action="comprar.xhtml"> 
-            <div onclick="document.getElementById('comprar').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="comprar"/>
-            </div>
-        </form> 
-             
-                  <!--Para ir al carrito es provisional-->
-        <form id="cesta" action="cesta.xhtml"> 
-            <div onclick="document.getElementById('cesta').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="cesta"/>
-            </div>
-        </form>  
 
-            <!--Modificar datos personales-->
-            <div style="border: 1px solid red">
-                <h1> Modificar datos personales </h1>
-                <h:form id="modificarUsuario">
-                    <h:outputLabel for="nick" value="Nick: "/> 
-                    <h:inputText id="nick" value="#{bUsuarioGestionPersonal.nick}"/>
-                    <span id="textoEmail"></span>
-
-                    <h:outputLabel for="correo" value="Email: "/> 
-                    <h:inputText id="correo" value="#{bUsuarioGestionPersonal.email}"/>
-                    
-                    <br></br><br></br>
-
-                    <h:commandButton value="Modificar datos" action="#{bUsuarioGestionPersonal.modificarUsuario()}" />
-                    <br></br><br></br>
-                </h:form>
-            </div>
-
-            <!--Modificar contraseña-->
-            <div style="border: 1px solid blue">
-                <h1> Modificar datos personales </h1>
-                <h:form id="modificarUsuarioPass">
-                    <h:outputLabel for="password" value="Contraseña: "/> 
-                    <h:inputText id="password" value="#{bUsuarioGestionPersonal.password}"/>
-                    <br></br><br></br>
-
-                    <h:outputLabel for="passwordR" value="Repita contraseña: "/> 
-                    <h:inputText id="passwordR" value="#{bUsuarioGestionPersonal.passwordR}"/>
-                    <br></br><br></br>
-
-                    <h:commandButton value="Modificar datos" action="#{bUsuarioGestionPersonal.modificarPassword()}"/>
-                    <br></br><br></br>
-                </h:form>
-            </div>  
 
             <!-- Mostrar direcciones-->
             <h:panelGroup id="direcciones">
@@ -343,8 +203,6 @@ and open the template in the editor.
 
                 </h:panelGroup> 
             </h:form>
-
-
         </h:body>
     </f:view>    
 </html>
