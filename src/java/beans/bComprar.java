@@ -31,6 +31,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.faces.model.SelectItem;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -106,6 +107,9 @@ public class bComprar {
     private Direccion direccionPedido=null;
     
     private Tarjeta tarjetaPedido=null;
+    
+    //Mensaje del carrito
+    private String mens="No tiene ningun artículo";
     
 
     public bComprar() {
@@ -468,10 +472,15 @@ public class bComprar {
     public void setPedidoCorrecto(boolean pedidoCorrecto) {
         this.pedidoCorrecto = pedidoCorrecto;
     }
-    
-    
-    
-    
+
+    public String getMens() {
+        return mens;
+    }
+
+    public void setMens(String mens) {
+        this.mens = mens;
+    }
+     
     public String comprarTelefono(Telefono telefono){
         
         //Cojo el carrito de la sesion
@@ -507,6 +516,9 @@ public class bComprar {
         
         //Resete la cantidad 
         cantidad=1;
+        
+        //Escribo mensaje carrito
+        mens="Tiene " + listaCarrito.size() +" articulos en el carrito.";
         
 
         return "correcto";
@@ -642,8 +654,10 @@ public class bComprar {
 
         HttpSession session = (HttpSession) ctx.getSession(false);
         manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
-        List listaCarrito = (List) manageBeanSesion.getListaCarrito();
+        List listaCarrito;
         
+        if (manageBeanSesion!=null){
+        listaCarrito = (List) manageBeanSesion.getListaCarrito();
         float precio=(float) 0.0;
         //Saco el precio total
         for (int i = 0; i < listaCarrito.size(); i++) {
@@ -651,6 +665,10 @@ public class bComprar {
             precio= precio +(telefonoC.getTelefono().getPrecio()*telefonoC.getCantidad());
         }
         precioCesta=precio;
+        }
+        else{
+            listaCarrito= new ArrayList();
+        }
         
         return listaCarrito;
         }
@@ -680,6 +698,28 @@ public class bComprar {
 
         
         return "finalizar";
+    }
+    
+    public String cambiarDireccion(){
+        
+        direccion=true;
+        tarjeta=false;
+        confirmarCesta=false;
+        pedidoCorrecto =false;
+        step=true;
+        activeIndex=0;
+        return "correcto";
+    }
+    
+    public String cambiarTarjeta(){
+        
+        direccion=false;
+        tarjeta=true;
+        confirmarCesta=false;
+        pedidoCorrecto =false;
+        step=true;
+        activeIndex=1;
+        return "correcto";
     }
     
     public String seleccionarDireccion(int codigoDireccion){
@@ -748,7 +788,63 @@ java.sql.Timestamp date = new java.sql.Timestamp(new java.util.Date().getTime())
         return "correcto";
     }
     
-    
+    public void refrescarCarrito(TelefonoCesta telefonoActualizar) {
+        //Cojo el carrito de la sesion
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+        HttpSession session = (HttpSession) ctx.getSession(false);
+        manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        List listaCarrito = (List) manageBeanSesion.getListaCarrito();
+        
+        float precio=(float) 0.0;
+        //Saco el precio total
+        for (int i = 0; i < listaCarrito.size(); i++) {
+            TelefonoCesta telefonoC = (TelefonoCesta) listaCarrito.get(i);
+            if(telefonoC.equals(telefonoActualizar)){
+                    telefonoC.setCantidad(cantidad);
+                    listaCarrito.set(i, telefonoC);
+
+            }
+            precio= precio +(telefonoC.getTelefono().getPrecio()*telefonoC.getCantidad());
+        }
+        
+        precioCesta=precio;
+       
+}
+    public void eliminarArticulo(TelefonoCesta telefonoEliminar) {
+        //Cojo el carrito de la sesion
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+        HttpSession session = (HttpSession) ctx.getSession(false);
+        manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        List listaCarrito = (List) manageBeanSesion.getListaCarrito();
+        
+        float precio=(float) 0.0;
+        //Saco el precio total
+        for (int i = 0; i < listaCarrito.size(); i++) {
+            TelefonoCesta telefonoC = (TelefonoCesta) listaCarrito.get(i);
+            if(telefonoC.equals(telefonoEliminar)){
+                    listaCarrito.remove(i);
+
+            }
+            precio= precio +(telefonoC.getTelefono().getPrecio()*telefonoC.getCantidad());
+        }
+        
+        precioCesta=precio;
+        
+        //Escribo mensaje carrito
+        mens="Tiene " + listaCarrito.size() +" articulos en el carrito.";
+        if(listaCarrito.size()==0){
+             mens="No tiene ningún articulo";
+        }
+        
+       
+}
+    public void updateCantidad(ValueChangeEvent event) {
+        cantidad = (Integer) event.getNewValue();
+}
     
 }
 

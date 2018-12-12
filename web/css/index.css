@@ -1,0 +1,466 @@
+ body{
+                    margin:0;
+                }
+                header p{
+                    margin:0;
+                    padding:0;
+                }
+                header{
+                    background-color: black;
+                    color: white;
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                }
+                header  a img{
+                    width: 100%;
+                    float:left;
+                }
+                header #idioma{
+                    width: 12%;
+                    float:left;
+                    margin-top: 24px;
+                    margin-left: 65px;
+                }
+                header #idioma p {
+                    margin-top: -2px;
+                    float: left;
+                    font-size: 20px;
+                }
+                header #idioma form input {
+                    width: 2.5em;
+                    height: 1.5em;
+                    margin-left: 8%;
+                }
+                header #login{
+                    width: 14%;
+                    float: left;
+                    margin-left: 5%;
+                    margin-top: 2%;
+                }
+
+                header #contacto{
+                    width: 15%;
+                    float:left;
+                    margin-left: 7%;
+                    margin-top: 1%;
+                }
+                header #logo{
+                    width: 42%;
+                    float:left;
+                    padding: 0px;
+                }
+
+                header #contacto img{
+                    width: 20%;
+                    float: left;
+                }
+
+                header #login a{
+                    float: left;
+                    color: white;
+                }
+
+                header #login span{
+                    cursor:pointer;
+                }
+                #inicioSesion{
+                    text-decoration: underline;
+                }
+
+                header #contacto p{
+                    font-size: 20px;
+                    padding-top: 4%;
+                }
+
+                header #carrito{
+                    width: 20%;
+                    float: right;
+                    cursor: pointer;
+                }
+                header #carrito p{
+                    float:left;
+                    line-height: 3em;
+                    color:white;
+                }
+                header #carrito input{
+                    width: 3em;
+                    height: 3em;
+                    margin-left: 20px;
+                }
+
+                #modalInicioSesion span img{
+                    width: 8%;
+                    float:right;
+                }
+                .close{
+                    cursor:pointer;  
+                }
+                .modal {
+                    display: none; /* Hidden by default */
+                    position: fixed; /* Stay in place */
+                    z-index: 1; /* Sit on top */
+                    padding-top: 100px; /* Location of the box */
+                    left: 0;
+                    top: 0;
+                    width: 100%; /* Full width */
+                    height: 100%; /* Full height */
+                    overflow: auto; /* Enable scroll if needed */
+                    background-color: rgb(0,0,0); /* Fallback color */
+                    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                }
+                #inicioS{
+                    background-color: black;
+                    color:white;
+                    font-size: 20px;
+                    width: 25%;
+                }
+                .centrar
+
+                {
+
+                    position: absolute;
+
+                    /*nos posicionamos en el centro del navegador*/
+
+                    top:50%;
+
+                    left:50%;
+
+                    /*determinamos una anchura*/
+
+
+                    /*indicamos que el margen izquierdo, es la mitad de la anchura*/
+
+                    margin-left:-10%;
+
+                    /*determinamos una altura*/
+
+
+                    /*indicamos que el margen superior, es la mitad de la altura*/
+
+                    margin-top:-15%;
+
+                    border:1px solid #808080;
+
+                    padding:5px;
+
+                }
+
+                #formularioInicio{
+                    width: 43%;
+
+                    margin: 0 auto;
+
+                    text-align: center;
+                }
+
+                #menuHorizontal ul {
+                    list-style-type: none;
+                    margin: 0;
+                    padding: 0;
+                    overflow: hidden;
+                    background-color: #db4040;
+                    float:left;
+                    width: 52%;
+                }
+
+                #menuHorizontal li {
+                    float: left;
+                }
+
+               #menuHorizontal li a {
+                    display: block;
+                    color: black;
+                    text-align: center;
+                    padding: 17px 25px;
+                    text-decoration: none;
+                }
+
+               #menuHorizontal li:first-child a:hover {
+                    background: url(../imagenes/Fotos/home.png) no-repeat center left;
+                    background-size:17px 17px;
+                    background-color: #d1d1d1;
+                }
+
+               #menuHorizontal li:nth-child(2) a:hover {
+                    background: url(../imagenes/Fotos/15846.png) no-repeat center left;
+                    background-size:17px 17px;
+                    background-color: #d1d1d1;
+                }
+
+
+                #menuHorizontal >ul li:first-child {
+                    background: url(../imagenes/Fotos/home.png) no-repeat center left;
+                    background-size:17px 17px;
+                    margin-left: 1%;
+                }
+                #menuHorizontal >ul li:nth-child(2) {
+                    background: url(../imagenes/Fotos/15846.png) no-repeat center left;
+                    background-size:17px 17px;
+                }
+
+                #menuHorizontal{
+                    background-color: #db4040;
+                    width: 100%;
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                    margin-bottom: 1%;
+                }
+
+                #contenedorDatosLogeado{
+                    width: 48%;
+                    float: left;
+                    background-color: #db4040;
+                    font-size: 19px;
+
+                }
+                .ui-widget {
+                    font-family: Times New Roman;
+                    font-size: 19px;
+                }
+                #contenedorDatosLogeado p{
+                    margin:0;
+                }
+                #contenedorDatosLogeado div{
+                    padding: 15px 25px;
+
+                }
+                #contenedorDatosLogeado div p a{
+                    color:black;
+
+                }
+                #contenedorDatosLogeado div p i{
+                    margin-right: 6px;
+
+                }
+
+                #nombreUsuario{
+                    float: left;
+                    margin-right: 6%;
+                    width: 33%;
+                }
+                #accesoPerfil:hover{
+                    color:white;
+                }
+                #accesoPerfil:hover p a{
+                    color:white;
+                    text-decoration: none;
+                }
+                #accesoPerfil{
+                    float: right;  
+
+                    margin-right: 2%;
+                }
+                #cerrarSesion{
+                    float:right;
+                    width: 20%;
+                }
+                #cerrarSesion:hover{
+                    color:white;
+                }
+                #cerrarSesion:hover p a{
+                    color:white;
+                    text-decoration: none;
+                }
+
+                #slideshow {
+                    margin-bottom: 5px;
+                    width: 90%;
+                    height: 400px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    margin: 0 auto;
+                }
+
+                #slideshow img {
+                    display: inline-block;
+                    width: 100%;
+                    height: 100%;
+                }
+
+                .circle {
+                    margin-right: 15px;
+                    display: inline-block;
+                    background-color: lightgrey;
+                    width: 12px;
+                    height: 12px;
+                    border-radius: 50px;
+                }
+                #compra{
+                    border: 1px solid orange;
+                    background-color: #ffd486;
+                    width: 90%;
+
+                    margin: 0 auto;
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                    font-family: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+                }
+                #imgCompra{   
+                    width: 12%;
+
+                    margin-left: 5%;
+
+                    float: left;
+
+                    margin-top: 1%;
+                }
+                #imgCompra img{
+                    width: 100%;
+                }
+                #infoCompra{
+                    width: 70%;
+
+                    font-size: 21px;
+
+                    margin-left: 28%;
+
+                    margin-top: 3%;
+
+                    text-align: justify;
+                }
+
+                #venta{
+                    border: 1px solid blue;
+                    background-color: #d7e3ff;
+                    width: 90%;
+
+                    margin: 0 auto;
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                    font-family: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+                }
+                #imgVenta{   
+                    width: 12%;
+
+                    margin-right: 5%;
+
+                    float: right;
+
+                    margin-top: 0.5%;
+                }
+                #imgVenta img{
+                    width: 100%;
+                }
+                #infoVenta{
+                    width: 70%;
+
+                    font-size: 21px;
+
+                    margin-left: 1%;
+
+                    margin-top: 3%;
+
+                    text-align: justify;
+                }
+                #reparar{
+                    border: 1px solid red;
+                    background-color: #a7a7a7;
+                    width: 90%;
+
+                    margin: 0 auto;
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                    font-family: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+                }
+                #paso1img{
+                    width: 14%;
+                    margin-right: 5%;
+                    float: left;
+                    margin-top: 2%; 
+                    margin-left: 1%;
+                }
+                #paso1img img{
+                    width: 100%;
+                }
+                #paso1info{
+                    width: 18%;
+                    float: left;
+                    margin-top: 2%;
+                    margin-left: -4%;
+                    font-size: 18px;
+                    text-align: justify;
+                    margin-right: 1%;
+                }
+                #paso2img{
+                    width: 14%;
+                    margin-right: 5%;
+                    float: left;
+                    margin-top: 2%; 
+                }
+                #paso2img img{
+                    width: 100%;
+                }
+                #paso2info{
+                    width: 17%;
+                    float: left;
+                    margin-top: 2%;
+                    margin-left: -4%;
+                    font-size: 18px;
+                }
+                #paso3img{
+                    width: 14%;
+                    margin-right: 5%;
+                    float: left;
+                    margin-top: 2%; 
+                }
+                #paso3img img{
+                    width: 100%;
+                }
+                #paso3info{
+                    width: 17%;
+                    float: left;
+                    margin-top: 2%;
+                    margin-left: -4%;
+                    font-size: 18px;
+                }
+
+                footer{
+                    width: 100%;
+                    background-color: black;
+                    color: white;
+                    font-size: 16px;
+                    margin: 0 auto;
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                }
+
+                #copyright{
+                    float: left;
+                    width: 100%;
+                    text-align: center;
+                }
+                #imagenesFooter div{
+                    width: 10%;
+                    float: left;
+                    margin-right: 11%;
+                }
+                #imagenesFooter div a img{
+                    width: 100%;   
+                }
+                #infoFooter {
+                    width: 37%;
+                    margin-left: 5%;
+                    float:left;
+                    margin-top: 1%;
+                }
+                #imagenesFooter{
+                    width: 33%;
+                    float: right;
+                    margin-top: 7%;
+                    margin-right: 0%;
+
+                }
+                #olvidarPassword{
+                    display:none;
+                }
+                #olvC:hover{
+                    cursor:pointer;
+                    text-decoration: underline;
+                }

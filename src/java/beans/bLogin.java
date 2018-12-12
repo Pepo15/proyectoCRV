@@ -3,19 +3,45 @@ package beans;
 import DAO.AdministradorJpaController;
 import DAO.TecnicoJpaController;
 import DAO.UsuarioJpaController;
+import DAO.exceptions.NonexistentEntityException;
 import DTO.Administrador;
 import DTO.Tecnico;
 import DTO.Telefono;
 import DTO.TelefonoCesta;
 import DTO.Usuario;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
+import org.primefaces.PrimeFaces;
+import org.primefaces.context.RequestContext;
+
+
+import java.util.Date;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.servlet.http.HttpSession;
+import org.primefaces.PrimeFaces;
 
 
 public class bLogin {
@@ -31,6 +57,7 @@ public class bLogin {
     //Variables que almacenan los datos de los inputs, para hacer el login
     private String nick;
     private String password;
+    private String email;
     
     //Objeto usuario que subiremos a la sesión cuando comprobemos que está en la base de datos
     private Usuario usuarioLogeado;
@@ -39,6 +66,7 @@ public class bLogin {
 
     //Mensaje que devolveremos para poder comprobar el logeo
     private String mens;
+    private String mens2;
     
     //Lista con los articulos de la compra(Carrito)
     private List<TelefonoCesta> listaCarrito;
@@ -141,6 +169,51 @@ public class bLogin {
         this.listaCarrito = listaCarrito;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getMens2() {
+        return mens2;
+    }
+
+    public void setMens2(String mens2) {
+        this.mens2 = mens2;
+    }
+    
+    
+    
+    
+    
+    public boolean comprobarRender(Boolean boo){
+        if(boo==null){
+            return true;
+        }
+    if(boo==true){
+        return true;
+    }
+    else{
+        return false;
+    }
+    }
+    
+     public boolean comprobarRender2(Boolean boo,Boolean boo2){
+        if(boo==null && boo2 ==null){
+            return true;
+        }
+    if(boo==true && boo2==true){
+        return true;
+    }
+    else{
+        return false;
+    }
+    
+}
+
     
 
  
@@ -167,7 +240,10 @@ public class bLogin {
             listaCarrito=new ArrayList();
             subirCarrito();
             
-            return "usuario";
+            //Muestro la ventana por si quiere modificar el telefono
+          PrimeFaces.current().executeScript("$('#modalInicioSesion').css('display','none')");
+            
+            return "";
             }
         //Comprobamos que sea tecnico y si existe, si la contraseña introducida es correcta
         else if(tecnico!=null && tecnico.getPassword().equals(password)){ 
@@ -182,6 +258,13 @@ public class bLogin {
             //puesto que el login es de request y se pierde
             administradorLogeado=administrador;
             subirAdministrador();
+            //Coger contexto
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+                ctx.redirect("/CRV/faces/administrador.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(bLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
              return "administrador";
         }
         else{
@@ -216,7 +299,10 @@ public class bLogin {
             }
   
             //Añadirle como propiedad el usuario que se ha logeado
-            manageBeanSesion.setUsuarioLog(usuarioLogeado);          
+            manageBeanSesion.setUsuarioLog(usuarioLogeado); 
+            
+            manageBeanSesion.setLogeado(false);
+             manageBeanSesion.setLogeadoOtro(true);
     }
     
     //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
@@ -270,7 +356,10 @@ public class bLogin {
             }
   
             //Añadirle como propiedad el tecnico que se ha logeado
-            manageBeanSesion.setTecnicoLog(tecnicoLogeado);          
+            manageBeanSesion.setTecnicoLog(tecnicoLogeado);   
+            
+             manageBeanSesion.setLogeado(true);
+           manageBeanSesion.setLogeadoOtro(false);
     }
     
     //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
@@ -297,7 +386,98 @@ public class bLogin {
             }
   
             //Añadirle como propiedad el usuario que se ha logeado
-            manageBeanSesion.setAdministradorLog(administradorLogeado);          
+            manageBeanSesion.setAdministradorLog(administradorLogeado);  
+            
+            manageBeanSesion.setLogeado(true);
+            manageBeanSesion.setLogeadoOtro(false);
+    }
+    
+    public String olvidarPassword() {
+
+        Usuario usu = ctrUsuario.findByEmail(email);
+
+        if (usu != null) {
+            String contraseñaAleatoria = "";
+            //generacion contraseña Aleatoria
+            char[] elementos = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',//NUMBERS
+                'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+                'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',//MINUS
+                'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+                'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',//MAYUS
+                '!', '?', '*', '-','.'};//SYMBOLS
+            int longitud = elementos.length;
+            char[] conjunto = new char[8];
+
+            for (int i = 0; i < 8; i++) {
+                int el = (int) (Math.random() * longitud);
+                conjunto[i] = (char) elementos[el];
+            }
+            contraseñaAleatoria = new String(conjunto);
+            try {
+                // Usuario y el password
+                String usuario = "crvmovil@gmail.com";
+                String pass = "crv1912@";
+
+                String asunto = "Se ha modificado su contraseña";
+                String mensaje = "Hola " + usu.getNombre() + " le enviamos una nueva contraseña, podrá cambiarla o mantenerla! "
+                        + "\n \n " + contraseñaAleatoria
+                        + "\n \n Equipo de CRV MÓVIL";
+
+                Properties props = new Properties();
+                props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.port", "587");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+
+                // Creamos una sesión que nos permita identificarnos en el servidor con el usuario y pass informados previamente
+                Authenticator autenticador = new Authenticator() {
+                    public PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(usuario, pass);
+                    }
+                };
+
+                Session session = Session.getInstance(props, autenticador);
+
+                Message correo = new MimeMessage(session);
+
+                // Entidad que envia el email
+                correo.setFrom(new InternetAddress(usuario));
+
+                // Destinatarios
+                InternetAddress[] listaDestinatarios = {new InternetAddress(email)};
+                correo.setRecipients(Message.RecipientType.TO, listaDestinatarios);
+
+                // Asunto
+                correo.setSubject(asunto);
+
+                // Paso 4. Informamos la fecha de hoy
+                correo.setSentDate(new Date());
+
+                // Mensaje que queremos enviar
+                correo.setText(mensaje);
+
+                // Una vez creado el objeto Message con el email, se realiza en envío. En caso de fallo elevará una excepción
+                Transport.send(correo);
+
+                usu.setPassword(contraseñaAleatoria);
+                try {
+                    ctrUsuario.edit(usu);
+                    mens2 = "Su nueva contraseña está en su correo electrónico";
+                    // Si hemos llegado a este punto significa que no se ha lanzado ninguna excepción y podemos decir que el email se ha enviado correctamente
+                } catch (NonexistentEntityException ex) {
+                    Logger.getLogger(bLogin.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(bLogin.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (MessagingException ex) {
+                Logger.getLogger(bLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            mens2 = "Introduzca un e-mail válido";
+        }
+        email = "";
+        return "";
     }
     
     

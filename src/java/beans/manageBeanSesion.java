@@ -32,10 +32,13 @@ public class manageBeanSesion {
      private Caracteristicastelefono caracteristicasModificar;
      private Premio premioModificar;
      private List<TelefonoCesta> listaCarrito;
+     
+     private boolean logeado;
+     
+     private boolean logeadoOtro;
 
  
     public manageBeanSesion() {
-  
     }
 
     public Usuario getUsuarioLog() {
@@ -101,6 +104,26 @@ public class manageBeanSesion {
     public void setListaCarrito(List<TelefonoCesta> listaCarrito) {
         this.listaCarrito = listaCarrito;
     }
+
+    public boolean isLogeado() {
+        return logeado;
+    }
+
+    public void setLogeado(boolean logeado) {
+        this.logeado = logeado;
+    }
+
+    public boolean isLogeadoOtro() {
+        return logeadoOtro;
+    }
+
+    public void setLogeadoOtro(boolean logeadoOtro) {
+        this.logeadoOtro = logeadoOtro;
+    }
+    
+    
+    
+    
     
     public static void redireccionar (String url)
     {
@@ -120,6 +143,7 @@ public class manageBeanSesion {
                 ctx.redirect(surl);
         } catch (Exception ex) {
 }
+        
 }
     
     

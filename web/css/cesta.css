@@ -1,0 +1,74 @@
+          body{
+                    background-color: #e1e1e1;
+                    margin:0;
+                }
+                .tabla{
+                    display: table;
+                    width: 60%;
+                    border:1px solid black;
+                    float:left;
+                    margin-left: 5%;
+                }
+                .fila{
+                    display: table-row;
+                    border:1px solid black;
+                    position: relative;
+                }
+                .fila:first-child p{
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                .fila:nth-child(2) p{
+                    position: absolute;
+
+                    top: 40%;
+
+                    font-size: 18px;
+                }
+                .columna{
+                    display: table-cell;
+                    padding: 12px;
+                    background: #f5f1f1;
+                    width: 15%;
+                    border:1px solid black;
+                }
+
+                .fila .columna:first-child img{
+                    width: 60%;
+                    margin-left: 20%;
+                }
+                .fila  img{
+                    width: 20%;
+                    margin-left: 40%;
+
+                    margin-bottom: 10%;
+                }
+                .ui-spinner{
+                    margin-top: 5%;
+                }
+                .ui-inputfield{
+                    padding: 0;
+                    padding-right: 20px;
+                    width: 60px;
+                }
+                #contenedorResumen{
+                    width: 20%;
+                    float:left;
+                    margin-left: 5%;
+
+                    background: #f5f1f1;
+border: 1px solid black;
+                }
+                #contenedorResumen h1{
+border-bottom: 1px solid black;
+                }
+                #contenedorResumen p{
+                  
+float:left;
+width: 50%;
+padding:1%;
+                }
+                .spiner{
+                    position: absolute;
+top: 40%;top:40%;
+                }

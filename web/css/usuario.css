@@ -1,0 +1,349 @@
+#contenedorAcciones form div{
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+}
+#contenedorAcciones form{
+    float: left;
+
+    margin-left: 23%;
+    width: 15%;
+}
+#contenedorAcciones form div img{
+    width: 100%;
+
+
+
+    float: left;
+}
+#contenedorAcciones form div p{
+    text-align: center;
+    font-size: 20px;
+}
+
+#contenedorModificarDatos{
+    clear: both;
+    width: 90%;
+
+    margin: 0 auto;
+    padding-top: 1%;
+}
+
+#contenedorDirecciones #direcciones #direccion{
+    width: 30%;
+    float: left;
+    margin-left: 0.5%;
+    background: white;
+    border-radius: 8px;
+    padding: 1%;
+    margin-top: 1%;
+}
+#contenedorDirecciones #direcciones #direccion p{
+    width: 100%;
+    float:left;
+
+    margin:0;
+    padding:0;
+    margin-left: 1%;
+}
+#contenedorDirecciones #direcciones #direccion p:nth-child(2n){
+    width: 60%;
+    float:left;
+
+    margin-left:2%;
+    padding:0;
+}
+#contenedorDirecciones #direcciones #direccion p:nth-child(2n+1){
+    font-size: 20px;
+    font-weight:  bold;
+}
+#contenedorDirecciones #direcciones  form input{
+    float:right;
+    margin-right: 1%;
+
+    margin-bottom: 2%;
+}
+#contenedorDirecciones  #direcciones h1{
+    margin-left: 1%;
+
+    width: 80%;
+
+    border-bottom: 1px solid red;
+}
+
+#contenedorTarjetas{
+    clear: both;
+    width: 90%;
+    margin: 0 auto;
+}
+
+#contenedorTarjetas #tarjetas #tarjeta{
+    width: 30%;
+    float: left;
+    margin-left: 0.5%;
+    margin-top: 1%;
+}
+
+#contenedorTarjetas #tarjetas #tarjeta p{
+    width: 100%;
+    float:left;
+
+    margin:0;
+    padding:0;
+}
+
+#contenedorTarjetas #tarjetas #tarjeta p:nth-child(2n+1){
+    font-size: 20px;
+    font-weight:  bold;
+}
+#contenedorTarjetas #tarjetas  form input{
+    float:right;
+}
+#altaTarjetas{
+    clear: both;
+    margin-top: 1%;
+    background: white;
+    border:1px solid black;
+    border-radius: 13px;
+    margin-bottom: 2%;
+    padding:1%;
+}
+body{
+    background-color: #e1e1e1;
+    margin:0;
+}
+
+#modificarDP{
+    border: 1px solid black;
+    border-radius: 13px;
+    background: white;
+
+}
+#modificarDP h1{ 
+    border-bottom: 1px solid red;
+}
+#modificarDP input[type="submit"]{
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    border-radius: 10px;
+
+    float: right;
+
+    margin-right: 5%;
+}
+#modificarC{
+    border: 1px solid black;
+    border-radius: 13px;
+    background: white;
+    margin-top: 2%;
+}
+#modificarC input[type="submit"]{
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    border-radius: 10px;
+
+    float: right;
+
+    margin-right: 5%;
+}
+#modificarC h1{ 
+    border-bottom: 1px solid red;
+}
+
+#altaDirecciones{
+    border: 1px solid black;
+    border-radius: 13px;
+    background: white;
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 2%;
+    padding:1%;
+}
+
+#altaDirecciones h1{ 
+    border-bottom: 1px solid red;
+    margin-top: 0;
+}
+
+#altaDirecciones input[type="submit"]{
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    font-size: 14px;
+
+    border-radius: 10px;
+
+    float: right;
+
+    margin-right: 5%;
+}
+
+#contenedorD{
+    width: 90%;
+    clear: both;
+    overflow: hidden;
+    height: 1%;
+    margin: 0 auto;
+}
+#contenedorT{
+    width: 100%;
+    clear: both;
+    overflow: hidden;
+    height: 1%;
+}
+
+#contenedorT h1 {
+    margin-left: 1%;
+    width: 80%;
+    border-bottom: 1px solid red;
+}
+
+#contenedorT #tarjeta{
+    width: 24%;
+    float: left;
+    margin-left: 0.5%;
+    background: white;
+    border-radius: 8px;
+    padding: 1%;
+}
+
+#altaTarjetas h1{
+    border-bottom: 1px solid red;
+    margin-top: 0;
+}
+#altaTarjetas form{
+
+    clear: both;
+    overflow: hidden;
+}
+
+#altaTarjetas button{
+    float: right;
+    width: 13%;
+
+    font-size: 13px;
+
+    margin-right: 1%;
+
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    text-shadow: none;
+}
+#altaDirecciones button{
+    float: right;
+    width: 13%;
+
+    font-size: 13px;
+
+    margin-right: 1%;
+
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    text-shadow: none;
+}
+.close{
+    cursor:pointer;  
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+.centrar
+
+{
+
+    position: absolute;
+
+    /*nos posicionamos en el centro del navegador*/
+
+    top:50%;
+
+    left:50%;
+
+    /*determinamos una anchura*/
+
+
+    /*indicamos que el margen izquierdo, es la mitad de la anchura*/
+
+    margin-left:-10%;
+
+    /*determinamos una altura*/
+
+
+    /*indicamos que el margen superior, es la mitad de la altura*/
+
+    margin-top:-15%;
+
+    border:1px solid #808080;
+
+    padding:5px;
+
+}
+#modalDireccion img{
+    width: 4%;
+    float: right;
+}
+#modalTarjeta img{
+    width: 4%;
+    float: right;
+}
+#mD{
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    width: 45%;
+    margin-left: -22%;
+}
+#mT{
+    background-color: black;
+    color: white;
+    font-size: 20px;
+    width: 45%;
+    margin-left: -22%;
+}
+#mD .ui-inputfield{
+    padding: 0;
+}
+#mT .ui-inputfield{
+    padding: 0;
+}
+.noHay{
+    width: 80%;
+    margin: 0 auto;
+    padding: 2%;
+}
+label.error { float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 20px !important;
+    width: 100% !important; margin-right: 1.5%;
+}

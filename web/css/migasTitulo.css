@@ -1,0 +1,66 @@
+
+                /* MIGAS DE PAN*/
+                #contenedorBread{
+                    clear: both;
+                    overflow: hidden;
+                    height: 1%;
+                    width: 100%;
+                    margin-bottom: 3%;
+                }
+                #migas ul{
+                    list-style:none;
+                }
+                #migas li{
+                    float:left;
+                    width:145px;
+                    height:24px;
+                    font-family:Verdana, Geneva, sans-serif;
+                    text-align:center;
+                    font-size:14px;
+                    position:relative;
+                    margin-left:5px;
+                    cursor:pointer;
+                    line-height:1.8em;
+                    background:#00B6C7;
+                }
+                #migas li a{
+                    color: white;
+                    text-decoration: none;
+                    font-weight: bold;
+
+                }
+                #migas em, #migas i{
+                    display:block;
+                    width:0;
+                    height:0;
+                    border-style:solid;
+                    border-width:12px 0 12px 12px;
+                    position:absolute;
+                }
+                #migas i{
+                    right:-12px;
+                    top:0;
+                    border-color:transparent transparent transparent #00B6C7;
+                    z-index:1;
+                }
+                #migas em{
+                    left:0;
+                    top:0;
+                    border-color:transparent transparent transparent #e1e1e1;
+                }
+                #migas li:hover{
+                    background-color:#5b72e0;
+                    color:#FFF;
+                }
+                #migas li:hover i{
+                    border-color:transparent transparent transparent #5b72e0;
+                }
+                #tituloPagina{
+                    width: 90%;
+                    margin: 0 auto;
+                    margin-bottom: 3%;
+                }
+
+                #tituloPagina  h1{
+                    border-bottom: 1px solid red;
+                }

@@ -18,6 +18,7 @@ import DTO.Provincia;
 import DTO.Tarjeta;
 import DTO.Tecnico;
 import DTO.Usuario;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -32,6 +33,7 @@ import javax.faces.model.SelectItem;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
+import org.primefaces.context.RequestContext;
 
 public class bUsuarioGestionPersonal {
 
@@ -126,8 +128,22 @@ public class bUsuarioGestionPersonal {
     private int anioAlta;
     
     private String cvvAlta;
-
-   
+    
+    //Variables para dar de alta a un usuario
+    private String nombreAlta;
+    
+    private String ape1Alta;
+    
+    private String ape2Alta;
+    
+    private String emailAlta;
+    
+    private String nickAlta;
+    
+    private String passwordAlta;
+    
+    private String passwordRAlta;
+    
 
     //Constructor
     public bUsuarioGestionPersonal() {
@@ -149,6 +165,7 @@ public class bUsuarioGestionPersonal {
 
         HttpSession session = (HttpSession) ctx.getSession(false);
         manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        if(manageBeanSesion!=null){
         Usuario usuario = (Usuario) manageBeanSesion.getUsuarioLog();
 
         //Relleno los inputs con sus datos, por si quiere modificarlos
@@ -164,15 +181,17 @@ public class bUsuarioGestionPersonal {
         listaTarjetas = new ArrayList();
 
         listaTarjetas = usuario.getTarjetaList();
-
         
-        //Comprobamos si tiene o no para mostrar una ventana con un mensaje
+         //Comprobamos si tiene o no para mostrar una ventana con un mensaje
         if (listaDirecciones.size() == 0) {
             noExiste = true;
         }
         if (listaTarjetas.size() == 0) {
             noExisteT = true;
         }
+        }
+        
+       
 
     }
 
@@ -556,6 +575,63 @@ public class bUsuarioGestionPersonal {
     public void setCvvAlta(String cvvAlta) {
         this.cvvAlta = cvvAlta;
     }
+
+    public String getNombreAlta() {
+        return nombreAlta;
+    }
+
+    public void setNombreAlta(String nombreAlta) {
+        this.nombreAlta = nombreAlta;
+    }
+
+    public String getApe1Alta() {
+        return ape1Alta;
+    }
+
+    public void setApe1Alta(String ape1Alta) {
+        this.ape1Alta = ape1Alta;
+    }
+
+    public String getApe2Alta() {
+        return ape2Alta;
+    }
+
+    public void setApe2Alta(String ape2Alta) {
+        this.ape2Alta = ape2Alta;
+    }
+
+    public String getEmailAlta() {
+        return emailAlta;
+    }
+
+    public void setEmailAlta(String emailAlta) {
+        this.emailAlta = emailAlta;
+    }
+
+    public String getNickAlta() {
+        return nickAlta;
+    }
+
+    public void setNickAlta(String nickAlta) {
+        this.nickAlta = nickAlta;
+    }
+
+    public String getPasswordAlta() {
+        return passwordAlta;
+    }
+
+    public void setPasswordAlta(String passwordAlta) {
+        this.passwordAlta = passwordAlta;
+    }
+
+    public String getPasswordRAlta() {
+        return passwordRAlta;
+    }
+
+    public void setPasswordRAlta(String passwordRAlta) {
+        this.passwordRAlta = passwordRAlta;
+    }
+    
     
     
     
@@ -578,7 +654,7 @@ public class bUsuarioGestionPersonal {
         Usuario usuarioRepetido = ctrUsuario.findUsuarioByNick(nick);
 
         //Si existe alguno no podremos darlo de alta para que no cause errores al iniciar sesion
-        if (administradorRepetido == null && tecnicoRepetido == null && usuarioRepetido!=null) {
+        if (administradorRepetido == null && tecnicoRepetido == null && usuarioRepetido==null) {
             try {
                 //Creo un usuario con los datos proporcioandos el resto lo cojo de los que ya tenia
                 Usuario usuario = new Usuario(usuarioSesion.getCodigoUsuario(),
@@ -760,17 +836,25 @@ public class bUsuarioGestionPersonal {
         
 
         //Relleno los inputs con los datos de la tarjeta elegida
-        Tarjeta tarjetaModificar = (Tarjeta) ctrTarjeta.findTarjeta(codigoTarjetaModificar);
+        Tarjeta tarjetaModificar = (Tarjeta) ctrTarjeta.findTarjeta(codigoTarjeta);
 
         String fecha = String.valueOf(tarjetaModificar.getFechaCaducidad());
-        Calendar cal = Calendar.getInstance();
-        String year = String.valueOf(cal.get(Calendar.YEAR));
-        String anioFinal = year.substring(0, 2) + "" + fecha.substring(2, 4);
+        String fechaFinal="";
+        int longitud=fecha.length();
+        
+        if(longitud==4){
+            
+         fechaFinal=fecha.substring(0, 2) + "" + fecha.substring(2, 4);
+        }
+        else{
+           fechaFinal= "0"+fecha.substring(0, 1) + "" + fecha.substring(1, 3);
+         
+        }
         
         codigoTarjetaModificar = codigoTarjeta;
         numeroTarjeta = tarjetaModificar.getNumeroTarjeta();
-        mes = Integer.parseInt(fecha.substring(0, 2));
-        anio = Integer.parseInt(anioFinal);
+        mes = Integer.parseInt(fechaFinal.substring(0, 2));
+        anio = Integer.parseInt("20"+Integer.parseInt(fechaFinal.substring(2, 4)));
         cvv = tarjetaModificar.getCvv();
         
         return "correcto";
@@ -848,6 +932,66 @@ public class bUsuarioGestionPersonal {
         return "correcto";
     }
     
+    public String altaUsuario() {
+        //Creo el usuario
+        Usuario usuario = new Usuario(null, nombreAlta, ape1Alta, ape2Alta, emailAlta, nickAlta, passwordAlta);
+        usuario.setPuntosAcumulados(0);
+        
+        //Lo subo a la base de datos
+        ctrUsuario.create(usuario);
+        
+        
+        
+        //Lo subo a la sesion
+        subirUsuario(usuario);
+        List listaCarrito=new ArrayList();
+         subirCarrito(listaCarrito);
+         
+         nick=nickAlta;
+         email=emailAlta;
+         noExiste=true;
+         noExisteT=true;
+        
+        //Lo mando a su perfil
+        //Coger contexto
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+                ctx.redirect("/CRV/faces/usuario.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(bLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        
+        return"";
+    }
+    
+     //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
+    public  void subirCarrito(List listaCarrito)
+    {
+        //Coger contexto
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        
+        //Crear un objeto bTienda para añadirle despues el cliente como atributo
+        manageBeanSesion manageBeanSesion=new manageBeanSesion();
+        
+            
+            //Coger session del contexto
+            HttpSession session= (HttpSession)ctx.getSession(false);
+            
+            //Compruebo si se ha creado el beanTienda en la sesion sino lo creo,
+            //se crea automaticamente cuando se pone en el .jsp bTienda.(lo que sea) es decir cuando se menciona
+            //tambien podriamos quitar esto y poner en el login.jsp en el titulo un outputText con value
+            // bTienda.nada() un metodo que no haga nada y nada mas que por ponerlo ya se crea automaticamente
+            if(session.getAttribute("manageBeanSesion")!=null){
+                manageBeanSesion=(manageBeanSesion) session.getAttribute("manageBeanSesion");
+            }else{
+                session.setAttribute("manageBeanSesion",manageBeanSesion);
+            }
+  
+            //Añadirle como propiedad el usuario que se ha logeado
+            manageBeanSesion.setListaCarrito(listaCarrito);          
+    }
+    
     //Metodo para modificar la direccion
     public String altaDireccion() {
         //Cojo el usuario de la sesion
@@ -884,6 +1028,8 @@ public class bUsuarioGestionPersonal {
             listaPoblaciones=null;
             direccionAlta="";
             telefonoAlta="";
+            
+            noExiste=false;
 
             //Escribo el mensaje de modificacion correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha añadido la direccion correctamente."));
@@ -982,6 +1128,8 @@ public class bUsuarioGestionPersonal {
             mesAlta="";
             anioAlta=0;
             cvvAlta="";
+            
+            noExisteT=false;
 
             //Escribo el mensaje de alta correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha añadido la tarjeta correctamente."));
@@ -1013,6 +1161,8 @@ public class bUsuarioGestionPersonal {
 
         //Añadirle como propiedad el usuario que se ha logeado
         manageBeanSesion.setUsuarioLog(usuario);
+        
+        manageBeanSesion.setLogeado(false);
     }
 
     //Metodo para borrar una tarjeta
@@ -1125,5 +1275,4 @@ public class bUsuarioGestionPersonal {
         }
         return "correcto";
     }
-
 }

@@ -16,38 +16,131 @@ and open the template in the editor.
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title> 
-            <link rel="stylesheet" href="css/main.css"></link>
-              
-            <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+             <script src="js/jquery-3.3.1.min.js"></script>
+            <script src="js/jquery-ui.min.js"></script>
+            <script  src="js/index.js"></script>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
+            <link rel="stylesheet" href="css/index.css"></link>
+            <link rel="stylesheet" href="css/migasTitulo.css"></link>
             
+            
+            <link rel="stylesheet" href="css/main.css"></link>
+            <link rel="stylesheet" href="css/comprarTelefono.css"></link>
+             
         </h:head>
-        <h:body>
+        <h:body> <h:panelGroup id="actualizarCabecera">
+                <header>
+                    <div id="logo">
+                        <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                    </div>
+
+                    <div id="idioma">
+                        <p>Idioma</p>
+                        <h:form>
+
+                            <h:commandButton image="imagenes/Fotos/england.png"/>
+                            <h:commandButton image="imagenes/Fotos/spain.png"/>
+                        </h:form>
+                    </div>
+
+                    <div id="login">
+                        <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">
+
+                            <div id="registroInicio">
+                                <a href="registro.xhtml">Registrarse</a> 
+                                <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                            </div>
+                        </h:panelGroup>    
+                    </div>            
+
+
+                    <div id="contacto">
+                        <img src="imagenes/Fotos/whatsapp.png" alt="Whatsapp"></img>
+                        <p>628317327</p>
+                    </div>
+
+                    <div id="carrito">
+                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                            <p> <h:outputText value="#{bComprar.mens}"/></p>
+                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                        </a>
+
+                    </div>
+
+                </header>
+                <div id="menuHorizontal">
+                    <ul>
+                        <li><a href="index.xhtml" title="Home">Home</a></li>
+                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                    </ul>
+
+                    <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                        <div id="contenedorDatosLogeado">
+
+                            <div id="nombreUsuario">           
+                                <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
+                </div>
+            </h:panelGroup>
+
+            <div id="modalInicioSesion" class="modal">
+                <div id="inicioS" class='centrar'>
+                    <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                    <h:form id="formularioInicio">
+                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/><br></br><br></br>
+                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <br></br><br></br>
+                        <h:outputText value="#{bLogin.mens}"/>
+                    </h:form>
+                </div>
+            </div>
+            
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            <h1><h:outputText value="Usuario"/></h1>
-            <h1><h:outputText value="#{manageBeanSesion.usuarioLog.nombre}, Bienvenido a su perfil!"/></h1>
-            <h2><h:outputText value="Su apellido es: #{manageBeanSesion.usuarioLog.apellido1}
-                              #{manageBeanSesion.usuarioLog.apellido2}"/></h2>
-
-
             
-          
-            <h:form>
-                #{bComprar.conocerTelefono()}
-                <h:outputText value="#{bComprar.telefonoVer.nombre}"/>
-                <p:spinner id="basic" value="#{bComprar.cantidad}" />
-                <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
-            </h:form>     
-                <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+             
+            <div id="contenedorBread">
+                <nav id="migas">
+                    <ul>
+                        <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a><i></i></li>
+                    </ul>
+                </nav> 
+            </div>
+
+            <div  id="tituloPagina">
+                <h1>Comprar</h1>
+            </div>
+             #{bComprar.conocerTelefono()}
+             
+            <div id="contenedorGeneral"> 
+                <div id="contenedorImagenes">
+             <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
 
                     <h:panelGroup rendered="#{estado.index eq 0}">
                         <div class="show" href="imagenes/FotosTelefono/#{foto.nombre}">
                             <img src="imagenes/FotosTelefono/#{foto.nombre}" id="show-img"></img>
                         </div>
                     </h:panelGroup>
-                </ui:repeat>    
+                </ui:repeat> 
+             
                 <div class="small-img">
                     <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-left" alt="" id="prev-img"></img>
                     <div class="small-container">
@@ -65,55 +158,84 @@ and open the template in the editor.
 <script src="js/zoom-image.js"></script>
                 <script src="js/main.js"></script>
                 
-            
-
-
-
-
-            <h:panelGroup id="datosTecnicos" >
+                
+                </div>
+                
+                <div id="contenedorCompraTelefono">
+                <h:form>
+               
+                    <h1> <h:outputText value="#{bComprar.telefonoVer.nombre}"/></h1>
+                    <h2> <h:outputText value="#{bComprar.telefonoVer.precio} €"/></h2>
+                    <p>  <h:outputText value="Marca: " /></p>
+                    <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
+                    <p>  <h:outputText value="Envio: " /></p>
+                     <p>  <h:outputText value="Gratis a cualquier parte de España. " /></p>
+                     <p><h:outputText value="Cantidad:"/></p>
+                     <p>  <p:spinner id="basic" value="#{bComprar.cantidad}" /></p>
+                <p>  <h:outputText value="Ocasión: " /></p>
+                     <p>  <h:outputText value="Compralo ahora y recibelo en tu casa entre 3-5 días. " /></p>
+                <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
+            </h:form>     
+                </div>
+                
+                <div id="contenedorDatosTelefono">
+                    <h1>Especificaciones</h1>
+                <h:panelGroup id="datosTecnicos" >
                 <ui:repeat var="caracteristica" value="#{bComprar.telefonoVer.caracteristicastelefonoList}">
 
-                    <h:outputText value="Sistema Operativo: " />
-                    <h:outputText value="#{caracteristica.so}" /><br></br>
-                    <h:outputText value="Ram:" />
-                    <h:outputText value="#{caracteristica.ram}" /><br></br>
-                    <h:outputText value="Pulgadas" />
-                    <h:outputText value="#{caracteristica.pulgadas}" /><br></br>
-                    <h:outputText value="Almacenamiento:" />
-                    <h:outputText value="#{caracteristica.almacenamiento}" /><br></br>
-                    <h:outputText value="Camara trasera: " />
-                    <h:outputText value="#{caracteristica.camaraTrasera}" /><br></br>
-                    <h:outputText value="Camara delantera: " />
-                    <h:outputText value="#{caracteristica.camaraDelantera}" /><br></br>
-                    <h:outputText value="Bateria: " />
-                    <h:outputText value="#{caracteristica.bateria}" /><br></br>
-                    <h:outputText value="Procesador: " />
-                    <h:outputText value="#{caracteristica.procesador}" /><br></br>
-                    <h:outputText value="Resolucion " />
-                    <h:outputText value="#{caracteristica.resolucion}" /><br></br>
-                    <h:outputText value="Color: " />
-                    <h:outputText value="#{caracteristica.color}" /><br></br>
-                    <h:outputText value="Wifi: " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.wifi)}" /><br></br>
-                    <h:outputText value="Detector de huellas: " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.detectorHuella)}" /><br></br>
-                    <h:outputText value="Dual sim:  " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.dualSim)}" /><br></br>
-                    <h:outputText value="SD: " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.sd)}" /><br></br>
-                    <h:outputText value="Bluetooth " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.bluetooth)}" /><br></br>
-                    <h:outputText value="NFC: " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.nfc)}" /><br></br>
-                    <h:outputText value="3G " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g)}" /><br></br>
-                    <h:outputText value="4G " />
-                    <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g1)}" /><br></br>
+                    <div id="caracteristicasTecnicas">
+                    <h2>Caracteristicas técnicas</h2>
+                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Sistema Operativo: " /></p>
+                    <p><h:outputText value="#{caracteristica.so}" /></p>
+                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Procesador: " /></p>
+                    <p><h:outputText value="#{caracteristica.procesador}" /></p>
+                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Almacenamiento:" /></p>
+                    <p><h:outputText value="#{caracteristica.almacenamiento}" /></p>
+                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Ram:" /></p>
+                    <p><h:outputText value="#{caracteristica.ram}" /></p>
+                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Bateria: " /></p>
+                   <p> <h:outputText value="#{caracteristica.bateria}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Color: " /></p>
+                  <p>  <h:outputText value="#{caracteristica.color}" /></p>
+                    </div>
+                   <div id="pantalla"> 
+                    <h2>Pantalla</h2>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Pulgadas" /></p>
+                  <p>  <h:outputText value="#{caracteristica.pulgadas}" /></p>
+                  <p> <img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Resolucion " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarResolucion(caracteristica.resolucion)}" /></p>
+                   </div>
+                    <div id="camara">
+                  <h2>Cámara</h2>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara trasera: " /></p>
+                  <p>  <h:outputText value="#{caracteristica.camaraTrasera}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara delantera: " /></p>
+                  <p>  <h:outputText value="#{caracteristica.camaraDelantera}" /></p>
+                    </div>
+                    <div id="funciones">
+                     <h2>Funciones</h2>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="Detector de huellas: " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.detectorHuella)}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Dual sim:  " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.dualSim)}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="SD: " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.sd)}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Wifi: " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.wifi)}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Bluetooth " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.bluetooth)}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="NFC: " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.nfc)}" /></p>
+                  <p> <img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="3G " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g)}" /></p>
+                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="4G " /></p>
+                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g1)}" /></p>
+                    </div>
                 </ui:repeat>
             </h:panelGroup> 
+                </div>
 
-
-
+            </div>
         </h:body>
     </f:view>    
 </html>

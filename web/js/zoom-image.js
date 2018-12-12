@@ -15,8 +15,8 @@
             layerH: 100, // 遮罩高度
             layerOpacity: 0.2, // 遮罩透明度
             layerBgc: '#000', // 遮罩背景颜色
-            showPanelW: 500, // 显示放大区域宽
-            showPanelH: 500, // 显示放大区域高
+            showPanelW: 300, // 显示放大区域宽
+            showPanelH: 300, // 显示放大区域高
             marginL: 5, // 放大区域离缩略图右侧距离
             marginT: 0 // 放大区域离缩略图上侧距离
         };
@@ -30,8 +30,7 @@
             var imageH = self.height();
 
             self.find('img').css({
-                width: '100%',
-                height: '100%'
+                width: '100%'
             });
 
             // 宽放大倍数

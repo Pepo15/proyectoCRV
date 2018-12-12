@@ -33,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,6 +87,9 @@ public class bUsuarioGestionPedido {
 
     //Lista que guarda los valores del select de estados
     private ArrayList listaEstados = null;
+    
+    private boolean booleanCabecera = false;
+    
 
     public bUsuarioGestionPedido() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
@@ -107,6 +111,9 @@ public class bUsuarioGestionPedido {
         listaPedidos = new ArrayList();
 
         listaPedidos = usuario.getPedidoList();
+        
+        Collections.reverse(listaPedidos);
+                
     }
 
     public EntityManagerFactory getEmf() {
@@ -206,15 +213,48 @@ public class bUsuarioGestionPedido {
     }
 
     //Metodo para pintar un pedido
-    public boolean cabeceraPedido() {
+    public void cabeceraPedido() {
         if (codigoPedido == codigoPedidoAnterior) {
 
-            return true;
+            booleanCabecera= true;
         } else {
-            return false;
+            booleanCabecera= false;
         }
 
     }
+
+    public FotoJpaController getCtrFoto() {
+        return ctrFoto;
+    }
+
+    public void setCtrFoto(FotoJpaController ctrFoto) {
+        this.ctrFoto = ctrFoto;
+    }
+
+    public TelefonoJpaController getCtrTelefono() {
+        return ctrTelefono;
+    }
+
+    public void setCtrTelefono(TelefonoJpaController ctrTelefono) {
+        this.ctrTelefono = ctrTelefono;
+    }
+
+    public ProvinciaJpaController getCtrProvincia() {
+        return ctrProvincia;
+    }
+
+    public void setCtrProvincia(ProvinciaJpaController ctrProvincia) {
+        this.ctrProvincia = ctrProvincia;
+    }
+
+    public boolean isBooleanCabecera() {
+        return booleanCabecera;
+    }
+
+    public void setBooleanCabecera(boolean booleanCabecera) {
+        this.booleanCabecera = booleanCabecera;
+    }
+    
 
     //Metodo para saber que tipo de pedido es
     public String saberTipo(int tipo) {
@@ -685,5 +725,18 @@ public class bUsuarioGestionPedido {
         context.responseComplete();
 
     }
+    public float conocerPrecioPedido(int codigoPedido){
+        
+        List listaPedido = ctrPedido.findListaPedidoByCodigoPedido(codigoPedido);
+        
+        float precio=(float) 0.0;
+        for (int i = 0; i < listaPedido.size(); i++) {
+            Pedido ped =(Pedido) listaPedido.get(i);
+            precio=precio+ped.getPrecio();
+        }
+        
+        return precio;
+    }
+    
 
 }

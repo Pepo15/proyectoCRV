@@ -1,0 +1,109 @@
+body{
+                    background-color: #e1e1e1;
+                    margin:0;
+                }
+                #contenedorImagenes{
+                    border:1px solid red;
+                    width: 30%;
+                    margin-left: 7%;
+                    float: left;
+                    background: white;
+                }
+                .show{
+                    width: 100% !important;
+                }
+                #contenedorCompraTelefono{
+                    border:1px solid blue;
+                    width: 50%;
+                    margin-left: 43%;
+                }
+                #contenedorCompraTelefono form{
+                    padding: 2%;
+                    overflow: hidden;
+                    background: white;
+                    height: 1%;
+                }
+                #contenedorCompraTelefono form h2{
+                    color: orangered;
+                }
+                #contenedorCompraTelefono form p:nth-child(2n){
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin-top: 5%;
+                    width: 15%;
+                    float: left;
+                }
+                #contenedorCompraTelefono form p:nth-child(2n+1){
+                    font-size: 18px;
+                    margin-top: 5.5%;
+                    width: 80%;
+
+                }
+                #contenedorCompraTelefono form p:nth-child(9){
+                    font-size: 18px;
+                    margin-top:  0.5%;
+                    width: 80%;
+                    z-index: -2;
+
+                }
+                #contenedorCompraTelefono form p:nth-child(10){
+                    clear: both;
+
+                }
+                #contenedorCompraTelefono form input[type="submit"]{
+                    margin-top: 7%;
+                }
+                #contenedorDatosTelefono{
+                    width: 86%;
+
+                    margin: 0 auto;
+                    border:1px solid green;
+                    margin-top: 10%;
+                    clear: both;
+                    background: white;
+                    overflow: hidden;
+                    height: 1%;
+                    margin-bottom: 2%;
+                }
+                #contenedorDatosTelefono h1{
+                    border-bottom: 1px solid black;
+                    padding: 1%;
+                }
+                .ui-spinner{
+                    margin-top: 5%;
+                }
+                .ui-inputfield{
+                    padding: 0;
+                    padding-right: 20px;
+                    width: 60px;
+                }
+                #datosTecnicos p:nth-child(2n){
+                    float:left;
+                    font-size: 16px;
+                    width: 80%;
+                }
+                #datosTecnicos div{
+                    width: 25%;
+                    float:left;
+                    padding: 2%;
+                }
+                #datosTecnicos p{
+                    padding: 2%;
+                }
+                .check{
+                    width: 9%;
+
+                    float: left;  
+                    margin-right: 4px;
+                }
+                #pantalla p:nth-child(2n){
+                    width: 65%;
+                }
+
+                .show div{
+                    z-index:999;
+                    border: 1px solid black;
+                }
+                .show{
+                    border-bottom: 1px solid grey;
+                }

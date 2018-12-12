@@ -10,154 +10,238 @@ and open the template in the editor.
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
-            <script src="js/jquery.validate.min.js"></script>    
-            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-            <script src="http://code.jquerygeo.com/jquery.geo-1.1.0.min.js"></script>
-            <script>
-                $(function () {//Ready
-
-                    var latitud;
-                    var longitud;
-
-                    $("#recargaPedidos").on("click","#coordenadas", function () {
-                        var codigoPedido = $(this).attr("class");
-                        var datos = 'codigoPoblacion='+codigoPedido;
-
-
-                        //Ponemos el nombre del servlet que nos dará la respuesta y los datos para poder encontrarlas
-                        $.getJSON("CompruebaDatos", datos, function (result) {
-
-                            //Recorro el resultado. i->es la clave, field->es el valor 
-                            $.each(result, function (i, field) {
-
-                                //Cogemos el select de las provincias y le añadimos los options
-                                if (i == "Latitud") {
-
-                                    latitud = field;
-                                } else {
-                                    longitud = field;
-                                }
-                            });
-
-                            //Pinto mapa
-                            var map = $("#mapa").geomap({
-                                center: [longitud, latitud],
-                                zoom: 7
-                            });
-                            $("#mapa").geomap("append",
-                                    {
-                                        type: "Point",
-                                        coordinates: [longitud, latitud] // Coordinates are lng/lat
-                                    }
-                            );
-                        });
-
-
-
-                    });//Click boton
-
-
-
-                });//Ready
-            </script>
-
+            <script src="js/jquery-3.3.1.min.js"></script>
+            <script src="js/jquery-ui.min.js"></script>
+            <script  src="js/index.js"></script>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
+            <link rel="stylesheet" href="css/index.css"></link>
+            <link rel="stylesheet" href="css/migasTitulo.css"></link>
+            
+            <script  src="js/usuarioGestionPedidos.js"></script>
+            <link rel="stylesheet" href="css/usuarioGestionPedidos.css"></link>
+              <script src="js/jquery.easyPaginate.js"></script>
+           
         </h:head>
         <h:body>
+            <h:panelGroup id="actualizarCabecera">
+             <header>
+                    <div id="logo">
+                        <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                    </div>
+
+                    <div id="idioma">
+                        <p>Idioma</p>
+                        <h:form>
+
+                            <h:commandButton image="imagenes/Fotos/england.png"/>
+                            <h:commandButton image="imagenes/Fotos/spain.png"/>
+                        </h:form>
+                    </div>
+
+                    <div id="login">
+                        <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">
+
+                            <div id="registroInicio">
+                                <a href="registro.xhtml">Registrarse</a> 
+                                <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                            </div>
+                        </h:panelGroup>    
+                    </div>            
+
+
+                    <div id="contacto">
+                        <img src="imagenes/Fotos/whatsapp.png" alt="Whatsapp"></img>
+                        <p>628317327</p>
+                    </div>
+
+                    <div id="carrito">
+                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                            <p> <h:outputText value="#{bComprar.mens}"/></p>
+                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                        </a>
+
+                    </div>
+
+                </header>
+                <div id="menuHorizontal">
+                    <ul>
+                        <li><a href="index.xhtml" title="Home">Home</a></li>
+                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                    </ul>
+
+                    <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                        <div id="contenedorDatosLogeado">
+
+                            <div id="nombreUsuario">           
+                                <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
+                </div>
+            </h:panelGroup>
+
+            <div id="modalInicioSesion" class="modal">
+                <div id="inicioS" class='centrar'>
+                    <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                    <h:form id="formularioInicio">
+                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/><br></br><br></br>
+                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <br></br><br></br>
+                        <h:outputText value="#{bLogin.mens}"/>
+                    </h:form>
+                </div>
+            </div>
+            
+            
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            <h1><h:outputText value="Usuario"/></h1>
-            <h1><h:outputText value="#{manageBeanSesion.usuarioLog.nombre}, Bienvenido a su perfil!"/></h1>
-            <h2><h:outputText value="Su apellido es: #{manageBeanSesion.usuarioLog.apellido1}
-                              #{manageBeanSesion.usuarioLog.apellido2}"/></h2>
+            
+            <div id="contenedorBread">
+                <nav id="migas">
+                    <ul>
+                        <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/usuario.xhtml" title="Perfil">Mi Perfil</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/usuarioGestionPedidos.xhtml" title="Pedidos">Mis Pedidos</a><i></i></li>
+                    </ul>
+                </nav> 
+            </div>
 
+            <div  id="tituloPagina">
+                <h1>Mis Pedidos</h1>
+            </div>
 
             <!--Pedidos-->
-            <h2>Ver pedidos</h2>
+             
             <h:panelGroup id="recargaPedidos">
+                  <div id="easy">
                 <c:forEach var="pedido" varStatus="estado" items="#{bUsuarioGestionPedido.listaPedidos}" >
 
                     #{bUsuarioGestionPedido.setCodigoPedido(pedido.codigoPedido)}
 
-                    <h:panelGroup  rendered="#{bUsuarioGestionPedido.cabeceraPedido()}">
-                        <div id="datosPedido" style="border: 1px solid red">
-                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                            <h:outputText value="Tipo "/> <h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                            <h:outputText value="Estado "/> <h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
+                    #{bUsuarioGestionPedido.cabeceraPedido()}
+                    <div class="pedidoEasy">
+                    <h:panelGroup  rendered="#{bUsuarioGestionPedido.booleanCabecera}">
+                        <div id="datosPedido" style="border: 1px solid red" class="estiloP">
+                            <div id="imagenPedido">
+                                <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}"/> 
+                            </div>
+                            <div id="contenedorDatos">
+                                <p>  <h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p>
+                                <p>  <h:outputText value="Tipo: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/></p>
+                                <p>  <h:outputText value="Cantidad: "/></p> <p><h:outputText value="#{pedido.cantidad}"/></p>
+                                <p>  <h:outputText value="Estado: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/></p>
+                            </div>
+                            <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
+  
+                            <h:form>
+                                <h:commandButton  image="imagenes/Fotos/pdf.png"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
+                            </h:form> 
+                            
+                            
                         </div>
                     </h:panelGroup>
 
-                    <h:panelGroup rendered="#{!bUsuarioGestionPedido.cabeceraPedido()}">
-                        <div id="pedido" style="border:1px solid black">
-                            <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
-                            <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
-                            <h:outputText value="Fecha "/> <h:outputText value="#{pedido.fecha}"/><br></br><br></br>    
+                    <h:panelGroup rendered="#{!bUsuarioGestionPedido.booleanCabecera}">
+                        <div id="pedido" class="estiloP">
+                            <p><h:outputText value="Número pedido: "/></p> <p><h:outputText value="#{pedido.codigoPedido}"/></p>
+                            <p><h:outputText value="Calle: "/></p><p> <h:outputText value="#{pedido.codigoDireccion.nombre} ,  #{bUsuarioGestionPersonal.conocerPoblacion(pedido.codigoDireccion.codigoPoblacion)} , #{bUsuarioGestionPersonal.conocerProvincia(pedido.codigoDireccion.codigoProvincia)} "/></p>
+                            <p><h:outputText value="Precio: "/></p><p> <h:outputText value="#{bUsuarioGestionPedido.conocerPrecioPedido(pedido.codigoPedido)}"/></p>
+                            <p><h:outputText value="Fecha: "/></p><p> <h:outputText value="#{pedido.fecha}"> <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                </h:outputText></p>
                         </div> 
-                        <div id="datosPedido" style="border: 1px solid red">
-                            <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}" width="50" height="50" /> 
+                        <div id="datosPedido" style="border: 1px solid red" class="estiloP">
+                            <div id="imagenPedido">
+                                <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}"/> 
+                            </div>
+                            <div id="contenedorDatos">
+                                <p>  <h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p>
+                                <p>  <h:outputText value="Tipo: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/></p>
+                                <p>  <h:outputText value="Cantidad: "/></p> <p><h:outputText value="#{pedido.cantidad}"/></p>
+                                <p>  <h:outputText value="Estado: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/></p>
+                            </div>
+                            
+                             <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
+                        <h:form>
+                                <h:commandButton  image="imagenes/Fotos/pdf.png"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
+                            </h:form> 
 
-                            <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                            <h:outputText value="Tipo "/> <h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                            <h:outputText value="Estado "/> <h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/><br></br><br></br>
                         </div>
                     </h:panelGroup>
-                    <h:form>
-                        <h:commandButton  value="Cambiar estado" action="#{bUsuarioGestionPedido.cambiarEstado(pedido.codigo)}">
-                            <f:ajax  event="action" render=":result" />
-                        </h:commandButton>
-                    </h:form>
+                      
+                    
 
-
-                    <input type="button" id="coordenadas" class="#{pedido.codigoPoblacion}" value="Coordenadas"/>
-
-
-                    <h:form>
-                        <h:commandButton  value="Ver pdf estado" action="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
-                    </h:form>
-
-
+                    </div>
                     #{bUsuarioGestionPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
                 </c:forEach>
+                      </div>
             </h:panelGroup>
-            <h:form id="result" >
+               
 
-                <h:panelGroup id="cambiaEstado" rendered="#{bUsuarioGestionPedido.estado}">
-                    <div id="dialog" style="border: 1px solid blue">
-                        <h:selectOneMenu value="#{bUsuarioGestionPedido.estadoNuevo}">  
-                            <f:selectItems value="#{bUsuarioGestionPedido.listaEstados}"/>
-                        </h:selectOneMenu>
-                    </div>
-                    <p:commandButton value="Cambiar estado" action="#{bUsuarioGestionPedido.modificarEstado()}" update="recargaPedidos result messages"/>
-
-                </h:panelGroup> 
-            </h:form>   
-
-
-            <!--Ventana modal cambiar ubicacion-->
-            <h:form id="result2" >
-                <h:panelGroup rendered="#{bUsuarioGestionPedido.ubicacion}" >
-                    <div id="ubicacion" style="border: 1px solid pink">
-                        <p:selectOneMenu id="poblacion" value="#{bUsuarioGestionPedido.codigoPoblacion}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
-                            <f:selectItems value="#{bUsuarioGestionPedido.listaPoblaciones}" />
-                        </p:selectOneMenu>
-                    </div>
-
-                    <p:commandButton value="Cambiar ubicacion" action="#{bUsuarioGestionPedidos.modificarUbicacion()}" update="recargaPedidos result2 messages" />
-                </h:panelGroup>
-
-            </h:form>  
-
-            <div id="mapa" style="height: 500px">
+<div id="modalMapa" class="modal">
+                    <div id="mP" class="centrar">
+                         <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                         <div id="infoMapa">
+                             <h3>Su pedido se encuentra en</h3>
+                             <p id="poblaMapa"></p>
+                             <p id="cpMapa"></p>
+                         </div>
+            <div id="mapa">
 
 
             </div>
+                    </div>
+</div>
+            <script src="http://code.jquerygeo.com/jquery.geo-1.1.0.min.js"></script>
+            <script src="js/jquery.easyPaginate.js"></script>
+             <script>
+                $('#easy').easyPaginate({
+    paginateElement: '.pedidoEasy',
+    elementsPerPage: 5
+});
+            </script>
+            <style>
+                .easyPaginateNav {width: 90% !important;
 
+margin: 0 auto;
+
+text-align: center;
+
+padding: 5%;
+
+font-size: 30px;}
+                .easyPaginateNav a{
+                    margin-right:  2%;
+                    margin-right: 2%;
+
+text-decoration: none;
+
+color: black;
+                }
+                .easyPaginateNav a:hover{
+text-decoration: underline;
+                }
+            </style>
         </h:body>
     </f:view>    
 </html>

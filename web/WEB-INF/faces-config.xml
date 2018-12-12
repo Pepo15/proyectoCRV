@@ -11,25 +11,6 @@
         <managed-bean-scope>request</managed-bean-scope>
   </managed-bean>
     <navigation-rule>
-        <from-view-id>/login.xhtml</from-view-id>
-        <navigation-case>
-            <from-outcome>tecnico</from-outcome>
-            <to-view-id>/tecnico.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>administrador</from-outcome>
-            <to-view-id>/administrador.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>usuario</from-outcome>
-            <to-view-id>/usuario.xhtml</to-view-id>
-        </navigation-case>
-        <navigation-case>
-            <from-outcome>error</from-outcome>
-            <to-view-id>/login.xhtml</to-view-id>
-        </navigation-case>
-    </navigation-rule>
-    <navigation-rule>
         <from-view-id>/administradorGestionTecnico.xhtml</from-view-id>
         <navigation-case>
             <from-outcome>correcto</from-outcome>
@@ -135,6 +116,32 @@
         <navigation-case>
             <from-outcome>finalizar</from-outcome>
             <to-view-id>/finalizarPedido.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/index.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>tecnico</from-outcome>
+            <to-view-id>/tecnico.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>error</from-outcome>
+            <to-view-id>/index.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>pUsuario</from-outcome>
+            <to-view-id>/usuario.xhtml</to-view-id>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>administrador</from-outcome>
+            <to-view-id>/administrador.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/comprar.xhtml</from-view-id>
+        <navigation-case>
+            <from-outcome>verTelefono</from-outcome>
+            <to-view-id>/comprarTelefono.xhtml</to-view-id>
         </navigation-case>
     </navigation-rule>
 </faces-config>

@@ -5,9 +5,13 @@
  */
 
 
+import DAO.AdministradorJpaController;
 import DAO.PoblacionJpaController;
+import DAO.TecnicoJpaController;
 import DAO.UsuarioJpaController;
+import DTO.Administrador;
 import DTO.Poblacion;
+import DTO.Tecnico;
 import DTO.Usuario;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
@@ -57,6 +61,27 @@ public class CompruebaDatos extends HttpServlet {
             System.out.println(e.getMessage());
         }
     }
+        
+        String email = request.getParameter("Email");
+        if(email!=null){
+        try {
+            //Leemos el objeto JSON y almacenamos su valor en la variable de email
+            acceso = compruebaEmail(email);
+
+            //Preparamos la salida del objeto JSON
+            JsonObject object = new JsonObject();
+            object.addProperty("Email", acceso);
+
+            String jsonS = object.toString();
+            out.println(jsonS);
+
+            //----------------------------------------------------------**/
+            out.flush();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+        
         String codigoPoblacion = request.getParameter("codigoPoblacion");
         if(codigoPoblacion!=null){
         try {
@@ -67,6 +92,8 @@ public class CompruebaDatos extends HttpServlet {
             JsonObject object = new JsonObject();
             object.addProperty("Latitud", poblacion.getLatitud());
             object.addProperty("Longitud", poblacion.getLongitud());
+            object.addProperty("Poblacion", poblacion.getNombrePoblacion());
+            object.addProperty("Postal", poblacion.getPostal());
 
             String jsonS = object.toString();
             out.println(jsonS);
@@ -95,9 +122,27 @@ public class CompruebaDatos extends HttpServlet {
     public boolean compruebaNick(String nick) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("CRVPU");
         UsuarioJpaController ctrUsuario = new UsuarioJpaController(emf);
+        AdministradorJpaController ctrAdministrador = new AdministradorJpaController(emf);
+        TecnicoJpaController ctrTecnico = new TecnicoJpaController(emf);
         
         Usuario resultado = ctrUsuario.findUsuarioByNick(nick);
-
+        Tecnico resultado1 = ctrTecnico.findTecnicoByNick(nick);
+        Administrador resultado2 = ctrAdministrador.findAdministradorByNick(nick);
+        
+        //Si es distinto a nulo, significa que ya existe alguien
+        if (resultado==null &&resultado1==null &&resultado2==null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+     public boolean compruebaEmail(String email) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("CRVPU");
+        UsuarioJpaController ctrUsuario = new UsuarioJpaController(emf);
+        
+        Usuario resultado = ctrUsuario.findByEmail(email);
+        
         //Si es distinto a nulo, significa que ya existe alguien
         if (resultado==null) {
             return false;
