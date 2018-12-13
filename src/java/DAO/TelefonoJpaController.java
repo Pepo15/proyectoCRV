@@ -417,6 +417,16 @@ public class TelefonoJpaController implements Serializable {
         return lista;
     }
     //Creamos el metodo que devuelve un telefono segun su marca
+    public List findTodosTelefonosDistintLista() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Telefono.findDistinctLista",Telefono.class);
+            
+        List lista= q.getResultList();
+        
+        return lista;
+    }
+    //Creamos el metodo que devuelve un telefono segun su marca
     public List findTelefonoByMarca(String marca) {
         EntityManager em = getEntityManager();
         

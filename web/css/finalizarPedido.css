@@ -397,23 +397,20 @@ body .ui-steps .ui-steps-item {
                     font-weight: bold;
                 }
                 .fila:nth-child(2) p{
-                    position: absolute;
-
-                    top: 40%;
-
                     font-size: 18px;
                 }
                 .columna{
                     display: table-cell;
                     padding: 12px;
-                    background: #ddd;
+                    background: #f5f1f1;
                     width: 15%;
                     border:1px solid black;
+                     vertical-align: middle;
+                     text-align: center;
                 }
 
                 .fila:nth-child(2) .columna:first-child img{
                     width: 60%;
-                    margin-left: 20%;
                 }
                 #contenedorDireccionFinalizar{
                     clear: both;

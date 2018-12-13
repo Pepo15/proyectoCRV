@@ -15,7 +15,7 @@ and open the template in the editor.
     <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>CRV</title>
+            <title>CRV</title> 
             <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/jquery-ui.min.js"></script>
             <script  src="js/index.js"></script>
@@ -23,13 +23,12 @@ and open the template in the editor.
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
             
-            <script  src="js/usuarioGestionPedidos.js"></script>
-            <link rel="stylesheet" href="css/usuarioGestionPedidos.css"></link>
-              <script src="js/jquery.easyPaginate.js"></script>
-           
+             <script src="js/filtrado2.js"></script>
+            <link rel="stylesheet" href="css/reparar.css"></link>
+            
         </h:head>
-        <h:body>
-             <h:panelGroup id="actualizarCabecera">
+        <h:body> 
+            <h:panelGroup id="actualizarCabecera">
                 <header>
                     <div id="logo">
                         <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
@@ -149,7 +148,6 @@ and open the template in the editor.
                 </div>
             </div>
             
-            
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
@@ -158,127 +156,46 @@ and open the template in the editor.
                 <nav id="migas">
                     <ul>
                         <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
-                        <li><em></em><a href="/CRV/faces/usuario.xhtml" title="Perfil">Mi Perfil</a><i></i></li>
-                        <li><em></em><a href="/CRV/faces/usuarioGestionPedidos.xhtml" title="Pedidos">Mis Pedidos</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a><i></i></li>
                     </ul>
                 </nav> 
             </div>
 
             <div  id="tituloPagina">
-                <h1>Mis Pedidos</h1>
+                <h1>Reparar</h1>
             </div>
 
-            <!--Pedidos-->
-             
-            <h:panelGroup id="recargaPedidos">
-                  <div id="easy">
-                <c:forEach var="pedido" varStatus="estado" items="#{bUsuarioGestionPedido.listaPedidos}" >
-
-                    #{bUsuarioGestionPedido.setCodigoPedido(pedido.codigoPedido)}
-
-                    #{bUsuarioGestionPedido.cabeceraPedido()}
-                    <div class="pedidoEasy">
-                    <h:panelGroup  rendered="#{bUsuarioGestionPedido.booleanCabecera}">
-                        <div id="datosPedido" style="border: 1px solid red" class="estiloP">
-                            <div id="imagenPedido">
-                                <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}"/> 
-                            </div>
-                            <div id="contenedorDatos">
-                                <p>  <h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p>
-                                <p>  <h:outputText value="Tipo: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/></p>
-                                <p>  <h:outputText value="Cantidad: "/></p> <p><h:outputText value="#{pedido.cantidad}"/></p>
-                                <p>  <h:outputText value="Estado: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/></p>
-                            </div>
-                            <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
-  
-                            <h:form>
-                                <h:commandButton  image="imagenes/Fotos/pdf.png"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
-                            </h:form> 
-                            
-                            
-                        </div>
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{!bUsuarioGestionPedido.booleanCabecera}">
-                        <div id="pedido" class="estiloP">
-                            <p><h:outputText value="Número pedido: "/></p> <p><h:outputText value="#{pedido.codigoPedido}"/></p>
-                            <p><h:outputText value="Calle: "/></p><p> <h:outputText value="#{pedido.codigoDireccion.nombre} ,  #{bUsuarioGestionPersonal.conocerPoblacion(pedido.codigoDireccion.codigoPoblacion)} , #{bUsuarioGestionPersonal.conocerProvincia(pedido.codigoDireccion.codigoProvincia)} "/></p>
-                            <p><h:outputText value="Precio: "/></p><p> <h:outputText value="#{bUsuarioGestionPedido.conocerPrecioPedido(pedido.codigoPedido)}"/></p>
-                            <p><h:outputText value="Fecha: "/></p><p> <h:outputText value="#{pedido.fecha}"> <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                                </h:outputText></p>
-                        </div> 
-                        <div id="datosPedido" style="border: 1px solid red" class="estiloP">
-                            <div id="imagenPedido">
-                                <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}"/> 
-                            </div>
-                            <div id="contenedorDatos">
-                                <p>  <h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p>
-                                <p>  <h:outputText value="Tipo: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/></p>
-                                <p>  <h:outputText value="Cantidad: "/></p> <p><h:outputText value="#{pedido.cantidad}"/></p>
-                                <p>  <h:outputText value="Estado: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/></p>
-                            </div>
-                            
-                             <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
-                        <h:form>
-                                <h:commandButton  image="imagenes/Fotos/pdf.png"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
-                            </h:form> 
-
-                        </div>
-                    </h:panelGroup>
-                      
-                    
-
-                    </div>
-                    #{bUsuarioGestionPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
-                </c:forEach>
-                      </div>
-            </h:panelGroup>
-               
-
-<div id="modalMapa" class="modal">
-                    <div id="mP" class="centrar">
-                         <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
-                         <div id="infoMapa">
-                             <h3>Su pedido se encuentra en</h3>
-                             <p id="poblaMapa"></p>
-                             <p id="cpMapa"></p>
-                         </div>
-            <div id="mapa">
-
-
+            <div id="buscador">
+                <h1>Introduzca un telefono</h1>
+                <input id="myInput" type="text" placeholder="Search.."></input>
             </div>
-                    </div>
-</div>
-            <script src="http://code.jquerygeo.com/jquery.geo-1.1.0.min.js"></script>
-            <script src="js/jquery.easyPaginate.js"></script>
-             <script>
-                $('#easy').easyPaginate({
-    paginateElement: '.pedidoEasy',
-    elementsPerPage: 5
-});
-            </script>
-            <style>
-                .easyPaginateNav {width: 90% !important;
+            <div id="contenedorGeneral">
+                <div id="contenedorTelefonos">           
+                    <!-- Mostrar Teléfonos-->
+                    <h:panelGroup id="telefonos">
+                        <c:forEach var="telefono" varStatus="estado" items="#{bComprar.listaTelefonosR}" >
+                            <!--Télefono-->
+                            <div id="contenedorTelefono">
 
-margin: 0 auto;
+                                <form id="reparar#{telefono.codigoTelefono}" action="repararTelefono.xhtml" class="cTelefono">
+                                    <div class="repararT" onclick="document.getElementById('reparar#{telefono.codigoTelefono}').submit();">
+                                        <h:inputHidden id="telefonito#{telefono.codigoTelefono}"  value="#{telefono.codigoTelefono}"/>
+                                        <div id="imagen">
+                                            <h:graphicImage url="imagenes/FotosTelefono/#{bComprar.conocerFoto(telefono)}"/> 
+                                        </div>
+                                        <input type="hidden" id="nombreTelefono" value="#{telefono.nombre}"/>
+                                        <p> <h:outputText value="#{telefono.nombre}"/></p>
+                                           
+                                        <input type="submit" value="Ver detalle" />
+                                    </div>   
+                                </form>
+                            </div>
 
-text-align: center;
 
-padding: 5%;
-
-font-size: 30px;}
-                .easyPaginateNav a{
-                    margin-right:  2%;
-                    margin-right: 2%;
-
-text-decoration: none;
-
-color: black;
-                }
-                .easyPaginateNav a:hover{
-text-decoration: underline;
-                }
-            </style>
+                        </c:forEach>
+                    </h:panelGroup>
+                </div>
+            </div>
         </h:body>
     </f:view>    
 </html>

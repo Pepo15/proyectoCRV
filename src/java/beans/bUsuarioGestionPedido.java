@@ -435,9 +435,9 @@ public class bUsuarioGestionPedido {
         
         //Conocer Pedido
         
-        Pedido pedido =ctrPedido.findPedidoByCodigoPedido(codigoPedido);
+        Pedido pedido =ctrPedido.findPedidoByCodigoPedido(numeroPedido);
         
-        List listaPedido= ctrPedido.findListaPedidoByCodigoPedido(codigoPedido);
+        List listaPedido= ctrPedido.findListaPedidoByCodigoPedido(numeroPedido);
         
         
         

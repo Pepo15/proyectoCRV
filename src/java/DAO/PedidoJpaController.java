@@ -367,4 +367,15 @@ public class PedidoJpaController implements Serializable {
         return lista;
     }
     
+     //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findListaPedidoByOrder() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Pedido.findByOrder",Pedido.class);
+            
+         List lista= q.getResultList();
+        
+        return lista;
+    }
+    
 }

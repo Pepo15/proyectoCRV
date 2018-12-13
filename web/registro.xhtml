@@ -22,139 +22,12 @@ and open the template in the editor.
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-            <script>
-                 $(function () {//Ready
-
-                    $.validator.addMethod('passwordMatch', function (value, element) {
-
-                        var password = $('#altaUsuario\\:password').val();
-                        var confirmPassword = $('#altaUsuario\\:passwordR').val();
-                        if (password !== confirmPassword) {
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }, "Your Password Must Match");
-
-
-
-
-                    $.validator.addMethod('existNick', function (value, element) {
-
-                        var datos = 'Nick=' + $("#altaUsuario\\:nick").val();
-                        var response;
-                        //Ponemos el nombre del servlet que nos dará la respuesta y los datos para poder encontrarlas
-                        
-                        $.ajax({
-                                url: "CompruebaDatos",
-                                dataType: 'json',
-                                async: false,
-                                data: datos,
-                                success: function (result) {
-                                    response = result.Nick;
-                                    
-                                   
-                        }
-                                });
-                            
-                               if (response) {
-                                    return false;
-                                        } else {
-                                         return true;  
-                                     }
-                        
-
-                    }, "Ya existe ese nick");
-                    
-                    $.validator.addMethod('existEmail', function (value, element) {
-
-                        var datos = 'Email=' + $("#altaUsuario\\:correo").val();
-                        var response;
-                        //Ponemos el nombre del servlet que nos dará la respuesta y los datos para poder encontrarlas
-                        
-                        $.ajax({
-                                url: "CompruebaDatos",
-                                dataType: 'json',
-                                async: false,
-                                data: datos,
-                                success: function (result) {
-                                    response = result.Email;
-                                    
-                                   
-                        }
-                                });
-                            
-                               if (response) {
-                                    return false;
-                                        } else {
-                                         return true;  
-                                     }
-                        
-
-                    }, "Ya existe ese email");
-
-                    $('#altaUsuario').validate({
-                        rules: {
-                            'altaUsuario:nick': {required: true, existNick: true},
-                            'altaUsuario:correo': {required: true,email: true, existEmail: true},
-                            'altaUsuario:password': {required: true},
-                            'altaUsuario:passwordR': {required: true, passwordMatch: true}
-                        },
-
-                        messages: {
-
-                            'altaUsuario:nick': {required: "El nick debe ser obligatorio.",existNick: "Ya existe ese nick"},
-                            'altaUsuario:correo': {required: "El correo debe ser obligatorio.", email:"Debe tener el formato xxx@xx.xx",existEmail:"Ya tenemos ese email registrado"},
-                            'altaUsuario:password': {required: "Contraseña obligatoria"},
-                            'altaUsuario:passwordR': {required: "Repetir contraseña obligatorio",passwordMatch: "Las contraseñas deben ser iguales"}
-                        }
-
-                    });
-                    
-    });
-                </script>
             
-            
-            <style>
-                body{
-                    background-color: #e1e1e1;
-margin: 0;
-                }
-                #contenedorGeneral{
-                width: 90%;
-margin: 0 auto;
-background-color: white;
-margin-bottom: 3%;
-overflow: hidden;
-height: 1%;
-clear: both;
-                }
-                #contenedorGeneral h1{
-                    color: #ed2727;
-                }
-                #contenedorGeneral label{
-                    font-size: 30px;
-                }
-                .izquierda{
-                    width: 50%;
-
-float: left;
-                }
-                .derecha{
-                    width: 50%;
-float: left;
-                }
-                label{
-  display: inline-block;
-  width: 45%;
-}
-label.error { float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 20px !important;
-    width: 100% !important;
-}
-            </style>
+            <script  src="js/registro.js"></script>
+            <link rel="stylesheet" href="css/registro.css"></link>
         </h:head>
         <h:body>
-            <h:panelGroup id="actualizarCabecera">
+             <h:panelGroup id="actualizarCabecera">
                 <header>
                     <div id="logo">
                         <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
@@ -170,10 +43,10 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: middl
                     </div>
 
                     <div id="login">
-                        <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                        <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
 
                             <div id="registroInicio">
-                                <a href="registro.xhtml">Registrarse</a> 
+                                <a href="/CRV/faces/registro.xhtml">Registrarse</a> 
                                 <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
                             </div>
                         </h:panelGroup>    
@@ -186,18 +59,24 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: middl
                     </div>
 
                     <div id="carrito">
+                        <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
                         <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
                             <p> <h:outputText value="#{bComprar.mens}"/></p>
                             <h:commandButton image="imagenes/Fotos/carrito.png"/>
                         </a>
-
+                        </h:panelGroup>    
                     </div>
 
                 </header>
                 <div id="menuHorizontal">
                     <ul>
+                        <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+                        
                         <li><a href="index.xhtml" title="Home">Home</a></li>
                         <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                         <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                          <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+                        </h:panelGroup>
                     </ul>
 
                     <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
@@ -221,6 +100,28 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: middl
                             </div>
                         </div> 
                     </h:panelGroup>
+                    
+                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+                         <div id="contenedorDatosLogeado" style="float: right">
+
+                            <div id="nombreUsuario">           
+                                <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
                 </div>
             </h:panelGroup>
 
@@ -228,11 +129,20 @@ label.error { float: none; color: red; padding-left: .5em; vertical-align: middl
                 <div id="inicioS" class='centrar'>
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
+                        <div id="logeo">
                         <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/><br></br><br></br>
+                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
                         <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
                         <br></br><br></br>
                         <h:outputText value="#{bLogin.mens}"/>
+                        </div>
+                        <div id="olvidarPassword">
+                            <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                            <p:commandButton value="Entrar" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                            <br></br><br></br>
+                            <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
+                        </div>
                     </h:form>
                 </div>
             </div>

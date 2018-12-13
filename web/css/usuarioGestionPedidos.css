@@ -28,7 +28,7 @@
                 #pedido p:nth-child(2n){
                     font-size: 20px;
                     margin-left: 1%;
-                    margin-right: 5%;
+                    margin-right: 3%;
                 }
                 #pedido p:nth-child(4){
                     width: 33%;

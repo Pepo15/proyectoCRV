@@ -2,6 +2,9 @@
                     $("#inicioSesion").on("click", function () {
                         iniciaSesion();
                     });
+                    $("#inicioSesion2").on("click", function () {
+                        iniciaSesion();
+                    });
                     function iniciaSesion() {
                         $("#modalInicioSesion").css("display", "block");
                     }

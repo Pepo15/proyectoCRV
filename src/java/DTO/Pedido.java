@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Pedido.findByCodigo", query = "SELECT p FROM Pedido p WHERE p.codigo = :codigo")
     , @NamedQuery(name = "Pedido.findByCodigoPedido", query = "SELECT p FROM Pedido p WHERE p.codigoPedido = :codigoPedido")
     , @NamedQuery(name = "Pedido.findByCodigoPedidoOrder", query = "SELECT p.codigoPedido FROM Pedido p ORDER BY p.codigoPedido DESC")
+    , @NamedQuery(name = "Pedido.findByOrder", query = "SELECT p FROM Pedido p ORDER BY p.codigo DESC")
     , @NamedQuery(name = "Pedido.findByCodigoTecnico", query = "SELECT p FROM Pedido p WHERE p.codigoTecnico = :codigoTecnico")
     , @NamedQuery(name = "Pedido.findByCodigoPoblacion", query = "SELECT p FROM Pedido p WHERE p.codigoPoblacion = :codigoPoblacion")
     , @NamedQuery(name = "Pedido.findByTipo", query = "SELECT p FROM Pedido p WHERE p.tipo = :tipo")

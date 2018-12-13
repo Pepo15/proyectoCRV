@@ -15,20 +15,18 @@ and open the template in the editor.
     <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-            <title>CRV</title>
-            <script src="js/jquery-3.3.1.min.js"></script>
-            <script src="js/jquery-ui.min.js"></script>
+            <title>CRV</title> 
+
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
             <script  src="js/index.js"></script>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-            
-            <script  src="js/usuarioGestionPedidos.js"></script>
-            <link rel="stylesheet" href="css/usuarioGestionPedidos.css"></link>
-              <script src="js/jquery.easyPaginate.js"></script>
-           
+
+           <link rel="stylesheet" href="css/repararTelefono.css"></link>
+
         </h:head>
-        <h:body>
+        <h:body> 
              <h:panelGroup id="actualizarCabecera">
                 <header>
                     <div id="logo">
@@ -135,7 +133,7 @@ and open the template in the editor.
                         <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
                         <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
                         <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera actualizarComprar"/>
                         <br></br><br></br>
                         <h:outputText value="#{bLogin.mens}"/>
                         </div>
@@ -148,137 +146,118 @@ and open the template in the editor.
                     </h:form>
                 </div>
             </div>
-            
-            
+
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            
+
+
             <div id="contenedorBread">
                 <nav id="migas">
                     <ul>
                         <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
-                        <li><em></em><a href="/CRV/faces/usuario.xhtml" title="Perfil">Mi Perfil</a><i></i></li>
-                        <li><em></em><a href="/CRV/faces/usuarioGestionPedidos.xhtml" title="Pedidos">Mis Pedidos</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/repararTelefono.xhtml" title="Telefono">Telefono</a><i></i></li>
                     </ul>
                 </nav> 
             </div>
 
             <div  id="tituloPagina">
-                <h1>Mis Pedidos</h1>
+                <h1>Reparar Teléfono</h1>
             </div>
+            #{bComprar.conocerTelefono()}
 
-            <!--Pedidos-->
-             
-            <h:panelGroup id="recargaPedidos">
-                  <div id="easy">
-                <c:forEach var="pedido" varStatus="estado" items="#{bUsuarioGestionPedido.listaPedidos}" >
-
-                    #{bUsuarioGestionPedido.setCodigoPedido(pedido.codigoPedido)}
-
-                    #{bUsuarioGestionPedido.cabeceraPedido()}
-                    <div class="pedidoEasy">
-                    <h:panelGroup  rendered="#{bUsuarioGestionPedido.booleanCabecera}">
-                        <div id="datosPedido" style="border: 1px solid red" class="estiloP">
-                            <div id="imagenPedido">
-                                <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}"/> 
-                            </div>
-                            <div id="contenedorDatos">
-                                <p>  <h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p>
-                                <p>  <h:outputText value="Tipo: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/></p>
-                                <p>  <h:outputText value="Cantidad: "/></p> <p><h:outputText value="#{pedido.cantidad}"/></p>
-                                <p>  <h:outputText value="Estado: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/></p>
-                            </div>
-                            <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
-  
-                            <h:form>
-                                <h:commandButton  image="imagenes/Fotos/pdf.png"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
-                            </h:form> 
-                            
-                            
+            <div id="contenedorGeneral"> 
+                <div id="contenedorArriba">
+                    <div id="contenedorFoto">
+                        <div id="imagen">
+                            <h:graphicImage url="imagenes/FotosTelefono/#{bComprar.conocerFoto(bComprar.telefonoVer)}"/> 
                         </div>
-                    </h:panelGroup>
-
-                    <h:panelGroup rendered="#{!bUsuarioGestionPedido.booleanCabecera}">
-                        <div id="pedido" class="estiloP">
-                            <p><h:outputText value="Número pedido: "/></p> <p><h:outputText value="#{pedido.codigoPedido}"/></p>
-                            <p><h:outputText value="Calle: "/></p><p> <h:outputText value="#{pedido.codigoDireccion.nombre} ,  #{bUsuarioGestionPersonal.conocerPoblacion(pedido.codigoDireccion.codigoPoblacion)} , #{bUsuarioGestionPersonal.conocerProvincia(pedido.codigoDireccion.codigoProvincia)} "/></p>
-                            <p><h:outputText value="Precio: "/></p><p> <h:outputText value="#{bUsuarioGestionPedido.conocerPrecioPedido(pedido.codigoPedido)}"/></p>
-                            <p><h:outputText value="Fecha: "/></p><p> <h:outputText value="#{pedido.fecha}"> <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
-                                </h:outputText></p>
-                        </div> 
-                        <div id="datosPedido" style="border: 1px solid red" class="estiloP">
-                            <div id="imagenPedido">
-                                <h:graphicImage url="imagenes/FotosTelefono/#{bUsuarioGestionPedido.conocerFoto(pedido.codigoTelefono)}"/> 
-                            </div>
-                            <div id="contenedorDatos">
-                                <p>  <h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p>
-                                <p>  <h:outputText value="Tipo: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.saberTipo(pedido.tipo)}"/></p>
-                                <p>  <h:outputText value="Cantidad: "/></p> <p><h:outputText value="#{pedido.cantidad}"/></p>
-                                <p>  <h:outputText value="Estado: "/></p> <p><h:outputText value="#{bUsuarioGestionPedido.conocerEstado(pedido.estado)}"/></p>
-                            </div>
-                            
-                             <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
-                        <h:form>
-                                <h:commandButton  image="imagenes/Fotos/pdf.png"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
-                            </h:form> 
-
-                        </div>
-                    </h:panelGroup>
-                      
-                    
-
                     </div>
-                    #{bUsuarioGestionPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
-                </c:forEach>
-                      </div>
-            </h:panelGroup>
-               
+                    <h:panelGroup id="actualizarTelefonoReparacion">
+                    <div id="contenedorCompraTelefono">
+                        <h:form prependId="false">
 
-<div id="modalMapa" class="modal">
-                    <div id="mP" class="centrar">
-                         <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
-                         <div id="infoMapa">
-                             <h3>Su pedido se encuentra en</h3>
-                             <p id="poblaMapa"></p>
-                             <p id="cpMapa"></p>
-                         </div>
-            <div id="mapa">
+                            <h1> <h:outputText value="#{bComprar.telefonoVer.nombre}"/></h1>
+                            <p>  <h:outputText value="Marca: " /></p>
+                            <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
+                            <p>  <h:outputText value="Recogida: " /></p>
+                            <p>  <h:outputText value="Gratis en cualquier parte de España. " /></p>
+                            <p><h:outputText value="Rotura:"/></p>
+                            <p:selectOneMenu id="rotura" value="#{bComprar.reparacionSeleccionada}" required="true">
+                                <f:selectItem itemLabel="Selecione uno " itemValue="" />
+                                <f:selectItems value="#{bComprar.conocerReparaciones(bComprar.telefonoVer)}" />
+                                <p:ajax event="change" update=":actualizarTelefonoReparacion :precioAct"
+                                        listener="#{bComprar.consultarPrecioReparacion}" />
+                            </p:selectOneMenu>
+                            <span></span>  <p:message for="rotura" />
+                            <p id="text">  <h:outputText value="Si no conoce el problema, marque en rotura Otro problema y escríbalo aqui " /></p>
+                            <p><p:inputTextarea id="textArea" rows="6" cols="100" value="#{bComprar.rotura}" maxlength="500"/></p>
+                           
+                            <p id="cantidad"><h:outputText value="Cantidad: "/></p>
+                            <p id="cantidad2">  <p:spinner id="basic" value="#{bComprar.cantidad}" /></p>
+                            
+                            
+                            <h:panelGroup id="precioAct"   rendered="#{bComprar.verPrecio}">
+                            <p>  <h:outputText value="Precio: " /></p>
+                            <p><h:outputText id="precioReparacion" value="#{bComprar.precioReparacion}"/></p>
+                            </h:panelGroup>
+                            <p id="ocasion">  <h:outputText value="Ocasión: " /></p>
+                            <p id="ocasion2">  <h:outputText  value="Reparalo ahora y recibelo en tu casa entre 3-5 días. " /></p>
+                           <h:panelGroup id="actualizarComprar">
+                 <h:panelGroup id="actualizarBotonComprar" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">     
+                     <h:commandButton value="Reparar" action="#{bComprar.repararTelefono(bComprar.telefonoVer)}" />
+                        
+                 </h:panelGroup>
+                 <h:panelGroup id="actualizarBotonCompra2" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">     
+                     <p>Para comprar debe <a href="registro.xhtml" class="render">Registrarse</a> o <span id="inicioSesion2" class="render">Iniciar sesión</span> </p>
+                 </h:panelGroup>
+                          </h:panelGroup>
+                            
+                        </h:form>     
+                    </div>
+                    </h:panelGroup>
+                </div>
 
+                <div id="contenedorInformacion">
+                    <h1>Información sobre las reparaciones</h1>
+                    <h:panelGroup id="datosInformativos" >
+
+                            <div id="recogida">
+                                <h2>Servicio de Recogida y Devolución:</h2>
+                                <ul>
+                                    <li> Se recoge mediante mensajería directamente en tu domicilio o en la dirección indicada en el plazo de 24 horas hábiles.</li>
+
+                                <li> Recepcionaremos tu dispositivo al día siguiente hábil de la recogida.</li>
+
+                                <li> Se reparara en un plazo de 24 horas (excepto falta de stock de piezas o detección de otras posibles averías).</li>
+
+                                <li> Un mensajero te devolverá tu dispositivo ya reparado en la dirección indicada, después de haber recibido el pago de la reparación.</li>
+
+                                </ul>
+                            </div>
+                            <div id="garantia"> 
+                                <h2>Garantía:</h2>
+                                <ul>
+                                <li> La garantía de la reparación es de 6 meses (cualquier tipo de manipulación o rotura anulará la garantía).</li>
+                                <li> Esta garantía cubre la reparación o reparaciones efectuadas en el producto averiado, pero en ningún caso la garantía es global a todo el dispositivo.</li>
+
+                                </ul>
+                            </div>
+                            <div id="instrucciones">
+                                <h2>Instrucciones:</h2>
+                                <ul>
+                                <li> Es necesario el diagnóstico previo del dispositivo averiado por parte de nuestros técnicos ya que los síntomas pueden dar una pista falsa, y puede ser algo más complejo o incluso no tener reparación. En algunas reparaciones es posible que haya que hacer un cambio de producto de reparación si nuestros técnicos detectan que el problema es otro. Para más información de esta casuística leer nuestra sección de términos y condiciones, puntos 5.5.1 y 5.5.2.</li>
+
+                                <li> Utilizar la caja original u otra amplia y con relleno donde no se pueda desplazar libremente el dispositivo y embalar completamente.</li>
+                                </ul>
+                                <p>Es posible que el cambio de batería requiera una restauración de fábrica , por lo tanto si usted hace esta reparación, le recomendamos que haga una copia de seguridad previa de todos sus datos</p>
+                            </div>
+
+                    </h:panelGroup> 
+                </div>
 
             </div>
-                    </div>
-</div>
-            <script src="http://code.jquerygeo.com/jquery.geo-1.1.0.min.js"></script>
-            <script src="js/jquery.easyPaginate.js"></script>
-             <script>
-                $('#easy').easyPaginate({
-    paginateElement: '.pedidoEasy',
-    elementsPerPage: 5
-});
-            </script>
-            <style>
-                .easyPaginateNav {width: 90% !important;
-
-margin: 0 auto;
-
-text-align: center;
-
-padding: 5%;
-
-font-size: 30px;}
-                .easyPaginateNav a{
-                    margin-right:  2%;
-                    margin-right: 2%;
-
-text-decoration: none;
-
-color: black;
-                }
-                .easyPaginateNav a:hover{
-text-decoration: underline;
-                }
-            </style>
         </h:body>
     </f:view>    
 </html>

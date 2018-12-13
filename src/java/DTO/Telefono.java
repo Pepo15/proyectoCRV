@@ -33,6 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Telefono.findAll", query = "SELECT t FROM Telefono t")
     ,@NamedQuery(name = "Telefono.findDistinct", query = "SELECT DISTINCT t.marca FROM Telefono t")
+    ,@NamedQuery(name = "Telefono.findDistinctLista", query = "SELECT DISTINCT t FROM Telefono t")
     , @NamedQuery(name = "Telefono.findByCodigoTelefono", query = "SELECT t FROM Telefono t WHERE t.codigoTelefono = :codigoTelefono")
     , @NamedQuery(name = "Telefono.findByNombre", query = "SELECT t FROM Telefono t WHERE t.nombre = :nombre")
     , @NamedQuery(name = "Telefono.findByMarca", query = "SELECT t FROM Telefono t WHERE t.marca = :marca")
