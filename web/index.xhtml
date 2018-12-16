@@ -15,10 +15,10 @@ and open the template in the editor.
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
-             <script src="js/slideshow.js"></script>
+            <script src="js/slideshow.js"></script>
             <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/jquery-ui.min.js"></script>
-           
+
             <script  src="js/index.js"></script>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
@@ -57,10 +57,10 @@ and open the template in the editor.
 
                     <div id="carrito">
                         <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
-                            <p> <h:outputText value="#{bComprar.mens}"/></p>
-                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
-                        </a>
+                            <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                                <p> <h:outputText value="#{bComprar.mens}"/></p>
+                                <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                            </a>
                         </h:panelGroup>    
                     </div>
 
@@ -68,11 +68,11 @@ and open the template in the editor.
                 <div id="menuHorizontal">
                     <ul>
                         <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        
-                        <li><a href="index.xhtml" title="Home">Home</a></li>
-                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                         <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                          <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+
+                            <li><a href="index.xhtml" title="Home">Home</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
                         </h:panelGroup>
                     </ul>
 
@@ -97,11 +97,11 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
-                    
-                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                         <div id="contenedorDatosLogeado" style="float: right">
 
-                            <div id="nombreUsuario">           
+                    <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
                                 <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -119,6 +119,27 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
+                    <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
                 </div>
             </h:panelGroup>
 
@@ -127,12 +148,12 @@ and open the template in the editor.
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
                         <div id="logeo">
-                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
-                        <br></br><br></br>
-                        <h:outputText value="#{bLogin.mens}"/>
+                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <br></br><br></br>
+                            <h:outputText value="#{bLogin.mens}"/>
                         </div>
                         <div id="olvidarPassword">
                             <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
@@ -159,9 +180,10 @@ and open the template in the editor.
 
             <div id="compra">
                 <div id="imgCompra">
-                    <img src="imagenes/Fotos/comprarMovilGrande.png" alt="Comprar"></img>
+                    <img src="imagenes/Fotos/comprarMovilG.png" alt="Comprar"></img>
                 </div>
                 <div id="infoCompra">
+                    <h1>Compras</h1>
                     <p>Si necesitas un teléfono móvil que cumpla con las características que deseas,
                         esta es tu página, donde tendrás toda la información técnica sobre ellos.
                         Ofrecemos lo últimos términales del mercado al mejor precio,
@@ -169,19 +191,8 @@ and open the template in the editor.
                         en tan solo 24 horas.</p>
                 </div>
             </div>
-            <div id="venta">
-                <div id="imgVenta">
-                    <img src="imagenes/Fotos/venderMovilGrande.png" alt="Vender"></img>
-                </div>
-                <div id="infoVenta">
-                    <p>Todo el mundo tiene un cajón lleno de teléfonos móviles que ya no utiliza. 
-                        ¿Por qué no transformarlos en dinero? En CRV Móvil, te preguntamos por el estado
-                        del teléfono y una vez verificado, obtendrás el dinero directamente en un tu cuenta.
-                        De una forma rápida y sencilla, podrás ahorrar o comprate un términal nuevo.</p>
-                </div>
-            </div>
-
             <div id="reparar">
+                <h1>Reparaciones</h1>
                 <div id="paso1">
                     <div id="paso1img">
                         <img src="imagenes/Fotos/repararGrande1.png" alt="Reparar1"></img>
@@ -213,6 +224,20 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+            <div id="venta">
+                <div id="imgVenta">
+                    <img src="imagenes/Fotos/venderMovilG.png" alt="Vender"></img>
+                </div>
+                <div id="infoVenta">
+                    <h1>Ventas</h1>
+                    <p>Todo el mundo tiene un cajón lleno de teléfonos móviles que ya no utiliza. 
+                        ¿Por qué no transformarlos en dinero? En CRV Móvil, te preguntamos por el estado
+                        del teléfono y una vez verificado, obtendrás el dinero directamente en un tu cuenta.
+                        De una forma rápida y sencilla, podrás ahorrar o comprate un términal nuevo.</p>
+                </div>
+            </div>
+
+
 
             <footer>
                 <div id="infoFooter">

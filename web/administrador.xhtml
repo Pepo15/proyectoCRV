@@ -13,75 +13,241 @@ and open the template in the editor.
     <h:head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>CRV</title>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script  src="js/index.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
+        <link rel="stylesheet" href="css/index.css"></link>
+        <link rel="stylesheet" href="css/migasTitulo.css"></link>
+
+        <link rel="stylesheet" href="css/administrador.css"></link>
+
     </h:head>
     <h:body>
+        <h:panelGroup id="actualizarCabecera">
+            <header>
+                <div id="logo">
+                    <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                </div>
+
+                <div id="idioma">
+                    <p>Idioma</p>
+                    <h:form>
+
+                        <h:commandButton image="imagenes/Fotos/england.png"/>
+                        <h:commandButton image="imagenes/Fotos/spain.png"/>
+                    </h:form>
+                </div>
+
+                <div id="login">
+                    <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
+
+                        <div id="registroInicio">
+                            <a href="/CRV/faces/registro.xhtml">Registrarse</a> 
+                            <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                        </div>
+                    </h:panelGroup>    
+                </div>            
+
+
+                <div id="contacto">
+                    <img src="imagenes/Fotos/whatsapp.png" alt="Whatsapp"></img>
+                    <p>628317327</p>
+                </div>
+
+                <div id="carrito">
+                    <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                            <p> <h:outputText value="#{bComprar.mens}"/></p>
+                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                        </a>
+                    </h:panelGroup>    
+                </div>
+
+            </header>
+            <div id="menuHorizontal">
+                <ul>
+                    <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+
+                        <li><a href="index.xhtml" title="Home">Home</a></li>
+                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                        <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                        <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+                    </h:panelGroup>
+                </ul>
+
+                <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                    <div id="contenedorDatosLogeado">
+
+                        <div id="nombreUsuario">           
+                            <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+
+                <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">Mi perfil</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+                <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+            </div>
+        </h:panelGroup>
+
+        <div id="modalInicioSesion" class="modal">
+            <div id="inicioS" class='centrar'>
+                <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                <h:form id="formularioInicio">
+                    <div id="logeo">
+                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <br></br><br></br>
+                        <h:outputText value="#{bLogin.mens}"/>
+                    </div>
+                    <div id="olvidarPassword">
+                        <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                        <p:commandButton value="Entrar" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                        <br></br><br></br>
+                        <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
+                    </div>
+                </h:form>
+            </div>
+        </div>
         <p:messages id="messages" showDetail="true" closable="true">
             <p:autoUpdate />
         </p:messages>
-        <h1><h:outputText value="Administrador"/></h1>
-        <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
 
-        <!--Gestion Tecnicos-->
-        <form id="gestionTecnico" action="administradorGestionTecnico.xhtml"> 
-            <div onclick="document.getElementById('gestionTecnico').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Gestionar Tecnico"/>
-            </div>
-        </form>
-        <!--Gestion Tecnicos-->
-        <form id="gestionTelefono" action="administradorGestionTelefono.xhtml"> 
-            <div onclick="document.getElementById('gestionTelefono').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Gestionar Telefono"/>
-            </div>
-        </form>
-        <!--Gestion Tecnicos-->
-        <form id="gestionPremio" action="administradorGestionPremio.xhtml"> 
-            <div onclick="document.getElementById('gestionPremio').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Gestionar Premio"/>
-            </div>
-        </form>
+        <div id="contenedorBread">
+            <nav id="migas">
+                <ul>
+                    <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
+                    <li><em></em><a href="/CRV/faces/administrador.xhtml" title="Perfil">Perfil</a><i></i></li>
+                </ul>
+            </nav> 
+        </div>
 
-        <!--Modificar Pedido-->
-        <form id="modificarPedido" action="administradorModificarPedido.xhtml"> 
-            <div onclick="document.getElementById('modificarPedido').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Modificar Pedido"/>
-            </div>
-        </form>
-        <!--Modificar Pedido-->
-        <form id="modificarReparaciones" action="administradorModificarReparaciones.xhtml"> 
-            <div onclick="document.getElementById('modificarReparaciones').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Modificar Reparaciones"/>
-            </div>
-        </form>
+        <div  id="tituloPagina">
+            <h1>Mi perfil</h1>
+        </div>
 
-        <!--Estadisticas-->
-        <form id="estadisticas" action="administradorEstadisticas.xhtml"> 
-            <div onclick="document.getElementById('estadisticas').submit();" 
-                 style="border: 1px solid black;
-                 width: 150px;
-                 height: 150px;
-                 cursor: pointer">
-                <h:outputText value="Estadisticas"/>
+        <div id="contenedorAcciones">
+            <!--Gestion Tecnicos-->
+            <form id="gestionTecnico" action="administradorGestionTecnico.xhtml"> 
+                <div onclick="document.getElementById('gestionTecnico').submit();" >
+                    <img src="imagenes/Fotos/tecnicoGestion.png" alt="Gestion Tecnico"></img>
+                    <p>  <h:outputText value="Gestionar Técnico"/></p>
+                </div>
+            </form>
+            <!--Gestion Tecnicos-->
+            <form id="gestionTelefono" action="administradorGestionTelefono.xhtml"> 
+                <div onclick="document.getElementById('gestionTelefono').submit();">
+                    <img src="imagenes/Fotos/tecnico.png" alt="Gestion Telefono"></img>
+                    <p> <h:outputText value="Gestionar Telefono"/></p>
+                </div>
+            </form>
+            <!--Gestion Tecnicos-->
+            <form id="gestionPremio" action="administradorGestionPremio.xhtml"> 
+                <div onclick="document.getElementById('gestionPremio').submit();">
+                    <img src="imagenes/Fotos/puntosPerfil.png" alt="Gestion Puntos"></img>
+                    <p> <h:outputText value="Gestionar Premio"/></p>
+                </div>
+            </form>
+
+            <!--Modificar Pedido-->
+            <form id="modificarPedido" action="administradorModificarPedido.xhtml"> 
+                <div onclick="document.getElementById('modificarPedido').submit();" >
+                    <img src="imagenes/Fotos/modificarestadoAdmin.png" alt="Gestion Pedido"></img>
+                    <p> <h:outputText value="Gestionar Pedido"/></p>
+                </div>
+            </form>
+            <!--Modificar Pedido-->
+            <form id="modificarReparaciones" action="administradorModificarReparaciones.xhtml"> 
+                <div onclick="document.getElementById('modificarReparaciones').submit();" >
+                    <img src="imagenes/Fotos/historialPerfil.png" alt="Gestion Reparaciones"></img>
+                    <p> <h:outputText value="Gestionar Reparaciones"/></p>
+                </div>
+            </form>
+
+
+        </div>
+        <footer>
+            <div id="infoFooter">
+                <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
+                    y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
+                    siempre desde España y con envío 24 horas. 
+                    Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
+                    6 meses de garantía.</p>
             </div>
-        </form>
+
+            <div id="imagenesFooter">
+                <div id="instagram">
+                    <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                </div>
+                <div id="twitter">
+                    <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                </div>
+                <div id="facebook">
+                    <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                </div>
+                <div id="gmail">
+                    <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                </div>
+            </div>
+
+            <div id="copyright">
+                <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+            </div>
+
+        </footer>
     </h:body>     
 </html>

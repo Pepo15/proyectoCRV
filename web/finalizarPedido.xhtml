@@ -22,12 +22,12 @@ and open the template in the editor.
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-                
+
             <link rel="stylesheet" href="css/finalizarPedido.css"></link>
- 
+
         </h:head>
         <h:body>
-              <h:panelGroup id="actualizarCabecera">
+            <h:panelGroup id="actualizarCabecera">
                 <header>
                     <div id="logo">
                         <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
@@ -60,10 +60,10 @@ and open the template in the editor.
 
                     <div id="carrito">
                         <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
-                            <p> <h:outputText value="#{bComprar.mens}"/></p>
-                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
-                        </a>
+                            <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                                <p> <h:outputText value="#{bComprar.mens}"/></p>
+                                <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                            </a>
                         </h:panelGroup>    
                     </div>
 
@@ -71,11 +71,11 @@ and open the template in the editor.
                 <div id="menuHorizontal">
                     <ul>
                         <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        
-                        <li><a href="index.xhtml" title="Home">Home</a></li>
-                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                         <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                          <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+
+                            <li><a href="index.xhtml" title="Home">Home</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
                         </h:panelGroup>
                     </ul>
 
@@ -100,11 +100,11 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
-                    
-                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                         <div id="contenedorDatosLogeado" style="float: right">
 
-                            <div id="nombreUsuario">           
+                    <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
                                 <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -122,6 +122,27 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
+                    <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
                 </div>
             </h:panelGroup>
 
@@ -130,12 +151,12 @@ and open the template in the editor.
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
                         <div id="logeo">
-                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
-                        <br></br><br></br>
-                        <h:outputText value="#{bLogin.mens}"/>
+                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <br></br><br></br>
+                            <h:outputText value="#{bLogin.mens}"/>
                         </div>
                         <div id="olvidarPassword">
                             <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
@@ -150,7 +171,7 @@ and open the template in the editor.
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            
+
             <div id="contenedorBread">
                 <nav id="migas">
                     <ul>
@@ -185,11 +206,11 @@ and open the template in the editor.
 
 
                                     <div id="direccion" style="border:1px solid green">
-                                        <p> <h:outputText value="Calle "/></p> <p><h:outputText value="#{direccion.nombre}"/></p><br></br><br></br>
-                                        <p> <h:outputText value="Poblacion "/></p> <p><h:outputText value="#{bUsuarioGestionPersonal.conocerPoblacion(direccion.codigoPoblacion)}"/></p><br></br><br></br>
-                                        <p> <h:outputText value="Provincia "/></p> <p><h:outputText value="#{bUsuarioGestionPersonal.conocerProvincia(direccion.codigoProvincia)}"/></p><br></br><br></br>  
-                                        <p><h:outputText value="CP "/></p> <p><h:outputText value="#{bUsuarioGestionPersonal.cp}"/></p><br></br><br></br>
-                                        <p><h:outputText value="Telefono "/></p> <p><h:outputText value="#{direccion.telefono}"/></p><br></br><br></br>
+                                        <p> <h:outputText value="Calle: "/></p> <p><h:outputText value="#{direccion.nombre}"/></p><br></br><br></br>
+                                        <p> <h:outputText value="Poblacion: "/></p> <p><h:outputText value="#{bUsuarioGestionPersonal.conocerPoblacion(direccion.codigoPoblacion)}"/></p><br></br><br></br>
+                                        <p> <h:outputText value="Provincia: "/></p> <p><h:outputText value="#{bUsuarioGestionPersonal.conocerProvincia(direccion.codigoProvincia)}"/></p><br></br><br></br>  
+                                        <p><h:outputText value="CP: "/></p> <p><h:outputText value="#{bUsuarioGestionPersonal.cp}"/></p><br></br><br></br>
+                                        <p><h:outputText value="Telefono: "/></p> <p><h:outputText value="#{direccion.telefono}"/></p><br></br><br></br>
 
                                         <h:form id="editarD">
                                             <h:commandButton class="botonD" value="Editar" action="#{bUsuarioGestionPersonal.editarDireccion(direccion.codigoDireccion)}">
@@ -220,23 +241,29 @@ and open the template in the editor.
                                 <h1> Añadir Dirección </h1>
                                 <h:form id="altaDireccion">
                                     <h:outputLabel for="direccion" value="Direccion: "/> 
-                                    <h:inputText id="direccion" value="#{bUsuarioGestionPersonal.direccionAlta}" required="true"/>
+                                    <p:inputText id="direccion" value="#{bUsuarioGestionPersonal.direccionAlta}" required="true" requiredMessage="La dirección es obligatoria."/>
+                                    <p:message for="direccion" />
                                     <br></br><br></br>
 
                                     <h:outputLabel for="provincia" value="Elija una provincia: "/> 
-                                    <p:selectOneMenu id="provincia" value="#{bUsuarioGestionPersonal.codigoProvinciaAlta}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
+                                    <p:selectOneMenu id="provincia" value="#{bUsuarioGestionPersonal.codigoProvinciaAlta}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false">
                                         <f:selectItems value="#{bUsuarioGestionPersonal.listaProvincias}" />
                                         <p:ajax event="change" update="poblacion"
                                                 listener="#{bUsuarioGestionPersonal.consultarPoblacion}" />
                                     </p:selectOneMenu>
 
                                     <h:outputLabel for="poblacion" value="Elija una poblacion: "/> 
-                                    <p:selectOneMenu id="poblacion" value="#{bUsuarioGestionPersonal.codigoPoblacionAlta}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true">
+                                    <p:selectOneMenu id="poblacion" value="#{bUsuarioGestionPersonal.codigoPoblacionAlta}" editable="false"  filter="true" filterMatchMode="startsWith" caseSensitive="false" required="true" requiredMessage="Tiene que elegir una población.">
                                         <f:selectItems value="#{bUsuarioGestionPersonal.listaPoblaciones}" />
                                     </p:selectOneMenu>
 
+
                                     <h:outputLabel for="telefono" value="Telefono: "/> 
-                                    <h:inputText id="telefono" value="#{bUsuarioGestionPersonal.telefonoAlta}" required="true"/>
+                                    <p:inputText id="telefono" value="#{bUsuarioGestionPersonal.telefonoAlta}" required="true" requiredMessage="El teléfono es obligatorio." validatorMessage="Debe ser un número de 9 dígitos">
+                                        <f:validateRegex pattern="^\d{9}$" />
+                                    </p:inputText>
+                                    <p:message for="poblacion" />
+                                    <p:message for="telefono" />
 
                                     <p:commandButton value="Modificar datos" validateClient="true" action="#{bUsuarioGestionPersonal.altaDireccion()}" update="altaDireccion direcciones messages"/>
                                     <br></br><br></br>
@@ -257,7 +284,7 @@ and open the template in the editor.
                                     <div id="tarjeta" style="border:1px solid black">
                                         <p> <h:outputText value="Número Tarjeta: "/></p>  <p><h:outputText value="#{tarjeta.numeroTarjeta}"/> </p><br></br><br></br>
                                         <p> <h:outputText value="Fecha de vencimiento: "/></p> <p> <h:outputText value="#{bUsuarioGestionPersonal.conocerFecha(tarjeta.fechaCaducidad)}"/></p><br></br><br></br>  
-                                        <p> <h:outputText value="CVV "/></p> <p> <h:outputText value="#{tarjeta.cvv}"/></p><br></br><br></br>  
+                                        <p> <h:outputText value="CVV: "/></p> <p> <h:outputText value="#{tarjeta.cvv}"/></p><br></br><br></br>  
 
                                         <h:form>
                                             <h:commandButton class="botonT" value="Editar" action="#{bUsuarioGestionPersonal.editarTarjeta(tarjeta.codigoTarjeta)}">
@@ -288,7 +315,10 @@ and open the template in the editor.
                                 <h:form id="altaTarjeta" >
 
                                     <h:outputLabel for="numeroTarjeta" value="Número tarjeta: "/> 
-                                    <h:inputText id="numeroTarjeta" value="#{bUsuarioGestionPersonal.numeroTarjetaAlta}" required="true"/>
+                                    <p:inputText id="numeroTarjeta" value="#{bUsuarioGestionPersonal.numeroTarjetaAlta}" required="true" requiredMessage="El número de tarjeta es obligatorio." validatorMessage="Debe ser un número de 16 digitos">
+                                        <f:validateRegex pattern="^\d{16}$" />
+                                    </p:inputText>
+                                    <p:message for="numeroTarjeta" />
                                     <br></br><br></br>
 
                                     <h:outputLabel for="mes" value="Elija un mes "/> 
@@ -302,13 +332,16 @@ and open the template in the editor.
                                     </p:selectOneMenu>
 
                                     <h:outputLabel for="cvv" value="Cvv "/> 
-                                    <h:inputText id="cvv" value="#{bUsuarioGestionPersonal.cvvAlta}" required="true"/>
+                                    <p:inputText id="cvv" value="#{bUsuarioGestionPersonal.cvvAlta}" required="true" requiredMessage="El CVV es obligatorio." validatorMessage="Debe ser un número de 3 digitos">
+                                        <f:validateRegex pattern="^\d{3}$" />
+                                    </p:inputText>
+                                    <p:message for="cvv" />
 
-                                    <p:commandButton value="Cambiar estado" action="#{bUsuarioGestionPersonal.altaTarjeta()}" update="tarjetas resultT messages"/>
+                                    <p:commandButton value="Añadir Tarjeta" action="#{bUsuarioGestionPersonal.altaTarjeta()}" update="tarjetas resultT messages"/>
 
 
                                 </h:form>
-                            </div> 
+                            </div>
                         </h:panelGroup> 
                     </div>
 
@@ -418,10 +451,10 @@ and open the template in the editor.
                                     <h:outputText value="#{bUsuarioGestionPersonal.conocerProvincia(bComprar.direccionPedido.codigoProvincia)} , "/>
                                     <h:outputText value="#{bUsuarioGestionPersonal.cp} , "/>
                                     <h:outputText value="#{bComprar.direccionPedido.telefono}"/></p>
-                                    <h:form>
-                                            <h:commandButton  value="Cambiar" action="#{bComprar.cambiarDireccion()}"/>
+                                <h:form>
+                                    <h:commandButton  value="Cambiar" action="#{bComprar.cambiarDireccion()}"/>
 
-                                        </h:form>
+                                </h:form>
                             </div>
 
                             <div id="contenedorTarjetaFinalizar">
@@ -429,26 +462,26 @@ and open the template in the editor.
                                 <p><h:outputText value="#{bComprar.tarjetaPedido.numeroTarjeta} , "/>
                                     <h:outputText value="#{bComprar.tarjetaPedido.cvv} , "/>
                                     <h:outputText value="#{bComprar.tarjetaPedido.fechaCaducidad}"/></p>
-                                    <h:form>
-                                            <h:commandButton  value="Cambiar" action="#{bComprar.cambiarTarjeta()}"/>
+                                <h:form>
+                                    <h:commandButton  value="Cambiar" action="#{bComprar.cambiarTarjeta()}"/>
 
-                                        </h:form>
+                                </h:form>
                             </div>
 
                             <div id="resumenFinalizar">
                                 <h:form id="fPedido">
-                                    <h1>Resumen</h1>
-                                    <p><h:outputText value="Total:  "/>
-                                        <h:outputText value="#{bComprar.precioCesta}"/></p>
+                                    <h1>Finalizar</h1>
+                                    <p><h:outputText value="Total:  "/></p>
+                                    <p>   <h:outputText value="#{bComprar.precioCesta}"/></p>
                                     <p:commandButton value="Finalizar"  action="#{bComprar.finalizarPedido()}" update=" actualizarCabecera contenedor messages"/>
                                 </h:form>
                             </div>    
                         </h:panelGroup>
                     </div>
-                     <h:panelGroup id="finalizado" rendered="#{bComprar.pedidoCorrecto}">
-                    <div id="contenedorPedidoCorrecto">
-                        <!-- Mostrar tarjetas-->
-                       
+                    <h:panelGroup id="finalizado" rendered="#{bComprar.pedidoCorrecto}">
+                        <div id="contenedorPedidoCorrecto">
+                            <!-- Mostrar tarjetas-->
+
 
 
                             <h1>Pedido Correcto</h1>
@@ -459,11 +492,40 @@ and open the template in the editor.
                                     Muchas gracias</p>
 
                             </div>
-                        
-                    </div>
-                         </h:panelGroup>
+
+                        </div>
+                    </h:panelGroup>
                 </h:panelGroup>
             </div>
+            <footer>
+                <div id="infoFooter">
+                    <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
+                        y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
+                        siempre desde España y con envío 24 horas. 
+                        Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
+                        6 meses de garantía.</p>
+                </div>
+
+                <div id="imagenesFooter">
+                    <div id="instagram">
+                        <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                    </div>
+                    <div id="twitter">
+                        <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                    </div>
+                    <div id="facebook">
+                        <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                    </div>
+                    <div id="gmail">
+                        <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                    </div>
+                </div>
+
+                <div id="copyright">
+                    <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+                </div>
+
+            </footer>
         </h:body>
     </f:view>    
 </html>

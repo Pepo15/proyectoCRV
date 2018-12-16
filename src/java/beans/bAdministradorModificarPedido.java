@@ -5,6 +5,7 @@ import DAO.PoblacionJpaController;
 import DTO.Pedido;
 import DTO.Poblacion;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -52,6 +53,8 @@ public class bAdministradorModificarPedido {
 
     //Lista que guarda los valores del select de estados
     private ArrayList listaEstados = null;
+    
+     private boolean booleanCabecera = false;
 
     public bAdministradorModificarPedido() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
@@ -62,6 +65,14 @@ public class bAdministradorModificarPedido {
         listaPedidos = new ArrayList();
 
         listaPedidos = ctrPedido.findPedidoEntities();
+        
+        for (int i = 0; i < listaPedidos.size(); i++) {
+            Pedido ped =(Pedido) listaPedidos.get(i);
+            if(ped.getEstado()==5){
+                listaPedidos.remove(i);
+            }
+        }
+        Collections.reverse(listaPedidos);
     }
 
     public EntityManagerFactory getEmf() {
@@ -160,13 +171,23 @@ public class bAdministradorModificarPedido {
         this.listaEstados = listaEstados;
     }
 
+    public boolean isBooleanCabecera() {
+        return booleanCabecera;
+    }
+
+    public void setBooleanCabecera(boolean booleanCabecera) {
+        this.booleanCabecera = booleanCabecera;
+    }
+    
+    
+
     //Metodo para pintar un pedido
-    public boolean cabeceraPedido() {
+    public void cabeceraPedido() {
         if (codigoPedido == codigoPedidoAnterior) {
 
-            return true;
+            booleanCabecera= true;
         } else {
-            return false;
+           booleanCabecera= false;
         }
 
     }
@@ -204,8 +225,9 @@ public class bAdministradorModificarPedido {
     //Metodo para modificar el estado de un pedido
     public String modificarEstado() {
         //Busco el pedido en la base de datos
-        Pedido pedido = ctrPedido.findPedido(codigoPedidoModificar);
+        Pedido pedido = ctrPedido.findPedidoByCodigoPedido(codigoPedidoModificar);
 
+        if(pedido!=null){
         //Modifico el pedido
         pedido.setEstado(Integer.parseInt(estadoNuevo));
 
@@ -217,13 +239,23 @@ public class bAdministradorModificarPedido {
             listaPedidos = new ArrayList();
 
             listaPedidos = ctrPedido.findPedidoEntities();
+            
+             for (int i = 0; i < listaPedidos.size(); i++) {
+            Pedido ped =(Pedido) listaPedidos.get(i);
+            if(ped.getEstado()==5){
+                listaPedidos.remove(i);
+            }
+        }
 
+              Collections.reverse(listaPedidos);
             //Restablezco los parametros para que me pinte la cabecera de los pedidos
             codigoPedido = 0;
             codigoPedidoAnterior = 1;
 
             //Cierro la ventana modal de cambiar estado
             estado = false;
+            
+             codigoPedidoModificar=0;
 
             //Escribo el mensaje de modificacion correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La modificación del estado se ha realizado correctamente."));
@@ -234,7 +266,7 @@ public class bAdministradorModificarPedido {
             //Escribo el mensaje de modificacion incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modifcar el estado del pedido"));
         }
-
+        }
         return "volver";
     }
 
@@ -292,8 +324,9 @@ public class bAdministradorModificarPedido {
     //Metodo que cambia la poblacion en la que se encuentra un pedido
     public String modificarUbicacion() {
         //Busco el pedido en la base de datos
-        Pedido pedido = ctrPedido.findPedido(codigoPedidoModificar);
+        Pedido pedido = ctrPedido.findPedidoByCodigoPedido(codigoPedidoModificar);
 
+        if(pedido!=null){
         //Modifico el pedido
         pedido.setCodigoPoblacion(Integer.parseInt(codigoPoblacion));
 
@@ -312,6 +345,8 @@ public class bAdministradorModificarPedido {
 
             //Cierro la ventana modal de cambiar estado
             ubicacion = false;
+            
+            codigoPoblacion="";
 
             //Escribo el mensaje de modificacion correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La modificación de la ubicación se ha realizado correctamente."));
@@ -322,6 +357,7 @@ public class bAdministradorModificarPedido {
             //Escribo el mensaje de modificacion incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modifcar la ubicación del pedido"));
         }
+    }
         return "volver";
     }
 

@@ -1,89 +1,140 @@
- body{
-                    background-color: #e1e1e1;  
-                }
-                #buscador{
-                    padding: 2%;
-                    margin-bottom: 2%;
-                }
-                #buscador h1{
-                    width: 35%;
-                    float: left;
-                    margin: 0;
-                }
-                #buscador input{
-                    width: 40%;
-                    border-radius: 12px;
+body{
+    background-color: #e1e1e1;  
+}
+#buscador{
+    padding: 2%;
+    margin-bottom: 2%;
+}
+#buscador h2{
+    width: 25%;
+    float: left;
+    margin: 0;
+    margin-left: 12%;
+    padding-top: 0.4%;
+}
+#buscador input{
+    width: 40%;
+    border-radius: 12px;
 
-                    padding-left: 9px;
-                    margin-top: 0.7%;
-                }
-                #contenedorTelefonos{
-                    width: 65%;
-                    float:right;
-                    border: 1px solid pink;
-                }
-                #contenedorFiltro{
-                    width: 30%;
-                    border: 1px solid green;
-                }
-                .filtro{
-                    width: 70%;
-                    margin: 0 auto;
-                    border: 1px solid black;
-                    margin-bottom: 5%;
-                    background: white;
-                }
-                .filtro h2{
-                    padding: 4%;
-                    margin: 0;
-                    width: 70%;
-                    float: left;
-                }
-                .filtro form{
-                    margin-left: 5%;
-                    font-size: 16px;
-                }
-                .contenido form:first-child{
-                    margin-top: 5%;
-                }
-                .filtro img{
-                    width: 8%;
-                    margin-left: 6%;
-                    margin-top: 5%;
-                    margin-bottom: 1%;
-                    cursor:pointer;
-                }
-                .cabecera{
-                    border-bottom: 1px solid black;
-                }
-                #slider{
-                    width: 160% !important;
-                }
-                .cTelefono{
-                    width: 30%;
-                    float: left;
-                    margin-right: 5%;
-                    background: white;
-                }
-                .cTelefono img{
+    padding-left: 9px;
+    margin-top: 0.7%;
+}
+#contenedorTelefonos{
+    width: 65%;
+    float:right;
+    border: 1px solid pink;
+    margin-right: 5%;
+}
+#contenedorFiltro{
+    width: 30%;
+    border: 1px solid green;
+    margin-bottom: 10%;
+}
+.filtro{
+    width: 70%;
+    margin: 0 auto;
+    border: 1px solid black;
+    margin-bottom: 5%;
+    background: white;
+}
+.filtro h3{
+    padding: 4%;
+    margin: 0;
+    width: 70%;
+    float: left;
+}
+.filtro form{
+    margin-left: 5%;
+    font-size: 16px;
+}
+.contenido form:first-child{
+    margin-top: 5%;
+}
+.filtro img{
+    width: 8%;
+    margin-left: 6%;
+    margin-top: 4%;
+    margin-bottom: 1%;
+    cursor:pointer;
+}
+.cabecera{
+    border-bottom: 1px solid black;
+}
+#slider{
+    width: 160% !important;
+}
+.cTelefono{
+    width: 30%;
+    float: left;
+    margin-right: 5%;
+    background: white;
+}
+.cTelefono img{
 
-                    width: 100%;
-                    height: 185px;
-                }
-                #imagen{
+    width: 100%;
+    height: 200px
+}
+#imagen{
 
-                }
-                #click{
-                    border:1px solid black;
-                    cursor:pointer;
-                    text-align: center;
-                }
-                #click p{
-                    font-size: 20px;
-                    font-weight: bold;
-                }
+}
+#click{
+    border:1px solid black;
+    cursor:pointer;
+    text-align: center;
+}
+#click p{
+    font-size: 20px;
+    font-weight: bold;
+}
 
-                #tituloF{
-                    text-align: center;
-                    font-size: 30px;
-                }
+#tituloF{
+    text-align: center;
+    font-size: 30px;
+    color: #393939;
+text-decoration: underline;
+}
+#contenedorTelefonos input[type="submit"]:hover{
+   background: #ff5959; 
+   color: white;
+   cursor:pointer;
+}
+
+#contenedorTelefonos input[type="submit"]{
+
+background: #ed2727;
+color: white;
+border-radius: 10px;
+font-size: 16px;
+margin-bottom: 3%;
+}
+#pulgadasFiltrado .contenido{
+    display: none;
+}
+#almacenamientoFiltrado .contenido{
+    display: none;
+}
+#camaraTraseraFiltrado .contenido{
+    display: none;
+}
+#camaraDelanteraFiltrado .contenido{
+    display: none;
+}
+#bateriaFiltrado .contenido{
+    display: none;
+}
+#procesadorFiltrado .contenido{
+    display: none;
+}
+#resolucionFiltrado .contenido{
+    display: none;
+}
+#colorFiltrado .contenido{
+    display: none;
+}
+#otrosFiltrado .contenido{
+    display: none;
+}
+
+table{
+    width: 55%;
+}

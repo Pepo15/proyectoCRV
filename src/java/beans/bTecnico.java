@@ -17,6 +17,7 @@ import javax.faces.model.SelectItem;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.http.HttpSession;
+import org.primefaces.PrimeFaces;
 
 public class bTecnico {
 
@@ -56,6 +57,8 @@ public class bTecnico {
 
     //Lista que guarda los valores del select de estados
     private ArrayList listaEstados = null;
+    
+     private boolean booleanCabecera = false;
 
     public bTecnico() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
@@ -161,6 +164,9 @@ public class bTecnico {
     }
 
     public List getListaPedidos() {
+        //Para pintar la cabecera 
+        codigoPedido=0;
+        codigoPedidoAnterior=1;
         if(listaPedidos.size()==0){
             noExiste=true;
         }
@@ -186,16 +192,17 @@ public class bTecnico {
         this.noExiste = noExiste;
     }
 
-    //Metodo para pintar un pedido
-    public boolean cabeceraPedido() {
-        if (codigoPedido == codigoPedidoAnterior) {
-
-            return true;
-        } else {
-            return false;
-        }
-
+    public boolean isBooleanCabecera() {
+        return booleanCabecera;
     }
+
+    public void setBooleanCabecera(boolean booleanCabecera) {
+        this.booleanCabecera = booleanCabecera;
+    }
+    
+    
+
+    
     //Metodo para pintar un pedido
     public boolean permitirEliminar(int codigo) {
           for (int i = 0; i < listaPedidos.size(); i++) {
@@ -259,10 +266,22 @@ public class bTecnico {
             //Actualizo en la base de datos el pedido
             ctrPedido.edit(pedido);
 
-            //Inicializamos la lista para que actualice los cambios
-            listaPedidos = new ArrayList();
+             //Cojo el tecnico de la sesion
+            ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+            manageBeanSesion manageBeanSesion = new manageBeanSesion();
 
-            listaPedidos = ctrPedido.findPedidoEntities();
+            HttpSession session = (HttpSession) ctx.getSession(false);
+            manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+            Tecnico tecnico = (Tecnico) manageBeanSesion.getTecnicoLog();
+
+        //Inicializamos la lista para que cuando entre ya esten cargados
+        listaPedidos = new ArrayList();
+
+        listaPedidos = ctrPedido.findPedidoByCodigoTecnico(tecnico);
+        
+        if(listaPedidos.size()==0){
+            noExiste=true;
+        }
 
             //Restablezco los parametros para que me pinte la cabecera de los pedidos
             codigoPedido = 0;
@@ -270,6 +289,9 @@ public class bTecnico {
 
             //Cierro la ventana modal de cambiar estado
             estado = false;
+            
+             //Muestro la ventana por si quiere modificar el telefono
+          PrimeFaces.current().executeScript("$('#modalCambiarEstado').css('display','none')");
 
             //Escribo el mensaje de modificacion correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La modificación del estado se ha realizado correctamente."));
@@ -321,7 +343,7 @@ public class bTecnico {
         codigoPedidoAnterior=1;
         
             //Escribo el mensaje de modificacion correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La modificación del estado se ha realizado correctamente."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha borrado correctamente el pedido."));
         
         
         } catch (NonexistentEntityException ex) {
@@ -356,6 +378,17 @@ public class bTecnico {
         Poblacion poblacion = ctrPoblacion.findPoblacion(codigoPoblacion);
 
         return poblacion.getNombrePoblacion();
+    }
+    
+    //Metodo para pintar un pedido
+    public void cabeceraPedido() {
+        if (codigoPedido == codigoPedidoAnterior) {
+
+            booleanCabecera= true;
+        } else {
+            booleanCabecera= false;
+        }
+
     }
 
 }

@@ -200,6 +200,51 @@ public class bLogin {
         return false;
     }
     }
+     public boolean comprobarRenderAdmin(Boolean boo){
+        if(boo==null){
+            return true;
+        }
+    if(boo==true){
+        return true;
+    }
+    else{
+        return false;
+    }
+    }
+      public boolean comprobarRenderTecnico(Boolean boo){
+        if(boo==null){
+            return true;
+        }
+    if(boo==true){
+        return true;
+    }
+    else{
+        return false;
+    }
+    }
+     public boolean comprobarRender2(Boolean boo){
+        if(boo==null){
+            return true;
+        }
+    if(boo==true){
+       return true;
+    }
+    else{
+          //Cojo el carrito de la sesion
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+        HttpSession session = (HttpSession) ctx.getSession(false);
+        manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        List listaCarrito = (List) manageBeanSesion.getListaCarrito();
+        if(listaCarrito.size()==0){
+            return true;
+        }
+        else{
+        return false;
+        }
+    }
+    }
     
      public boolean comprobarRender2(Boolean boo,Boolean boo2){
         if(boo==null && boo2 ==null){
@@ -251,6 +296,13 @@ public class bLogin {
             //puesto que el login es de request y se pierde
             tecnicoLogeado=tecnico;
             subirTecnico();
+             //Coger contexto
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+            try {
+                ctx.redirect("/CRV/faces/tecnico.xhtml");
+            } catch (IOException ex) {
+                Logger.getLogger(bLogin.class.getName()).log(Level.SEVERE, null, ex);
+            }
              return "tecnico";
         }
         else if(administrador!=null && administrador.getPassword().equals(password)){ 
@@ -303,6 +355,8 @@ public class bLogin {
             
             manageBeanSesion.setLogeado(false);
              manageBeanSesion.setLogeadoOtro(true);
+              manageBeanSesion.setLogeadoTecnico(true);
+               manageBeanSesion.setLogeadoAdmin(true);
     }
     
     //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
@@ -359,7 +413,9 @@ public class bLogin {
             manageBeanSesion.setTecnicoLog(tecnicoLogeado);   
             
              manageBeanSesion.setLogeado(true);
-           manageBeanSesion.setLogeadoOtro(false);
+             manageBeanSesion.setLogeado(true);
+           manageBeanSesion.setLogeadoTecnico(false);
+            manageBeanSesion.setLogeadoAdmin(true);
     }
     
     //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
@@ -389,7 +445,9 @@ public class bLogin {
             manageBeanSesion.setAdministradorLog(administradorLogeado);  
             
             manageBeanSesion.setLogeado(true);
-            manageBeanSesion.setLogeadoOtro(false);
+            manageBeanSesion.setLogeado(true);
+            manageBeanSesion.setLogeadoAdmin(false);
+             manageBeanSesion.setLogeadoTecnico(true);
     }
     
     public String olvidarPassword() {

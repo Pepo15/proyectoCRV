@@ -1,0 +1,116 @@
+ #tablaP{
+                clear: both;
+                 width: 90%;
+                margin:0 auto;
+                margin-bottom: 5%;
+            }
+            #tablaP td{
+                text-align: center;
+            }
+             #contenedorAltaPremio{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                }
+                #contenedorAltaPremio h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaPremio form{
+                    padding-left: 1%;
+                }
+                #contenedorAltaPremio .ui-widget{
+                    font-size: 16px !important;
+                }
+                #contenedorAltaPremio form label{
+                    width: 9%;
+
+float: left;
+
+margin-top: 0.5%;
+
+font-size: 18px;
+                }
+                #contenedorAltaPremio button{
+                    float:right;
+                    margin-right: 2%;
+                }
+                
+                 #contenedorAltaFotoPremio{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                }
+                #contenedorAltaFotoPremio h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaFotoPremio form{
+                    padding-left: 1%;
+                }
+                #contenedorAltaFotoPremio .ui-widget{
+                    font-size: 16px !important;
+                }
+                #contenedorAltaFotoPremio form label{
+                    width: 23%;
+
+float: left;
+
+margin-top: 0.5%;
+
+font-size: 18px;
+                }
+                #contenedorAltaFotoPremio form select{
+                    margin-right: 5%;
+                }
+                
+                #contenedorAltaFotoPremio input[type="submit"]{
+                    float:right;
+                    margin-right: 2%;
+                }
+                
+                 #contenedorBajaFotoPremio{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                }
+                #contenedorBajaFotoPremio h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorBajaFotoPremio form{
+                    padding-left: 1%;
+                    padding-bottom: 1%;
+                }
+                #contenedorBajaFotoPremio .ui-widget{
+                    font-size: 16px !important;
+                }
+                #contenedorBajaFotoPremio form label{
+                    width: 23%;
+
+float: left;
+
+margin-top: 0.5%;
+margin-bottom: 2%;
+
+font-size: 18px;
+                }
+                #contenedorBajaFotoPremio form select{
+                    margin-top: 0.5%;
+                }
+                #contenedorBajaFotoPremio button{
+                    float:right;
+                    margin-right: 2%;
+                }

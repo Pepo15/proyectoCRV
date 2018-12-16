@@ -1,35 +1,92 @@
- body{
-                    background-color: #e1e1e1;
-margin: 0;
-                }
-                #contenedorGeneral{
-                width: 90%;
-margin: 0 auto;
-background-color: white;
-margin-bottom: 3%;
-overflow: hidden;
-height: 1%;
-clear: both;
-                }
-                #contenedorGeneral h1{
-                    color: #ed2727;
-                }
-                #contenedorGeneral label{
-                    font-size: 30px;
-                }
-                .izquierda{
-                    width: 50%;
-
-float: left;
-                }
-                .derecha{
-                    width: 50%;
-float: left;
-                }
-                label{
-  display: inline-block;
-  width: 45%;
+body{
+    background-color: #e1e1e1;
+    margin: 0;
 }
-label.error { float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 20px !important;
-    width: 100% !important;
+#contenedorGeneral{
+    width: 86%;
+    margin: 0 auto;
+    background-color: white;
+    margin-bottom: 3%;
+    overflow: hidden;
+    padding:2%;
+    height: 1%;
+    clear: both;
+    border-radius: 27px;
+}
+#contenedorGeneral h1{
+    color: #ed2727;
+    margin-top: 0;
+}
+#contenedorGeneral label{
+    font-size: 25px;
+}
+.izquierda{
+    width: 50%;
+margin-bottom: 2%;
+    float: left;
+}
+.derecha{
+    width: 50%;
+    float: left;
+    margin-bottom: 2%;
+}
+.izquierda input[type="text"]{
+    padding: 0.8%;
+
+width: 40%;
+}
+.derecha input[type="text"]{
+    padding: 0.8%;
+
+width: 40%;
+}
+#contenedorGeneral input[type="submit"]{
+    float: right;
+
+margin-top: 5%;
+
+margin-right: 12%;
+
+background: #ed2727;
+
+color: white;
+
+border-radius: 10px;
+
+font-size: 20px;
+}
+#contenedorGeneral input[type="submit"]:hover{
+   background: #ff5959; 
+   color: white;
+   cursor:pointer;
+}
+label{
+    display: inline-block;
+    width: 45%;
+}
+label.error { float: none; 
+              padding-left: 1.5em; 
+              vertical-align: middle;
+              font-size: 20px !important;
+              width: 82% !important;
+              
+              background: url("/CRV/faces/javax.faces.resource/messages/messages.png?ln=primefaces&v=6.2") no-repeat;
+background-position: 0 -93px;
+color: #b94a48;
+background-color: #f2dede;
+border-color: #eed3d7;
+}
+#informacionPersonal{
+    overflow: hidden;
+
+clear: both;
+
+height: 1%;
+}
+#datosInicioSesion{
+    overflow: hidden;
+
+clear: both;
+
+height: 1%;
 }

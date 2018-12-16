@@ -1,0 +1,159 @@
+#filtrarTabla{
+                width: 90%;
+                margin:0 auto;
+                margin-bottom: 5%;
+            }
+            #filtrarTabla h2{
+                width: 20%;
+                float:left;
+                margin:0;
+                margin-top:1%;
+            }
+            #filtrarTabla label{
+                font-size: 20px;
+            }
+            #tablaT{
+                clear: both;
+                 width: 90%;
+                margin:0 auto;
+                margin-bottom: 5%;
+            }
+            #tablaT td{
+                text-align: center;
+            }
+            #contenedorFiltro {
+                float:left;
+                margin-right: 5%;
+            }
+            #filtrarTabla input[type="text"] {
+                margin-top:1%;
+                width: 50%;
+            }
+            
+            #contenedorAltaTelefono{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                }
+                #contenedorAltaTelefono h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaTelefono form{
+                    padding-left: 1%;
+                }
+                #contenedorAltaTelefono .ui-widget{
+                    font-size: 16px !important;
+                }
+                #contenedorAltaTelefono form label{
+                    width: 9%;
+
+float: left;
+
+margin-top: 0.5%;
+
+font-size: 18px;
+                }
+                #contenedorAltaTelefono button{
+                    float:right;
+                    margin-right: 2%;
+                }
+                
+                
+                #contenedorAltaCaracteristica{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                }
+                #contenedorAltaCaracteristica h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaCaracteristica form{
+                    padding-left: 1%;
+                }
+                #contenedorAltaCaracteristica .ui-widget{
+                    font-size: 16px !important;
+                }
+                #contenedorAltaCaracteristica form span label{
+                    width: 15%;
+
+float: left;
+
+font-size: 18px;
+                }
+                #contenedorAltaCaracteristica form span{
+                    margin-top: 2%;
+                }
+                #contenedorAltaCaracteristica button{
+                    float:right;
+                    margin-right: 2%;
+                }
+                #contenedorAltaFoto{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    clear:both;
+                    height: 1%;
+                }
+                #contenedorAltaFoto h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaFoto select{
+                    margin-right: 2%;
+                }
+                #contenedorAltaFoto label{
+                    margin-left: 1%;
+                }
+                #contenedorAltaFoto input[type="submit"]{
+                   float:right;
+                   margin-top: 2%;
+                    margin-right: 2%;
+                    margin-bottom: 1%;
+                }
+                                #contenedorAltaCaracteristica input[type="checkbox"]{
+                  
+                    margin-left: 6%;
+                }
+                #contenedorBajaFoto{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    clear:both;
+                    height: 1%;
+                }
+                #contenedorBajaFoto h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorBajaFoto select{
+                    margin-right: 2%;
+                }
+                #contenedorBajaFoto label{
+                    margin-left: 1%;
+                }
+                #contenedorBajaFoto img{
+                    margin-top: 2%;
+
+margin-left: 2%;
+margin-right: 2%;
+                }

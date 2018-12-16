@@ -70,12 +70,12 @@
 
                     $('#modificarUsuarioPass').validate({
                         rules: {
-                            'modificarUsuarioPass:password': {required: true},
-                            'modificarUsuarioPass:passwordR': {required: true, passwordMatch: true}
+                            'modificarUsuarioPass:password': {required: true, minlength : 5},
+                            'modificarUsuarioPass:passwordR': {required: true, minlength : 5, passwordMatch: true}
                         },
                         messages: {
-                            'modificarUsuarioPass:password': {required: "Contraseña obligatoria"},
-                            'modificarUsuarioPass:passwordR': {required: "Repetir contraseña obligatorio",
+                            'modificarUsuarioPass:password': {required: "Contraseña obligatoria",minlength: "Debe tener un mínimo de 5 caracteres."},
+                            'modificarUsuarioPass:passwordR': {required: "Repetir contraseña obligatorio",minlength: "Debe tener un mínimo de 5 caracteres.",
                                 passwordMatch: "Las contraseñas deben ser iguales"}
                         }
 
@@ -84,16 +84,16 @@
 
                     $('#modificarUsuario').validate({
                         rules: {
-                            'modificarUsuario:nick': {required: true, existNick: true},
+                            'modificarUsuario:nick': {required: true,minlength : 3, existNick: true},
                              'modificarUsuario:correo': {required: true,email: true, existEmail: true}
                         },
 
                         messages: {
 
-                            'modificarUsuario:nick': {required: "El nick debe ser obligatorio.",
-                                existNick: "Ya existe ese nick",},
-                            'modificarUsuario:correo': {required: "El correo debe ser obligatorio.", email:"Debe tener el formato xxx@xx.xx",
-                                existEmail:"Ya tenemos ese email registrado"}
+                            'modificarUsuario:nick': {required: "El nick es obligatorio.",minlength: "Debe tener un mínimo de 3 caracteres.",
+                                existNick: "Lo sentimos, ya existe ese nick."},
+                            'modificarUsuario:correo': {required: "El correo es obligatorio.", email:"Debe tener el formato xxx@xx.xx",
+                                existEmail:"Lo sentimos, ya existe ese email."}
                         }
 
                     });

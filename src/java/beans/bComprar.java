@@ -976,7 +976,7 @@ public class bComprar {
 
     //Metodo que devuelve el telefono que queremos ver
     public List conocerCesta() {
-
+        
         //Cojo el carrito de la sesion
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         manageBeanSesion manageBeanSesion = new manageBeanSesion();
@@ -1038,6 +1038,12 @@ public class bComprar {
     }
 
     public String realizarPedido() {
+        direccion = true;
+        tarjeta = false;
+        confirmarCesta = false;
+        pedidoCorrecto = false;
+        step = true;
+        activeIndex = 0;
 
         //Cargo direcciones y pedidos
         //Cojo el usuario de la sesion

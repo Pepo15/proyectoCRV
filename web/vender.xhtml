@@ -22,10 +22,10 @@ and open the template in the editor.
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-            
-             <script src="js/filtrado2.js"></script>
+
+            <script src="js/filtrado2.js"></script>
             <link rel="stylesheet" href="css/vender.css"></link>
-            
+
         </h:head>
         <h:body> 
             <h:panelGroup id="actualizarCabecera">
@@ -61,10 +61,10 @@ and open the template in the editor.
 
                     <div id="carrito">
                         <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
-                            <p> <h:outputText value="#{bComprar.mens}"/></p>
-                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
-                        </a>
+                            <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                                <p> <h:outputText value="#{bComprar.mens}"/></p>
+                                <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                            </a>
                         </h:panelGroup>    
                     </div>
 
@@ -72,11 +72,11 @@ and open the template in the editor.
                 <div id="menuHorizontal">
                     <ul>
                         <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        
-                        <li><a href="index.xhtml" title="Home">Home</a></li>
-                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                         <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                          <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+
+                            <li><a href="index.xhtml" title="Home">Home</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
                         </h:panelGroup>
                     </ul>
 
@@ -101,11 +101,11 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
-                    
-                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                         <div id="contenedorDatosLogeado" style="float: right">
 
-                            <div id="nombreUsuario">           
+                    <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
                                 <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -123,6 +123,27 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
+                    <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
                 </div>
             </h:panelGroup>
 
@@ -131,12 +152,12 @@ and open the template in the editor.
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
                         <div id="logeo">
-                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
-                        <br></br><br></br>
-                        <h:outputText value="#{bLogin.mens}"/>
+                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <br></br><br></br>
+                            <h:outputText value="#{bLogin.mens}"/>
                         </div>
                         <div id="olvidarPassword">
                             <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
@@ -147,11 +168,11 @@ and open the template in the editor.
                     </h:form>
                 </div>
             </div>
-            
+
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            
+
             <div id="contenedorBread">
                 <nav id="migas">
                     <ul>
@@ -166,7 +187,7 @@ and open the template in the editor.
             </div>
 
             <div id="buscador">
-                <h1>Introduzca un telefono</h1>
+                <h2>Introduzca un telefono:</h2>
                 <input id="myInput" type="text" placeholder="Search.."></input>
             </div>
             <div id="contenedorGeneral">
@@ -184,11 +205,11 @@ and open the template in the editor.
                                             <h:graphicImage url="imagenes/FotosTelefono/#{bComprar.conocerFoto(telefono)}"/> 
                                         </div>
                                         <input type="hidden" id="nombreTelefono" value="#{telefono.nombre}"/>
- <ui:repeat var="caracteristica" value="#{telefono.caracteristicastelefonoList}">
-                                       
-                                           <p> <h:outputText value="#{telefono.nombre}  #{caracteristica.ram}/#{caracteristica.almacenamiento} GB"/></p>
-                                        
- </ui:repeat> 
+                                        <ui:repeat var="caracteristica" value="#{telefono.caracteristicastelefonoList}">
+
+                                            <p> <h:outputText value="#{telefono.nombre}  #{caracteristica.ram}/#{caracteristica.almacenamiento} GB"/></p>
+
+                                        </ui:repeat> 
                                         <input type="submit" value="Ver detalle" />
                                     </div>   
                                 </form>
@@ -199,6 +220,35 @@ and open the template in the editor.
                     </h:panelGroup>
                 </div>
             </div>
+            <footer>
+                <div id="infoFooter">
+                    <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
+                        y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
+                        siempre desde España y con envío 24 horas. 
+                        Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
+                        6 meses de garantía.</p>
+                </div>
+
+                <div id="imagenesFooter">
+                    <div id="instagram">
+                        <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                    </div>
+                    <div id="twitter">
+                        <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                    </div>
+                    <div id="facebook">
+                        <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                    </div>
+                    <div id="gmail">
+                        <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                    </div>
+                </div>
+
+                <div id="copyright">
+                    <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+                </div>
+
+            </footer>
         </h:body>
     </f:view>    
 </html>

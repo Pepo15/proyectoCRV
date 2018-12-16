@@ -35,6 +35,9 @@ public class manageBeanSesion {
      
      private boolean logeado;
      
+     private boolean logeadoAdmin;
+     private boolean logeadoTecnico;
+     
      private boolean logeadoOtro;
 
  
@@ -113,6 +116,22 @@ public class manageBeanSesion {
         this.logeado = logeado;
     }
 
+    public boolean isLogeadoAdmin() {
+        return logeadoAdmin;
+    }
+
+    public void setLogeadoAdmin(boolean logeadoAdmin) {
+        this.logeadoAdmin = logeadoAdmin;
+    }
+
+    public boolean isLogeadoTecnico() {
+        return logeadoTecnico;
+    }
+
+    public void setLogeadoTecnico(boolean logeadoTecnico) {
+        this.logeadoTecnico = logeadoTecnico;
+    }
+
     public boolean isLogeadoOtro() {
         return logeadoOtro;
     }
@@ -120,6 +139,10 @@ public class manageBeanSesion {
     public void setLogeadoOtro(boolean logeadoOtro) {
         this.logeadoOtro = logeadoOtro;
     }
+    
+    
+
+    
     
     
     

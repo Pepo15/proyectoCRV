@@ -197,6 +197,9 @@ public class bUsuarioGestionPedido {
     }
 
     public List getListaPedidos() {
+        //Para pintar la cabecera 
+        codigoPedido=0;
+        codigoPedidoAnterior=1;
         return listaPedidos;
     }
 

@@ -22,12 +22,12 @@ and open the template in the editor.
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-            
+
             <script src="js/filtrado.js"></script>
             <link rel="stylesheet" href="css/comprar.css"></link>
         </h:head>
         <h:body> 
-             <h:panelGroup id="actualizarCabecera">
+            <h:panelGroup id="actualizarCabecera">
                 <header>
                     <div id="logo">
                         <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
@@ -60,10 +60,10 @@ and open the template in the editor.
 
                     <div id="carrito">
                         <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
-                            <p> <h:outputText value="#{bComprar.mens}"/></p>
-                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
-                        </a>
+                            <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                                <p> <h:outputText value="#{bComprar.mens}"/></p>
+                                <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                            </a>
                         </h:panelGroup>    
                     </div>
 
@@ -71,11 +71,11 @@ and open the template in the editor.
                 <div id="menuHorizontal">
                     <ul>
                         <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        
-                        <li><a href="index.xhtml" title="Home">Home</a></li>
-                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                         <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                          <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+
+                            <li><a href="index.xhtml" title="Home">Home</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
                         </h:panelGroup>
                     </ul>
 
@@ -100,11 +100,11 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
-                    
-                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                         <div id="contenedorDatosLogeado" style="float: right">
 
-                            <div id="nombreUsuario">           
+                    <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
                                 <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -122,6 +122,27 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
+                    <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
                 </div>
             </h:panelGroup>
 
@@ -130,12 +151,12 @@ and open the template in the editor.
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
                         <div id="logeo">
-                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
-                        <br></br><br></br>
-                        <h:outputText value="#{bLogin.mens}"/>
+                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <br></br><br></br>
+                            <h:outputText value="#{bLogin.mens}"/>
                         </div>
                         <div id="olvidarPassword">
                             <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
@@ -146,11 +167,11 @@ and open the template in the editor.
                     </h:form>
                 </div>
             </div>
-            
+
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            
+
             <div id="contenedorBread">
                 <nav id="migas">
                     <ul>
@@ -165,7 +186,7 @@ and open the template in the editor.
             </div>
 
             <div id="buscador">
-                <h1>Introduzca un telefono</h1>
+                <h2>Introduzca un telefono:</h2>
                 <input id="myInput" type="text" placeholder="Search.."></input>
             </div>
             <div id="contenedorGeneral">
@@ -222,14 +243,15 @@ and open the template in the editor.
                     <div class="filtro">
                         <h:panelGroup id="soFiltrado">
                             <div class="cabecera"> 
-                                <h2>Sistema Operativo</h2>
+                                <h3>Sistema Operativo</h3>
                                 <img src="imagenes/Fotos/up.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="so" varStatus="estado" items="#{bComprar.listaSO}" >
                                     <h:form>
+
+                                        <input type="checkbox" id="so" value="#{so}"></input>
                                         <h:outputLabel for="so" value="#{so}"/>
-                                        <input type="checkbox" id="so" value="#{so}"></input> 
                                         <br></br><br></br>  
                                     </h:form>
                                 </c:forEach>
@@ -240,14 +262,15 @@ and open the template in the editor.
                     <div class="filtro">
                         <h:panelGroup id="marcaFiltrado">
                             <div class="cabecera"> 
-                                <h2>Marca</h2>
+                                <h3>Marca</h3>
                                 <img src="imagenes/Fotos/up.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="marca" varStatus="estado" items="#{bComprar.listaMarcas}" >
                                     <h:form>
+
+                                        <input type="checkbox" id="marca" value="#{marca}"></input>
                                         <h:outputLabel for="marca" value="#{marca}"/>
-                                        <input type="checkbox" id="marca" value="#{marca}"></input> 
                                         <br></br><br></br>
                                     </h:form>
                                 </c:forEach>
@@ -258,14 +281,14 @@ and open the template in the editor.
                     <div class="filtro">
                         <h:panelGroup id="precioFiltrado">
                             <div class="cabecera"> 
-                                <h2>Precio</h2>
+                                <h3>Precio</h3>
                                 <img src="imagenes/Fotos/up.png"></img>
                             </div>
                             <div class="contenido">
                                 <h:form prependId="false">
                                     <h:panelGrid columns="1" style="margin-bottom: 10px">
-                                        <h:outputText id="displayRange" value="Between #{bComprar.min} and #{bComprar.max}" />
-                                        <p:slider id="slider" for="txt6,txt7" display="displayRange" style="width: 400px" range="true" minValue="0" maxValue="1500" displayTemplate="Between {min} and {max}" />
+                                        <h:outputText id="displayRange" value="Entre #{bComprar.min} y #{bComprar.max}" />
+                                        <p:slider id="slider" for="txt6,txt7" display="displayRange" style="width: 400px" range="true" minValue="0" maxValue="1500" displayTemplate="Entre {min} y {max}" />
                                     </h:panelGrid>
                                     <h:inputHidden id="txt6" value="#{bComprar.min}" />
                                     <h:inputHidden id="txt7" value="#{bComprar.max}" />
@@ -277,14 +300,15 @@ and open the template in the editor.
                         <!--Ram-->
                         <h:panelGroup id="ramFiltrado">
                             <div class="cabecera"> 
-                                <h2>Ram</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Ram</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="ram" varStatus="estado" items="#{bComprar.listaRam}" >
                                     <h:form>
-                                        <h:outputLabel for="ram#{ram}" value="#{ram}"/>
+
                                         <input type="checkbox" id="ram" value="#{ram}"></input> 
+                                        <h:outputLabel for="ram#{ram}" value="#{ram}"/>
                                         <br></br><br></br>  
                                     </h:form>
                                 </c:forEach>
@@ -295,15 +319,16 @@ and open the template in the editor.
                         <!--Pulgadas-->
                         <h:panelGroup id="pulgadasFiltrado">
                             <div class="cabecera"> 
-                                <h2>Pulgadas</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Pulgadas</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="pulgadas" varStatus="estado" items="#{bComprar.listaPulgadas}" >
                                     <h:form>
-                                        <h:outputLabel for="pulgadas#{pulgadas}" value="#{pulgadas}"/>
+
 
                                         <input type="checkbox" id="pulgadas" value="#{bComprar.arreglarID(pulgadas)}"></input>
+                                        <h:outputLabel for="pulgadas#{pulgadas}" value="#{pulgadas}"/>
                                         <br></br><br></br> 
                                     </h:form>
                                 </c:forEach>
@@ -314,14 +339,15 @@ and open the template in the editor.
                         <!--Almacenamiento-->
                         <h:panelGroup id="almacenamientoFiltrado">
                             <div class="cabecera"> 
-                                <h2>Almacenamiento</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Almacenamiento</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="almacenamiento" varStatus="estado" items="#{bComprar.listaAlmacenamiento}" >
                                     <h:form>
+
+                                        <input type="checkbox" id="almacenamiento" value="#{almacenamiento}"></input>
                                         <h:outputLabel for="almacenamiento#{almacenamiento}" value="#{almacenamiento}"/>
-                                        <input type="checkbox" id="almacenamiento" value="#{almacenamiento}"></input> 
                                         <br></br><br></br>  
                                     </h:form>
                                 </c:forEach>
@@ -332,14 +358,15 @@ and open the template in the editor.
                         <!--CamaraTrasera-->
                         <h:panelGroup id="camaraTraseraFiltrado">
                             <div class="cabecera"> 
-                                <h2>CamaraTrasera</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>CamaraTrasera</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="camaraTrasera" varStatus="estado" items="#{bComprar.listaCamaraTrasera}" >
                                     <h:form>
-                                        <h:outputLabel for="camaraTrasera#{camaraTrasera}" value="#{camaraTrasera}"/>
+
                                         <input type="checkbox" id="camaraTrasera" value="#{bComprar.arreglarID(camaraTrasera)}"></input>
+                                        <h:outputLabel for="camaraTrasera#{camaraTrasera}" value="#{camaraTrasera}"/>
                                         <br></br><br></br> 
 
                                     </h:form>
@@ -351,15 +378,16 @@ and open the template in the editor.
                         <!--CamaraDelantera-->
                         <h:panelGroup id="camaraDelanteraFiltrado">
                             <div class="cabecera"> 
-                                <h2>CamaraDelantera</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>CamaraDelantera</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="camaraDelantera" varStatus="estado" items="#{bComprar.listaCamaraDelantera}" >
                                     <h:form>
-                                        <h:outputLabel for="camaraDelantera#{camaraDelantera}" value="#{camaraDelantera}"/>
+
 
                                         <input type="checkbox" id="camaraDelantera" value="#{bComprar.arreglarID(camaraDelantera)}"></input>
+                                        <h:outputLabel for="camaraDelantera#{camaraDelantera}" value="#{camaraDelantera}"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -371,14 +399,15 @@ and open the template in the editor.
                         <!--Bateria-->
                         <h:panelGroup id="bateriaFiltrado">
                             <div class="cabecera"> 
-                                <h2>Bateria</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Bateria</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="bateria" varStatus="estado" items="#{bComprar.listaBateria}" >
                                     <h:form>
-                                        <h:outputLabel for="bateria#{bateria}" value="#{bateria}"/>
+
                                         <input type="checkbox" id="bateria" value="#{bateria}"></input> 
+                                        <h:outputLabel for="bateria#{bateria}" value="#{bateria}"/>
                                         <br></br><br></br> 
 
                                     </h:form>
@@ -391,14 +420,15 @@ and open the template in the editor.
                         <!--Procesador-->
                         <h:panelGroup id="procesadorFiltrado">
                             <div class="cabecera"> 
-                                <h2>Procesador</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Procesador</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="procesador" varStatus="estado" items="#{bComprar.listaProcesador}" >
                                     <h:form>
-                                        <h:outputLabel for="procesador#{procesado}" value="#{procesador}"/>
+
                                         <input type="checkbox" id="procesador" value="#{procesador}"></input> 
+                                        <h:outputLabel for="procesador#{procesado}" value="#{procesador}"/>
                                         <br></br><br></br>  
                                     </h:form>
                                 </c:forEach>
@@ -409,14 +439,15 @@ and open the template in the editor.
                         <!--Resolucion-->
                         <h:panelGroup id="resolucionFiltrado">
                             <div class="cabecera"> 
-                                <h2>Resolucion</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Resolucion</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="resolucion" varStatus="estado" items="#{bComprar.listaResolucion}" >
                                     <h:form>
-                                        <h:outputLabel for="resolucion#{resolucion}" value="#{bComprar.arreglarResolucion(resolucion)}"/>
+
                                         <input type="checkbox" id="resolucion" value="#{resolucion}"></input>
+                                        <h:outputLabel for="resolucion#{resolucion}" value="#{bComprar.arreglarResolucion(resolucion)}"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -429,14 +460,15 @@ and open the template in the editor.
                         <!--Color-->
                         <h:panelGroup id="colorFiltrado">
                             <div class="cabecera"> 
-                                <h2>Color</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Color</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <c:forEach var="color" varStatus="estado" items="#{bComprar.listaColor}" >
                                     <h:form>
-                                        <h:outputLabel for="color#{color}" value="#{color}"/>
+
                                         <input type="checkbox" id="color" value="#{color}"></input>
+                                        <h:outputLabel for="color#{color}" value="#{color}"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -448,15 +480,16 @@ and open the template in the editor.
                         <!--Otros-->
                         <h:panelGroup id="otrosFiltrado">
                             <div class="cabecera"> 
-                                <h2>Otros</h2>
-                                <img src="imagenes/Fotos/up.png"></img>
+                                <h3>Otros</h3>
+                                <img src="imagenes/Fotos/down.png"></img>
                             </div>
                             <div class="contenido">
                                 <!--wifi-->
                                 <h:panelGroup id="wifiFiltrado">
                                     <h:form>
-                                        <h:outputLabel for="wifi" value="Wifi"/>
+
                                         <input type="checkbox" id="wifi"></input>
+                                        <h:outputLabel for="wifi" value="Wifi"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -465,8 +498,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="detectorHuellasFiltrado">
                                     <h:form>
-                                        <h:outputLabel for="detectorHuellas" value="Detector de Huellas"/>
+
                                         <input type="checkbox" id="detectorHuellas" value="0"></input>
+                                        <h:outputLabel for="detectorHuellas" value="Detector de Huellas"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -475,8 +509,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="dualSimFiltrado">    
                                     <h:form>
-                                        <h:outputLabel for="dualSim" value="Dual Sim"/>
+
                                         <input type="checkbox" id="dualSim" value="0"></input>
+                                        <h:outputLabel for="dualSim" value="Dual Sim"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -485,8 +520,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="sdFiltrado">
                                     <h:form>
-                                        <h:outputLabel for="sd" value="SD"/>
+
                                         <input type="checkbox" id="sd" value="0"></input>
+                                        <h:outputLabel for="sd" value="SD"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -495,8 +531,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="bluetoothFiltrado">
                                     <h:form>
-                                        <h:outputLabel for="bluetooth" value="Bluetooth"/>
+
                                         <input type="checkbox" id="bluetooth" value="0"></input>
+                                        <h:outputLabel for="bluetooth" value="Bluetooth"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -505,8 +542,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="nfcFiltrado">
                                     <h:form>
-                                        <h:outputLabel for="nfc" value="NFC"/>
+
                                         <input type="checkbox" id="nfc" value="0"></input>
+                                        <h:outputLabel for="nfc" value="NFC"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -515,8 +553,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="g3Filtrado">
                                     <h:form>
-                                        <h:outputLabel for="g3" value="3G"/>
+
                                         <input type="checkbox" id="g3" value="0"></input>
+                                        <h:outputLabel for="g3" value="3G"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -525,8 +564,9 @@ and open the template in the editor.
                                 <!--Otros-->
                                 <h:panelGroup id="g4Filtrado">
                                     <h:form>
-                                        <h:outputLabel for="g4" value="4G"/>
+
                                         <input type="checkbox" id="g4" value="0"></input>
+                                        <h:outputLabel for="g4" value="4G"/>
                                         <br></br><br></br>  
 
                                     </h:form>
@@ -536,6 +576,35 @@ and open the template in the editor.
                     </div>
                 </div>
             </div>
+            <footer>
+                <div id="infoFooter">
+                    <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
+                        y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
+                        siempre desde España y con envío 24 horas. 
+                        Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
+                        6 meses de garantía.</p>
+                </div>
+
+                <div id="imagenesFooter">
+                    <div id="instagram">
+                        <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                    </div>
+                    <div id="twitter">
+                        <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                    </div>
+                    <div id="facebook">
+                        <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                    </div>
+                    <div id="gmail">
+                        <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                    </div>
+                </div>
+
+                <div id="copyright">
+                    <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+                </div>
+
+            </footer>
         </h:body>
     </f:view>    
 </html>

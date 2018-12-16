@@ -1,0 +1,104 @@
+ #tablaRO{
+                clear: both;
+                 width: 90%;
+                margin:0 auto;
+                margin-bottom: 5%;
+            }
+            #tablaRO td{
+                text-align: center;
+            }
+             #contenedorFiltro {
+                float:left;
+                margin-right: 5%;
+            }
+            #filtrarTabla input[type="text"] {
+                margin-top:2%;
+                width: 50%;
+            }
+             #filtrarTabla{
+                width: 90%;
+                margin:0 auto;
+                margin-bottom: 5%;
+            }
+            #filtrarTabla h2{
+                width: 20%;
+                float:left;
+                margin:0;
+                margin-top: 1.7%;
+            }
+            #filtrarTabla label{
+                font-size: 20px;
+            }
+            #tablaR{
+                clear: both;
+                 width: 90%;
+                margin:0 auto;
+                margin-bottom: 5%;
+            }
+            #tablaR td{
+                text-align: center;
+            }
+            #contenedorAltaReparacion{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                }
+                #contenedorAltaReparacion h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaReparacion form{
+                    padding-left: 1%;
+                }
+                #contenedorAltaReparacion .ui-widget{
+                    font-size: 16px !important;
+                    padding: 2px !important;
+                }
+                #contenedorAltaReparacion form label{
+                    width: 9%;
+
+float: left;
+
+margin-top: 0.3%;
+
+font-size: 18px;
+                }
+                #contenedorAltaReparacion button{
+                    float:right;
+                    margin-right: 2%;
+                }
+                
+                #contenedorAltaReparacionTelefono{
+                    background: white;
+                    border:1px solid black;
+                    
+                    width: 90%;
+                    margin: 0 auto;
+                     margin-bottom: 5%;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    clear:both;
+                    height: 1%;
+                }
+                #contenedorAltaReparacionTelefono h2{
+                    border-bottom: 1px solid red;
+                    padding-left: 1%;
+                }
+                #contenedorAltaReparacionTelefono select{
+                    margin-right: 2%;
+                }
+                #contenedorAltaReparacionTelefono label{
+                    margin-left: 1%;
+                }
+                 #contenedorAltaReparacionTelefono input[type="submit"]{
+                    float:right;
+                    margin-right: 2%;
+                }
+                #contenedorAltaReparacionTelefono .ui-widget{
+                    font-size: 16px !important;
+                    padding: 2px !important;
+                }

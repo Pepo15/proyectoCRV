@@ -106,7 +106,6 @@
     border:1px solid black;
     border-radius: 13px;
     margin-bottom: 2%;
-    padding:1%;
 }
 body{
     background-color: #e1e1e1;
@@ -121,6 +120,13 @@ body{
 }
 #modificarDP h1{ 
     border-bottom: 1px solid red;
+    padding-left: 2%;
+}
+#modificarUsuario{
+    margin-left: 1%;
+}
+#textoEmail{
+    margin-left: 5%;
 }
 #modificarDP input[type="submit"]{
     background: #ec3131;
@@ -160,6 +166,7 @@ body{
 }
 #modificarC h1{ 
     border-bottom: 1px solid red;
+    padding-left: 2%;
 }
 
 #altaDirecciones{
@@ -169,12 +176,20 @@ body{
     width: 90%;
     margin: 0 auto;
     margin-top: 2%;
-    padding:1%;
 }
 
 #altaDirecciones h1{ 
     border-bottom: 1px solid red;
-    margin-top: 0;
+    padding-left: 2%;
+}
+#altaDireccion{
+    margin-left: 2%
+}
+.ui-inputfield{
+    padding: 1px !important;
+}
+input[name="altaDireccion:direccion"]{
+    width: 60%;
 }
 
 #altaDirecciones input[type="submit"]{
@@ -191,6 +206,9 @@ body{
     float: right;
 
     margin-right: 5%;
+}
+label{
+    margin-left: 1%;
 }
 
 #contenedorD{
@@ -212,6 +230,15 @@ body{
     width: 80%;
     border-bottom: 1px solid red;
 }
+#modificarUsuarioPass{
+    margin-left: 1%;
+}
+#modificarUsuarioPass label{
+    display: inline-block;
+
+    width: 15%;
+}
+
 
 #contenedorT #tarjeta{
     width: 24%;
@@ -224,12 +251,13 @@ body{
 
 #altaTarjetas h1{
     border-bottom: 1px solid red;
-    margin-top: 0;
+    padding-left: 2%;
 }
 #altaTarjetas form{
 
     clear: both;
     overflow: hidden;
+    margin-left: 1%;
 }
 
 #altaTarjetas button{
@@ -247,6 +275,44 @@ body{
     font-weight: bold;
 
     text-shadow: none;
+    margin-bottom: 1%;
+}
+
+#modificarUsuario button{
+    float: right;
+    width: 13%;
+
+    font-size: 13px;
+
+    margin-right: 1%;
+
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    text-shadow: none;
+    margin-bottom: 1%;
+}
+
+#modificarUsuarioPass button{
+    float: right;
+    width: 13%;
+
+    font-size: 13px;
+
+    margin-right: 1%;
+
+    background: #ec3131;
+
+    color: white;
+
+    font-weight: bold;
+
+    text-shadow: none;
+    margin-bottom: 1%;
+
 }
 #altaDirecciones button{
     float: right;
@@ -344,6 +410,15 @@ body{
     margin: 0 auto;
     padding: 2%;
 }
-label.error { float: none; color: red; padding-left: .5em; vertical-align: middle; font-size: 20px !important;
-    width: 100% !important; margin-right: 1.5%;
+label.error { float: none; 
+              padding-left: 1.5em; 
+              vertical-align: middle;
+              font-size: 20px !important;
+              width: 82% !important;
+              
+              background: url("/CRV/faces/javax.faces.resource/messages/messages.png?ln=primefaces&v=6.2") no-repeat;
+background-position: 0 -93px;
+color: #b94a48;
+background-color: #f2dede;
+border-color: #eed3d7;
 }

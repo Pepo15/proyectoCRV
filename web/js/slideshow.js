@@ -35,7 +35,7 @@ $(document).ready(function(){ //wait until page is fully loaded
 		//set all circles to grey
 		for(x=1;x <= NUMBER_OF_SLIDES; x++){
 			$("#circle" + x).css({
-				"background-color": "lightgrey"
+				"background-color": "#ff8383"
 			});	
 		}
 		

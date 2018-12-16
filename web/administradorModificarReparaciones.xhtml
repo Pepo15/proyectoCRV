@@ -15,76 +15,176 @@ and open the template in the editor.
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <title>CRV</title>
         <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script  src="js/index.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
+        <link rel="stylesheet" href="css/index.css"></link>
+        <link rel="stylesheet" href="css/migasTitulo.css"></link>
+
         <script src="js/jquery.fancybox.min.js"></script>
         <link rel="stylesheet" href="css/jquery.fancybox.min.css"></link>
-        <script>
 
-            $(document).ready(function () {
+        <script  src="js/administradorGestionReparaciones.js"></script>
+        <link rel="stylesheet" href="css/administradorGestionReparaciones.css"></link>
 
-                //Con el .on, podemos añadirle cualquier evento "keyup" , "keypress" , "keydown" en vez de poner .keyup , .keypress
-                $("#myInput").on("keyup", function () {
-                    //Aquí el $(this) significa esto: $("#myInput"), el valor de lo que escribimos en el input
-                    var textoEscrito = $(this).val().toLowerCase();
-                    $("#tablaR tbody tr").filter(function () {
-                        //Hacemos esto para filtar por columnas
-
-                        //Variable que guarda el contenido la celdas que contempla las columnas seleccionadas para filtrar
-                        var textoCeldas = "";
-
-                        //Variable que guarda #myTable tbody tr es decir la fila ya que al meternos en el each perderemos cambia el this
-                        var fila = this;
-
-                        //Cogemos los checkbox que estan checkeados, esto devuelve una lista, la recorremos
-                        $(":checkbox:checked").each(function () {
-                            //Guardamos el id de la columna que hemos seleccionado, con el attr accedemos al atributo indicado en este caso el id
-                            //Que empieza en 0 así coincide el id con la posición de la columna	
-                            var posicionColumna = $(this).val();
-                            //Añadimos a la variable textoCeldas lo que contiene cada celda de la columna seleccionada
-                            textoCeldas += fila.cells[posicionColumna].textContent;
-                        })
-
-
-                        //Cogemos el valor de la posicion de las letras, si no las encuentras es -1
-                        var posicionEncontrado = textoCeldas.toLowerCase().indexOf(textoEscrito);
-
-                        //Comprobamos que radio esta seleccionado si da verdadero sera el primero y lo ocultaremos si es falso lo pondrá en rojo
-
-                        $(this).css("color", "black");
-                        //Este metodo si se le pasa un parametro verdadero muestra el contenido(la deja como esta), si da falso la oculta
-                        $(this).toggle(posicionEncontrado > -1)
-
-
-
-                    });
-                });
-
-                //Si hacemos el click en un radio llamamos otra vez a la funcion del keyup que hemos programado
-                $(":checkbox").click(function () {
-                    $("#myInput").trigger("keyup");
-                });
-
-                //Si hacemos el click en un checkbox llamamos otra vez a la funcion del keyup que hemos programado
-                $(":checkbox").click(function () {
-                    $("#myInput").trigger("keyup");
-                });
-
-                //Mostrar imagen en grande
-                $().fancybox({
-                    selector: '[data-fancybox="showImg"]'
-                });
-
-            });//(ready
-
-
-
-        </script>
     </h:head>
     <h:body>
+        <h:panelGroup id="actualizarCabecera">
+            <header>
+                <div id="logo">
+                    <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                </div>
+
+                <div id="idioma">
+                    <p>Idioma</p>
+                    <h:form>
+
+                        <h:commandButton image="imagenes/Fotos/england.png"/>
+                        <h:commandButton image="imagenes/Fotos/spain.png"/>
+                    </h:form>
+                </div>
+
+                <div id="login">
+                    <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
+
+                        <div id="registroInicio">
+                            <a href="/CRV/faces/registro.xhtml">Registrarse</a> 
+                            <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                        </div>
+                    </h:panelGroup>    
+                </div>            
+
+
+                <div id="contacto">
+                    <img src="imagenes/Fotos/whatsapp.png" alt="Whatsapp"></img>
+                    <p>628317327</p>
+                </div>
+
+                <div id="carrito">
+                    <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                            <p> <h:outputText value="#{bComprar.mens}"/></p>
+                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                        </a>
+                    </h:panelGroup>    
+                </div>
+
+            </header>
+            <div id="menuHorizontal">
+                <ul>
+                    <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+
+                        <li><a href="index.xhtml" title="Home">Home</a></li>
+                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                        <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                        <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+                    </h:panelGroup>
+                </ul>
+
+                <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                    <div id="contenedorDatosLogeado">
+
+                        <div id="nombreUsuario">           
+                            <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+
+                <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">Mi perfil</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+                <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="Cerrar Sesión" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+            </div>
+        </h:panelGroup>
+
+        <div id="modalInicioSesion" class="modal">
+            <div id="inicioS" class='centrar'>
+                <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                <h:form id="formularioInicio">
+                    <div id="logeo">
+                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <br></br><br></br>
+                        <h:outputText value="#{bLogin.mens}"/>
+                    </div>
+                    <div id="olvidarPassword">
+                        <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                        <p:commandButton value="Entrar" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                        <br></br><br></br>
+                        <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
+                    </div>
+                </h:form>
+            </div>
+        </div>
         <p:messages id="messages" showDetail="true" closable="true">
             <p:autoUpdate />
         </p:messages>
-        <h1><h:outputText value="Administrador"/></h1>
-        <h1><h:outputText value="#{manageBeanSesion.administradorLog.nick}, Bienvenido a su perfil!"/></h1>
+
+        <div id="contenedorBread">
+            <nav id="migas">
+                <ul>
+                    <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
+                    <li><em></em><a href="/CRV/faces/administrador.xhtml" title="Perfil">Perfil</a><i></i></li>
+                    <li><em></em><a href="/CRV/faces/administradorModificarReparaciones.xhtml" title="Reparaciones">Reparaciones</a><i></i></li>
+                </ul>
+            </nav> 
+        </div>
+
+        <div  id="tituloPagina">
+            <h1>Gestión Reparaciones</h1>
+        </div>
 
         <h:form id="tablaRO">
 
@@ -116,12 +216,15 @@ and open the template in the editor.
 
         </h:form>
 
-        <!--Elementos para filtrar la tabla-->
-        <label><input type="checkbox" id="modelo" value="1"></input> Modelo teléfono</label><br></br>
-        <label><input type="checkbox" id="marca" value="2"></input> Marca teléfono</label><br></br>
-        <label><input type="checkbox" id="reparacion" value="3"></input> Tipo reparacion</label><br></br>
-
-        <input id="myInput" type="text" placeholder="Search.."></input>
+        <div id="filtrarTabla">
+            <h2>Filtrar tabla por:</h2>
+            <div id="contenedorFiltro">
+                <label><input type="checkbox" id="modelo" value="1"></input> Modelo teléfono</label><br></br>
+                <label><input type="checkbox" id="marca" value="2"></input> Marca teléfono</label><br></br>
+                <label><input type="checkbox" id="reparacion" value="3"></input> Tipo reparacion</label><br></br>
+            </div>
+            <input id="myInput" type="text" placeholder="Search.."></input>
+        </div>
 
         <h:form id="tablaR">
 
@@ -184,22 +287,21 @@ and open the template in the editor.
         </h:form>
 
         <!--Añadir reparacion-->
-        <div style="border: 1px solid red">
-            <h1> Dar alta reparacion </h1>
+        <div id="contenedorAltaReparacion">
+            <h2> Dar alta reparacion </h2>
             <h:form id="altaReparacion">
                 <h:outputLabel for="nombre" value="Nombre: "/> 
                 <p:inputText id="nombre" value="#{bAdministradorModificarReparacion.nombre}" required="true"/>
                 <p:message for="nombre" />
-                <br></br><br></br>
 
                 <p:commandButton value="Añadir Reparacion" validateClient="true" action="#{bAdministradorModificarReparacion.altaReparacion()}" update="tablaRO altaReparacion messages"/>
-                <br></br><br></br>
+                <br></br><br></br><br></br>
             </h:form>
         </div>
 
         <!--Añadir reparaciones a un telefono-->
-        <div style="border: 1px solid orange">
-            <h1> Dar alta reparacion a un telefono </h1>
+        <div id="contenedorAltaReparacionTelefono">
+            <h2> Dar alta reparacion a un telefono </h2>
             <h:form id="altaReparacionTelefono">
                 <h:outputLabel for="marca" value="Seleccione una marca: "/>
                 <h:selectOneMenu id="marca" value="#{bAdministradorModificarReparacion.marca}">
@@ -234,7 +336,35 @@ and open the template in the editor.
                 <br></br><br></br>
             </h:form>
         </div>
+        <footer>
+            <div id="infoFooter">
+                <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
+                    y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
+                    siempre desde España y con envío 24 horas. 
+                    Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
+                    6 meses de garantía.</p>
+            </div>
 
+            <div id="imagenesFooter">
+                <div id="instagram">
+                    <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                </div>
+                <div id="twitter">
+                    <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                </div>
+                <div id="facebook">
+                    <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                </div>
+                <div id="gmail">
+                    <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                </div>
+            </div>
+
+            <div id="copyright">
+                <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+            </div>
+
+        </footer>
 
     </h:body>     
 </html>

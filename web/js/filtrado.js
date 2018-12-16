@@ -30,7 +30,7 @@ $(document).ready(function () {
         var lista3 = {};
         $("#telefonos #contenedorTelefono").hide();
         //soooooooo
-        var listaSo = $("#soFiltrado :checkbox:checked").size();
+        var listaSo = $("#soFiltrado :checkbox:checked").length;
         if (listaSo > 1) {
             $("#soFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -47,7 +47,7 @@ $(document).ready(function () {
         //soooooooo
 
         //marca
-        var listaMarca = $("#marcaFiltrado :checkbox:checked").size();
+        var listaMarca = $("#marcaFiltrado :checkbox:checked").lenght;
         if (listaMarca > 1) {
             $("#marcaFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -64,7 +64,7 @@ $(document).ready(function () {
         //marca
 
         //raaam
-        var listaRam = $("#ramFiltrado :checkbox:checked").size();
+        var listaRam = $("#ramFiltrado :checkbox:checked").lenght;
         if (listaRam > 1) {
             $("#ramFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -81,7 +81,7 @@ $(document).ready(function () {
         //raaam
 
         //precio
-        var listaPrecios = $("#precioFiltrado :checkbox:checked").size();
+        var listaPrecios = $("#precioFiltrado :checkbox:checked").lenght;
         if (listaAlmacenamiento > 1) {
             $("#almacenamientoFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -98,7 +98,7 @@ $(document).ready(function () {
         //precio
 
         //pulgadas
-        var listaPulgadas = $("#pulgadasFiltrado :checkbox:checked").size();
+        var listaPulgadas = $("#pulgadasFiltrado :checkbox:checked").lenght;
         if (listaPulgadas > 1) {
             $("#pulgadasFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -115,7 +115,7 @@ $(document).ready(function () {
         //pulgadas
 
         //almaaa
-        var listaAlmacenamiento = $("#almacenamientoFiltrado :checkbox:checked").size();
+        var listaAlmacenamiento = $("#almacenamientoFiltrado :checkbox:checked").lenght;
         if (listaAlmacenamiento > 1) {
             $("#almacenamientoFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -132,7 +132,7 @@ $(document).ready(function () {
         //almaaa
 
         //camaraTrasera
-        var listaCamaraTrasera = $("#camaraTraseraFiltrado :checkbox:checked").size();
+        var listaCamaraTrasera = $("#camaraTraseraFiltrado :checkbox:checked").lenght;
         if (listaCamaraTrasera > 1) {
             $("#camaraTraseraFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -149,7 +149,7 @@ $(document).ready(function () {
         //camaraTrasera
 
         //camaraDelantera
-        var listaCamaraDelantera = $("#camaraDelanteraFiltrado :checkbox:checked").size();
+        var listaCamaraDelantera = $("#camaraDelanteraFiltrado :checkbox:checked").lenght;
         if (listaCamaraDelantera > 1) {
             $("#camaraDelanteraoFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -166,7 +166,7 @@ $(document).ready(function () {
         //camaraDelantera
 
         //bateria
-        var listaBateria = $("#bateriaFiltrado :checkbox:checked").size();
+        var listaBateria = $("#bateriaFiltrado :checkbox:checked").lenght;
         if (listaBateria > 1) {
             $("#bateriaFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -183,7 +183,7 @@ $(document).ready(function () {
         //bateria
 
         //procesador
-        var listaProcesador = $("#procesadorFiltrado :checkbox:checked").size();
+        var listaProcesador = $("#procesadorFiltrado :checkbox:checked").lenght;
         if (listaProcesador > 1) {
             $("#procesadorFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -200,7 +200,7 @@ $(document).ready(function () {
         //procesador
 
         //resolucion
-        var listaResolucion = $("#resolucionFiltrado :checkbox:checked").size();
+        var listaResolucion = $("#resolucionFiltrado :checkbox:checked").lenght;
         if (listaResolucion > 1) {
             $("#resolucionFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");
@@ -217,7 +217,7 @@ $(document).ready(function () {
         //resolucion
 
         //color
-        var listaColor = $("#colorFiltrado :checkbox:checked").size();
+        var listaColor = $("#colorFiltrado :checkbox:checked").lenght;
         if (listaColor > 1) {
             $("#colorFiltrado :checkbox:checked").each(function () {
                 var idDivFiltro = $(this).attr("id");

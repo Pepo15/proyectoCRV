@@ -1,5 +1,7 @@
 body{
     margin:0;
+    background-color: #e1e1e1;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 header p{
     margin:0;
@@ -33,9 +35,9 @@ header #idioma form input {
     margin-left: 8%;
 }
 header #login{
-    width: 14%;
+    width: 15%;
     float: left;
-    margin-left: 5%;
+    margin-left: 4%;
     margin-top: 2%;
 }
 
@@ -77,6 +79,8 @@ header #carrito{
     width: 20%;
     float: right;
     cursor: pointer;
+    margin-right: 2%;
+    margin-top: 0.8%;
 }
 header #carrito p{
     float:left;
@@ -162,7 +166,7 @@ header #carrito input{
     overflow: hidden;
     background-color: #db4040;
     float:left;
-    width: 52%;
+    width: 40%;
 }
 
 #menuHorizontal li {
@@ -228,11 +232,14 @@ header #carrito input{
 }
 
 #contenedorDatosLogeado{
-    width: 48%;
+    width: 60%;
     float: left;
     background-color: #db4040;
     font-size: 19px;
 
+}
+#contenedorDatosLogeado .ui-widget{
+     font-family: 'Open Sans', arial, sans-serif;
 }
 .ui-widget {
     font-family: Times New Roman;
@@ -256,8 +263,8 @@ header #carrito input{
 
 #nombreUsuario{
     float: left;
-    margin-right: 6%;
-    width: 33%;
+    width: 30%;
+    margin-left: 15%;
 }
 #accesoPerfil:hover{
     color:white;
@@ -307,18 +314,16 @@ header #carrito input{
     border-radius: 50px;
 }
 #compra{
-    border: 1px solid orange;
-    background-color: #ffd486;
-    width: 90%;
+    background: -moz-linear-gradient(right, #f54703 0%, #e97229 50%, #efba88 100%);
 
     margin: 0 auto;
     clear: both;
     overflow: hidden;
     height: 1%;
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 #imgCompra{   
-    width: 12%;
+    width: 20%;
 
     margin-left: 5%;
 
@@ -330,30 +335,43 @@ header #carrito input{
     width: 100%;
 }
 #infoCompra{
-    width: 70%;
+    width: 60%;
 
     font-size: 21px;
 
-    margin-left: 28%;
+    margin-right: 5%;
 
     margin-top: 3%;
 
     text-align: justify;
+
+    color: white;
+
+    line-height: 1.5em;
+    float:right;
+}
+#infoCompra h1{
+    text-align: center;
+    margin-top: 3%;
+}
+
+#reparar h1{
+    text-align: center;
+    color:#333333;
 }
 
 #venta{
-    border: 1px solid blue;
-    background-color: #d7e3ff;
-    width: 90%;
+    background: -moz-linear-gradient(left, #1e5799 0%, #2989d8 50%, #7db9e8 100%); /* FF3.6-15 */
+
 
     margin: 0 auto;
     clear: both;
     overflow: hidden;
     height: 1%;
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 #imgVenta{   
-    width: 12%;
+    width: 20%;
 
     margin-right: 5%;
 
@@ -365,26 +383,28 @@ header #carrito input{
     width: 100%;
 }
 #infoVenta{
-    width: 70%;
+    width: 60%;
 
     font-size: 21px;
 
-    margin-left: 1%;
+    margin-left: 5%;
 
     margin-top: 3%;
 
     text-align: justify;
+
+    color: white;
+
+    line-height: 1.5em;
 }
 #reparar{
-    border: 1px solid red;
-    background-color: #a7a7a7;
-    width: 90%;
-
+    background-color: #f5f5f5;
+    color:#333333;
     margin: 0 auto;
     clear: both;
     overflow: hidden;
     height: 1%;
-    font-family: 'Open Sans', Arial, 'Helvetica Neue', Helvetica, sans-serif;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 #paso1img{
     width: 14%;
@@ -397,13 +417,17 @@ header #carrito input{
     width: 100%;
 }
 #paso1info{
-    width: 18%;
+    width: 16%;
+
     float: left;
+
     margin-top: 2%;
+
     margin-left: -4%;
+
     font-size: 18px;
-    text-align: justify;
-    margin-right: 1%;
+
+    margin-right: 2%;
 }
 #paso2img{
     width: 14%;
@@ -415,11 +439,17 @@ header #carrito input{
     width: 100%;
 }
 #paso2info{
-    width: 17%;
+    width: 16%;
+
     float: left;
+
     margin-top: 2%;
+
     margin-left: -4%;
+
     font-size: 18px;
+
+    margin-right: 2%;
 }
 #paso3img{
     width: 14%;
@@ -432,21 +462,28 @@ header #carrito input{
 }
 #paso3info{
     width: 17%;
+
     float: left;
+
     margin-top: 2%;
+
     margin-left: -4%;
+
     font-size: 18px;
+
+    margin-bottom: 3%;
 }
 
 footer{
     width: 100%;
     background-color: black;
     color: white;
-    font-size: 16px;
+    font-size: 14px;
     margin: 0 auto;
     clear: both;
     overflow: hidden;
     height: 1%;
+    font-family: 'Open Sans', arial, sans-serif;
 }
 
 #copyright{

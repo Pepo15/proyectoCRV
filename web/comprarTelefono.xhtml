@@ -16,21 +16,21 @@ and open the template in the editor.
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title> 
-             <script src="js/jquery-3.3.1.min.js"></script>
+            <script src="js/jquery-3.3.1.min.js"></script>
             <script src="js/jquery-ui.min.js"></script>
             <script  src="js/index.js"></script>
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-            
-            
+
+
             <link rel="stylesheet" href="css/main.css"></link>
             <link rel="stylesheet" href="css/comprarTelefono.css"></link>
-            
-             
+
+
         </h:head>
         <h:body> 
-             <h:panelGroup id="actualizarCabecera">
+            <h:panelGroup id="actualizarCabecera">
                 <header>
                     <div id="logo">
                         <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
@@ -63,10 +63,10 @@ and open the template in the editor.
 
                     <div id="carrito">
                         <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
-                            <p> <h:outputText value="#{bComprar.mens}"/></p>
-                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
-                        </a>
+                            <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                                <p> <h:outputText value="#{bComprar.mens}"/></p>
+                                <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                            </a>
                         </h:panelGroup>    
                     </div>
 
@@ -74,11 +74,11 @@ and open the template in the editor.
                 <div id="menuHorizontal">
                     <ul>
                         <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                        
-                        <li><a href="index.xhtml" title="Home">Home</a></li>
-                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                         <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                          <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+
+                            <li><a href="index.xhtml" title="Home">Home</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
                         </h:panelGroup>
                     </ul>
 
@@ -103,11 +103,11 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
-                    
-                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
-                         <div id="contenedorDatosLogeado" style="float: right">
 
-                            <div id="nombreUsuario">           
+                    <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
                                 <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -125,6 +125,27 @@ and open the template in the editor.
                             </div>
                         </div> 
                     </h:panelGroup>
+                    <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
                 </div>
             </h:panelGroup>
 
@@ -133,12 +154,12 @@ and open the template in the editor.
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
                         <div id="logeo">
-                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
-                        <br></br><br></br>
-                        <h:outputText value="#{bLogin.mens}"/>
+                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <br></br><br></br>
+                            <h:outputText value="#{bLogin.mens}"/>
                         </div>
                         <div id="olvidarPassword">
                             <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
@@ -149,12 +170,12 @@ and open the template in the editor.
                     </h:form>
                 </div>
             </div>
-            
+
             <p:messages id="messages" showDetail="true" closable="true">
                 <p:autoUpdate />
             </p:messages>
-            
-             
+
+
             <div id="contenedorBread">
                 <nav id="migas">
                     <ul>
@@ -168,118 +189,118 @@ and open the template in the editor.
             <div  id="tituloPagina">
                 <h1>Comprar Teléfono</h1>
             </div>
-             #{bComprar.conocerTelefono()}
-             
+            #{bComprar.conocerTelefono()}
+
             <div id="contenedorGeneral"> 
                 <div id="contenedorImagenes">
-             <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+                    <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
 
-                    <h:panelGroup rendered="#{estado.index eq 0}">
-                        <div class="show" href="imagenes/FotosTelefono/#{foto.nombre}">
-                            <img src="imagenes/FotosTelefono/#{foto.nombre}" id="show-img"></img>
+                        <h:panelGroup rendered="#{estado.index eq 0}">
+                            <div class="show" href="imagenes/FotosTelefono/#{foto.nombre}">
+                                <img src="imagenes/FotosTelefono/#{foto.nombre}" id="show-img"></img>
+                            </div>
+                        </h:panelGroup>
+                    </ui:repeat> 
+
+                    <div class="small-img">
+                        <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-left" alt="" id="prev-img"></img>
+                        <div class="small-container">
+                            <div id="small-img-roll">
+
+                                <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+
+                                    <img src="imagenes/FotosTelefono/#{foto.nombre}" class="show-small-img" alt=""></img>
+                                </ui:repeat>    
+
+                            </div>
                         </div>
-                    </h:panelGroup>
-                </ui:repeat> 
-             
-                <div class="small-img">
-                    <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-left" alt="" id="prev-img"></img>
-                    <div class="small-container">
-                        <div id="small-img-roll">
-
-                            <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
-
-                                <img src="imagenes/FotosTelefono/#{foto.nombre}" class="show-small-img" alt=""></img>
-                            </ui:repeat>    
-
-                        </div>
+                        <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-right" alt="" id="next-img"></img>
                     </div>
-                    <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-right" alt="" id="next-img"></img>
+                    <script src="js/zoom-image.js"></script>
+                    <script src="js/main.js"></script>
+
+
                 </div>
-<script src="js/zoom-image.js"></script>
-                <script src="js/main.js"></script>
-                
-                
-                </div>
-                
+
                 <div id="contenedorCompraTelefono">
                     <h:form prependId="false">
-               
-                    <h1> <h:outputText value="#{bComprar.telefonoVer.nombre}"/></h1>
-                    <h2> <h:outputText value="#{bComprar.telefonoVer.precio} €"/></h2>
-                    <p>  <h:outputText value="Marca: " /></p>
-                    <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
-                    <p>  <h:outputText value="Envio: " /></p>
-                     <p>  <h:outputText value="Gratis a cualquier parte de España. " /></p>
-                     <p><h:outputText value="Cantidad:"/></p>
-                     <p>  <p:spinner id="basic" value="#{bComprar.cantidad}" /></p>
-                <p>  <h:outputText value="Ocasión: " /></p>
-                     <p>  <h:outputText value="Compralo ahora y recibelo en tu casa entre 3-5 días. " /></p>
-                 <h:panelGroup id="actualizarComprar">
-                 <h:panelGroup id="actualizarBotonComprar" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">     
-                    <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
-                 </h:panelGroup>
-                 <h:panelGroup id="actualizarBotonCompra2" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">     
-                     <p>Para comprar debe <a href="registro.xhtml" class="render">Registrarse</a> o <span id="inicioSesion2" class="render">Iniciar sesión</span> </p>
-                 </h:panelGroup>
-                          </h:panelGroup>
-            </h:form>     
+
+                        <h1> <h:outputText value="#{bComprar.telefonoVer.nombre}"/></h1>
+                        <h2> <h:outputText value="#{bComprar.telefonoVer.precio} €"/></h2>
+                        <p>  <h:outputText value="Marca: " /></p>
+                        <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
+                        <p>  <h:outputText value="Envio: " /></p>
+                        <p>  <h:outputText value="Gratis a cualquier parte de España. " /></p>
+                        <p><h:outputText value="Cantidad:"/></p>
+                        <p>  <p:spinner id="basic" value="#{bComprar.cantidad}" min="1"/></p>
+                        <p>  <h:outputText value="Ocasión: " /></p>
+                        <p>  <h:outputText value="Compralo ahora y recibelo en tu casa entre 3-5 días. " /></p>
+                        <h:panelGroup id="actualizarComprar">
+                            <h:panelGroup id="actualizarBotonComprar" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">     
+                                <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
+                            </h:panelGroup>
+                            <h:panelGroup id="actualizarBotonCompra2" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">     
+                                <p>Para comprar debe <a href="registro.xhtml" class="render">Registrarse</a> o <span id="inicioSesion2" class="render">Iniciar sesión</span> </p>
+                            </h:panelGroup>
+                        </h:panelGroup>
+                    </h:form>     
                 </div>
-                
+
                 <div id="contenedorDatosTelefono">
                     <h1>Especificaciones</h1>
-                <h:panelGroup id="datosTecnicos" >
-                <ui:repeat var="caracteristica" value="#{bComprar.telefonoVer.caracteristicastelefonoList}">
+                    <h:panelGroup id="datosTecnicos" >
+                        <ui:repeat var="caracteristica" value="#{bComprar.telefonoVer.caracteristicastelefonoList}">
 
-                    <div id="caracteristicasTecnicas">
-                    <h2>Caracteristicas técnicas</h2>
-                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Sistema Operativo: " /></p>
-                    <p><h:outputText value="#{caracteristica.so}" /></p>
-                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Procesador: " /></p>
-                    <p><h:outputText value="#{caracteristica.procesador}" /></p>
-                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Almacenamiento:" /></p>
-                    <p><h:outputText value="#{caracteristica.almacenamiento}" /></p>
-                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Ram:" /></p>
-                    <p><h:outputText value="#{caracteristica.ram}" /></p>
-                    <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Bateria: " /></p>
-                   <p> <h:outputText value="#{caracteristica.bateria}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Color: " /></p>
-                  <p>  <h:outputText value="#{caracteristica.color}" /></p>
-                    </div>
-                   <div id="pantalla"> 
-                    <h2>Pantalla</h2>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Pulgadas" /></p>
-                  <p>  <h:outputText value="#{caracteristica.pulgadas}" /></p>
-                  <p> <img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Resolucion " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarResolucion(caracteristica.resolucion)}" /></p>
-                   </div>
-                    <div id="camara">
-                  <h2>Cámara</h2>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara trasera: " /></p>
-                  <p>  <h:outputText value="#{caracteristica.camaraTrasera}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara delantera: " /></p>
-                  <p>  <h:outputText value="#{caracteristica.camaraDelantera}" /></p>
-                    </div>
-                    <div id="funciones">
-                     <h2>Funciones</h2>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="Detector de huellas: " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.detectorHuella)}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Dual sim:  " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.dualSim)}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="SD: " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.sd)}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Wifi: " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.wifi)}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Bluetooth " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.bluetooth)}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="NFC: " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.nfc)}" /></p>
-                  <p> <img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="3G " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g)}" /></p>
-                  <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="4G " /></p>
-                  <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g1)}" /></p>
-                    </div>
-                </ui:repeat>
-            </h:panelGroup> 
+                            <div id="caracteristicasTecnicas">
+                                <h2>Caracteristicas técnicas</h2>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Sistema Operativo: " /></p>
+                                <p><h:outputText value="#{caracteristica.so}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Procesador: " /></p>
+                                <p><h:outputText value="#{caracteristica.procesador}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Almacenamiento:" /></p>
+                                <p><h:outputText value="#{caracteristica.almacenamiento}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Ram:" /></p>
+                                <p><h:outputText value="#{caracteristica.ram}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Bateria: " /></p>
+                                <p> <h:outputText value="#{caracteristica.bateria}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Color: " /></p>
+                                <p>  <h:outputText value="#{caracteristica.color}" /></p>
+                            </div>
+                            <div id="pantalla"> 
+                                <h2>Pantalla</h2>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Pulgadas" /></p>
+                                <p>  <h:outputText value="#{caracteristica.pulgadas}" /></p>
+                                <p> <img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Resolucion " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarResolucion(caracteristica.resolucion)}" /></p>
+                            </div>
+                            <div id="camara">
+                                <h2>Cámara</h2>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara trasera: " /></p>
+                                <p>  <h:outputText value="#{caracteristica.camaraTrasera}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara delantera: " /></p>
+                                <p>  <h:outputText value="#{caracteristica.camaraDelantera}" /></p>
+                            </div>
+                            <div id="funciones">
+                                <h2>Funciones</h2>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="Detector de huellas: " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.detectorHuella)}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Dual sim:  " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.dualSim)}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="SD: " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.sd)}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Wifi: " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.wifi)}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Bluetooth " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.bluetooth)}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="NFC: " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.nfc)}" /></p>
+                                <p> <img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="3G " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g)}" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="4G " /></p>
+                                <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g1)}" /></p>
+                            </div>
+                        </ui:repeat>
+                    </h:panelGroup> 
                 </div>
 
             </div>

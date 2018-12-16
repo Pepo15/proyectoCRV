@@ -1,124 +1,136 @@
- body{
-                    background-color: #e1e1e1;
-                    margin:0;
-                }
-                #contenedorCompraTelefono{
-                    border:1px solid blue;
-                    width: 50%;
-                    margin-left: 5%;
-                    float: left;
-                }
-                #contenedorCompraTelefono form{
-                    padding: 2%;
-                    overflow: hidden;
-                    background: white;
-                    height: 1%;
-                }
-                #contenedorCompraTelefono form p:nth-child(2n+1){
-                    font-size: 20px;
+body{
+    background-color: #e1e1e1;
+    margin:0;
+}
+#contenedorCompraTelefono{
+    border:1px solid blue;
+    width: 50%;
+    margin-left: 5%;
+    float: left;
+}
+#contenedorCompraTelefono form{
+    padding: 2%;
+    overflow: hidden;
+    background: white;
+    height: 1%;
+}
+#contenedorCompraTelefono form p:nth-child(2n+1){
+    font-size: 20px;
 
-                    font-weight: bold;
-
-
-                    width: 20%;
-
-                    float: left;
-                    margin-bottom: 1%;
-                    clear: both;
-                }
-                #contenedorCompraTelefono form p:nth-child(2n){
-                    font-size: 18px;
-                    margin-bottom: 1%;
-                    margin-top: 3.9%;
-
-                    width: 80%;
-
-                    float: left;
-
-                }
-                
-                 #ocasion{
-                    font-size: 20px !important;
-
-                    font-weight: bold !important;
+    font-weight: bold;
 
 
-                    width: 20% !important;
+    width: 20%;
 
-                    float: left !important;
-                    margin-bottom: 1% !important;
-                    clear: both !important;
-                }
-                #ocasion2{
-                    font-size: 18px !important;
-                    margin-bottom: 1% !important;
-                    margin-top: 3.9% !important;
+    float: left;
+    margin-bottom: 1%;
+    clear: both;
+}
+#contenedorCompraTelefono form p:nth-child(2n){
+    font-size: 18px;
+    margin-bottom: 1%;
+    margin-top: 3.9%;
 
-                    width: 80% !important;
+    width: 80%;
 
-                    float: left !important;
-                    font-weight: normal !important;
-                    clear: none !important;
+    float: left;
 
-                }
-                #cantidad{
-                    margin-top: 4.5%;
+}
 
-                }
-                #contenedorInformacion{
-                    width: 86%;
+#ocasion{
+    font-size: 20px !important;
 
-                    margin: 0 auto;
-                    border:1px solid green;
-                    margin-top: 10%;
-                    clear: both;
-                    background: white;
-                    overflow: hidden;
-                    height: 1%;
-                    margin-bottom: 2%;
-                }
-                #contenedorInformacion h1{
-                    border-bottom: 1px solid black;
-                    padding: 1%;
-                }
-                .ui-inputfield{
-                    padding: 0;
-                    padding-right: 20px;
-                    width: 60px;
-                }
-                
-              
-                #contenedorArriba{
-                    width: 90%;
+    font-weight: bold !important;
 
-                    margin: 0 auto;
 
-                    background: white;
-                    overflow: hidden;
-                    clear: both;
-                    height: 1%;
-                }
+    width: 20% !important;
 
-                #contenedorFoto{
-                    width: 40%;
-                    border:1px solid black;
-                    float:left;
-                }
-                #contenedorFoto img{
-                    width: 100%;
-                }
+    float: left !important;
+    margin-bottom: 1% !important;
+    clear: both !important;
+}
+#ocasion2{
+    font-size: 18px !important;
+    margin-bottom: 1% !important;
+    margin-top: 3.9% !important;
 
-                #rotura{
-                    margin-top: 3.5%;
-                }
+    width: 80% !important;
 
-                #contenedorCompraTelefono form input[type="submit"]{
-                    margin-top: 7%;
+    float: left !important;
+    font-weight: normal !important;
+    clear: none !important;
 
-                    float: left;
+}
+#cantidad{
+    margin-top: 4.5%;
 
-                    clear: both;
-                }
+}
+#contenedorInformacion{
+    width: 86%;
+
+    margin: 0 auto;
+    border:1px solid green;
+    margin-top: 5%;
+    clear: both;
+    background: white;
+    overflow: hidden;
+    height: 1%;
+    margin-bottom: 2%;
+}
+#datosInformativos div{
+    margin-left: 2%;
+}
+#contenedorInformacion h1{
+    border-bottom: 1px solid black;
+    padding: 1%;
+}
+.ui-inputfield{
+    padding: 1px;
+    padding-right: 20px;
+    width: 60px;
+}
+
+
+#contenedorArriba{
+    width: 90%;
+
+    margin: 0 auto;
+
+    background: white;
+    overflow: hidden;
+    clear: both;
+    height: 1%;
+}
+
+#contenedorFoto{
+    width: 40%;
+    border:1px solid black;
+    float:left;
+}
+#contenedorFoto img{
+    width: 100%;
+}
+
+#rotura{
+    margin-top: 3.5%;
+}
+
+#contenedorCompraTelefono form input[type="submit"]{
+    margin-top: 7%;
+
+    float: left;
+
+    clear: both;
+}
 #estado{
     padding-top: 2.6%;
+}
+
+#actualizarBotonCompra2 p{
+    font-size: 16px !important;
+    font-weight: normal !important;
+    width: 100% !important;
+    float: left !important;
+    margin-bottom: 1% !important;
+    clear: both !important;
 }

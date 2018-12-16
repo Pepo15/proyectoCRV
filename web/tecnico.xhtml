@@ -6,91 +6,313 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 
-    <html xmlns="http://www.w3.org/1999/xhtml"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-        <f:view>
+    <f:view>
         <h:head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
             <title>CRV</title>
+            <script src="js/jquery-3.3.1.min.js"></script>
+            <script src="js/jquery-ui.min.js"></script>
+            <script  src="js/index.js"></script>
+            <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
+            <link rel="stylesheet" href="css/index.css"></link>
+            <link rel="stylesheet" href="css/migasTitulo.css"></link>
+
+            <script  src="js/tecnico.js"></script>
+            <link rel="stylesheet" href="css/tecnico.css"></link>
+
+
         </h:head>
         <h:body>
-            
-             <p:messages id="messages" showDetail="true" closable="true">
-            <p:autoUpdate />
-        </p:messages>
-            
-            
-            <h1><h:outputText value="Tecnico"/></h1>
-            <h1><h:outputText value="#{manageBeanSesion.tecnicoLog.nick}, Bienvenido a su perfil!"/></h1>
-            
-            <!--Pedidos-->
-            <h2>Ver pedidos</h2>
-            <h:panelGroup id="recargaPedidos">
-                <c:forEach var="pedido" varStatus="estado" items="#{bTecnico.listaPedidos}" >
+            <h:panelGroup id="actualizarCabecera">
+                <header>
+                    <div id="logo">
+                        <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                    </div>
 
-                    #{bTecnico.setCodigoPedido(pedido.codigoPedido)}
+                    <div id="idioma">
+                        <p>Idioma</p>
+                        <h:form>
 
-                    <h:panelGroup  rendered="#{bTecnico.cabeceraPedido()}">
-                        <div id="datosPedido" style="border: 1px solid red">
-                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                            <h:outputText value="Tipo "/> <h:outputText value="#{bTecnico.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                            <h:outputText value="Estado "/> <h:outputText value="#{bTecnico.conocerEstado(pedido.estado)}"/><br></br><br></br>
-                        </div>
-                    </h:panelGroup>
+                            <h:commandButton image="imagenes/Fotos/england.png"/>
+                            <h:commandButton image="imagenes/Fotos/spain.png"/>
+                        </h:form>
+                    </div>
 
-                    <h:panelGroup rendered="#{!bTecnico.cabeceraPedido()}">
-                        <div id="pedido" style="border:1px solid black">
-                            <h:outputText value="Número pedido "/> <h:outputText value="#{pedido.codigoPedido}"/><br></br><br></br>
-                            <h:outputText value="Calle "/> <h:outputText value="#{pedido.codigoDireccion.nombre}"/><br></br><br></br>
-                            <h:outputText value="Fecha "/> <h:outputText value="#{pedido.fecha}"/><br></br><br></br>    
+                    <div id="login">
+                        <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
+
+                            <div id="registroInicio">
+                                <a href="/CRV/faces/registro.xhtml">Registrarse</a> 
+                                <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                            </div>
+                        </h:panelGroup>    
+                    </div>            
+
+
+                    <div id="contacto">
+                        <img src="imagenes/Fotos/whatsapp.png" alt="Whatsapp"></img>
+                        <p>628317327</p>
+                    </div>
+
+                    <div id="carrito">
+                        <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+                            <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                                <p> <h:outputText value="#{bComprar.mens}"/></p>
+                                <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                            </a>
+                        </h:panelGroup>    
+                    </div>
+
+                </header>
+                <div id="menuHorizontal">
+                    <ul>
+                        <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+
+                            <li><a href="index.xhtml" title="Home">Home</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+                        </h:panelGroup>
+                    </ul>
+
+                    <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                        <div id="contenedorDatosLogeado">
+
+                            <div id="nombreUsuario">           
+                                <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                            </div>
                         </div> 
-                        <div id="datosPedido" style="border: 1px solid red">
-                            <h:outputText value="Telefono "/> <h:outputText value="#{pedido.codigoTelefono.nombre}"/><br></br><br></br>
-                            <h:outputText value="Tipo "/> <h:outputText value="#{bTecnico.saberTipo(pedido.tipo)}"/><br></br><br></br>
-                            <h:outputText value="Estado "/> <h:outputText value="#{bTecnico.conocerEstado(pedido.estado)}"/><br></br><br></br>
-                            <h:outputText value="Ubicacion "/> <h:outputText value="#{bTecnico.conocerPoblacion(pedido.codigoPoblacion)}"/><br></br><br></br>
-
-                        </div>
                     </h:panelGroup>
-                    
-                    
-                    <h:form>
-                        <h:commandButton  value="Cambiar estado" action="#{bTecnico.cambiarEstado(pedido.codigo)}">
-                            <f:ajax  event="action" render=":result" />
-                        </h:commandButton>
-                    </h:form>
-                    
-                    <h:form>
-                        <h:commandButton  value="Borrar" rendered="#{bTecnico.permitirEliminar(pedido.codigo)}" action="#{bTecnico.borrarPedido(pedido.codigo)}"/>
-                           
-                    </h:form>
+
+                    <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                            </div>
 
 
-                    #{bTecnico.setCodigoPedidoAnterior(pedido.codigoPedido)}
-                </c:forEach>
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
+                    <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            </div>
+
+
+                            <div id="cerrarSesion">           
+                                <p><i class="fas fa-sign-out-alt"></i>
+                                    <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                        <h:outputText value="Cerrar Sesión" />
+                                    </p:commandLink></p>
+                            </div>
+
+                            <div id="accesoPerfil">           
+                                <p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                            </div>
+                        </div> 
+                    </h:panelGroup>
+                </div>
             </h:panelGroup>
-            
+
+            <div id="modalInicioSesion" class="modal">
+                <div id="inicioS" class='centrar'>
+                    <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                    <h:form id="formularioInicio">
+                        <div id="logeo">
+                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
+                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <br></br><br></br>
+                            <h:outputText value="#{bLogin.mens}"/>
+                        </div>
+                        <div id="olvidarPassword">
+                            <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                            <p:commandButton value="Entrar" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                            <br></br><br></br>
+                            <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
+                        </div>
+                    </h:form>
+                </div>
+            </div>
+
+            <p:messages id="messages" showDetail="true" closable="true">
+                <p:autoUpdate />
+            </p:messages>
+
+
+            <div  id="tituloPagina">
+                <h1>Pedidos</h1>
+            </div>
+
+            <div id="contenedorGeneral">
+            <!--Pedidos-->
+            <h:panelGroup id="recargaPedidos">
+                <div id="easy">
+                    <c:forEach var="pedido" varStatus="estado" items="#{bTecnico.listaPedidos}" >
+
+                        #{bTecnico.setCodigoPedido(pedido.codigoPedido)}
+                        #{bTecnico.cabeceraPedido()}
+                        <div class="pedidoEasy">
+                            <h:panelGroup  rendered="#{bTecnico.booleanCabecera}">
+                                <div id="datosPedido" style="border: 1px solid red" class="estiloP">
+                                    <div id="contenedorDatos">
+                                        <p><h:outputText value="Telefono: "/></p> <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p> 
+                                        <p>  <h:outputText value="Tipo: "/></p> <p> <h:outputText value="#{bTecnico.saberTipo(pedido.tipo)}"/></p> 
+                                        <p>    <h:outputText value="Estado: "/></p>  <p><h:outputText value="#{bTecnico.conocerEstado(pedido.estado)}"/></p> 
+                                    </div>
+
+                                    <h:form prependId="false">
+                                        <p:commandButton class="botonCambiarEstado"  value="Cambiar estado" action="#{bTecnico.cambiarEstado(pedido.codigo)}" update="result messages"/>
+
+                                    </h:form>
+
+                                    <h:form>
+                                        <h:commandButton  value="Borrar" rendered="#{bTecnico.permitirEliminar(pedido.codigo)}" action="#{bTecnico.borrarPedido(pedido.codigo)}"/>
+
+                                    </h:form>
+                                </div>
+
+                            </h:panelGroup>
+
+                            <h:panelGroup rendered="#{!bTecnico.booleanCabecera}">
+                                <div id="pedido" style="border:1px solid black" class="estiloP">
+                                    <p><h:outputText value="Número pedido: "/></p>  <p><h:outputText value="#{pedido.codigo}"/></p> 
+                                    <p>  <h:outputText value="Calle: "/></p>  <p><h:outputText value="#{pedido.codigoDireccion.nombre}"/></p> 
+                                    <p>   <h:outputText value="Fecha: "/></p> <p> <h:outputText value="#{pedido.fecha}"> <f:convertDateTime type="date" pattern="dd-MM-yyyy"/>
+                                        </h:outputText></p>
+                                </div> 
+                                <div id="datosPedido" style="border: 1px solid red" class="estiloP">
+                                    <div id="contenedorDatos">
+                                        <p>   <h:outputText value="Telefono: "/></p>  <p><h:outputText value="#{pedido.codigoTelefono.nombre}"/></p> 
+                                        <p>     <h:outputText value="Tipo: "/></p>  <p><h:outputText value="#{bTecnico.saberTipo(pedido.tipo)}"/></p> 
+                                        <p>     <h:outputText value="Estado: "/></p>  <p><h:outputText value="#{bTecnico.conocerEstado(pedido.estado)}"/></p> 
+                                        <p>      <h:outputText value="Ubicacion: "/></p>  <p><h:outputText value="#{bTecnico.conocerPoblacion(pedido.codigoPoblacion)}"/></p> 
+                                    </div>
+                                    <h:form prependId="false">
+                                        <p:commandButton class="botonCambiarEstado"  value="Cambiar estado" action="#{bTecnico.cambiarEstado(pedido.codigo)}" update="result messages"/>
+
+                                    </h:form>
+
+                                    <h:form>
+                                        <h:commandButton  value="Borrar" rendered="#{bTecnico.permitirEliminar(pedido.codigo)}" action="#{bTecnico.borrarPedido(pedido.codigo)}"/>
+
+                                    </h:form>
+                                </div>
+
+                            </h:panelGroup>
+
+
+
+
+
+                            #{bTecnico.setCodigoPedidoAnterior(pedido.codigoPedido)}
+                        </div>
+                    </c:forEach>
+                </div>
+            </h:panelGroup>
+            </div>
             <h:panelGroup  rendered="#{bTecnico.noExiste}">
                 <h1> No hay pedidos</h1>
             </h:panelGroup>
-            
-            <h:form id="result" >
 
-                <h:panelGroup id="cambiaEstado" rendered="#{bTecnico.estado}">
-                    <div id="dialog" style="border: 1px solid blue">
-                        <h:selectOneMenu value="#{bTecnico.estadoNuevo}">  
-                            <f:selectItems value="#{bTecnico.listaEstados}"/>
-                        </h:selectOneMenu>
+
+
+            <div id="modalCambiarEstado" class="modal">
+                <div id="dialog" class='centrar'>
+                    <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                    <h:panelGroup id="result">
+                        <div id="datosF">
+                            <h2>Cambiar estado al pedido : #{bTecnico.codigoPedidoModificar}</h2>
+                            <h:form prependId="false" >
+                                <h:outputLabel for="nuevoEstado" value="Elija un estado: "/> 
+                                <h:selectOneMenu id="nuevoEstado" value="#{bTecnico.estadoNuevo}">  
+                                    <f:selectItem itemLabel="Seleccione uno" itemValue="" />
+                                    <f:selectItems value="#{bTecnico.listaEstados}"/>
+                                </h:selectOneMenu>
+
+                                <h:commandButton value="Cambiar estado" action="#{bTecnico.modificarEstado()}"/>
+
+
+                            </h:form>
+                        </div>
+                    </h:panelGroup>
+                </div>
+            </div>
+
+            <script src="js/jquery.easyPaginate.js"></script>
+            <script>
+                $('#easy').easyPaginate({
+                    paginateElement: '.pedidoEasy',
+                    elementsPerPage: 5
+                });
+
+            </script>      
+
+            <footer>
+                <div id="infoFooter">
+                    <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
+                        y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
+                        siempre desde España y con envío 24 horas. 
+                        Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
+                        6 meses de garantía.</p>
+                </div>
+
+                <div id="imagenesFooter">
+                    <div id="instagram">
+                        <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
                     </div>
-                    <p:commandButton value="Cambiar estado" action="#{bTecnico.modificarEstado()}" update="recargaPedidos result messages"/>
+                    <div id="twitter">
+                        <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                    </div>
+                    <div id="facebook">
+                        <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                    </div>
+                    <div id="gmail">
+                        <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                    </div>
+                </div>
 
-                </h:panelGroup> 
-            </h:form>
-            
-            
+                <div id="copyright">
+                    <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+                </div>
+
+            </footer>
+
+
         </h:body>
-        </f:view>     
-    </html>
+    </f:view>     
+</html>
