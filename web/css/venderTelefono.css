@@ -3,7 +3,6 @@ body{
     margin:0;
 }
 #contenedorCompraTelefono{
-    border:1px solid blue;
     width: 50%;
     margin-left: 5%;
     float: left;
@@ -69,7 +68,7 @@ body{
     width: 86%;
 
     margin: 0 auto;
-    border:1px solid green;
+    border:1px solid #090909;
     margin-top: 5%;
     clear: both;
     background: white;
@@ -77,6 +76,21 @@ body{
     height: 1%;
     margin-bottom: 2%;
 }
+ #contenedorCompraTelefono form input[type="submit"]{
+                       background: #ed2727;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 3%;
+    margin-top: 5%;
+    padding: 1%;
+    float:left;
+                }
+                #contenedorCompraTelefono form input[type="submit"]:hover{
+                          background: #ff5959; 
+   color: white;
+   cursor:pointer;
+                }
 #datosInformativos div{
     margin-left: 2%;
 }
@@ -100,12 +114,13 @@ body{
     overflow: hidden;
     clear: both;
     height: 1%;
+    border:1px solid #090909;
 }
 
 #contenedorFoto{
     width: 40%;
-    border:1px solid black;
     float:left;
+    margin-top: 5%;
 }
 #contenedorFoto img{
     width: 100%;

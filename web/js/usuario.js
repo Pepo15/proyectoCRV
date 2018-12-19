@@ -74,9 +74,9 @@
                             'modificarUsuarioPass:passwordR': {required: true, minlength : 5, passwordMatch: true}
                         },
                         messages: {
-                            'modificarUsuarioPass:password': {required: "Contraseña obligatoria",minlength: "Debe tener un mínimo de 5 caracteres."},
-                            'modificarUsuarioPass:passwordR': {required: "Repetir contraseña obligatorio",minlength: "Debe tener un mínimo de 5 caracteres.",
-                                passwordMatch: "Las contraseñas deben ser iguales"}
+                            'modificarUsuarioPass:password': {required: "Contrase\u00F1a obligatoria",minlength: "Debe tener un m\u00EDnimo de 5 caracteres."},
+                            'modificarUsuarioPass:passwordR': {required: "Repetir contraseña obligatorio",minlength: "Debe tener un m\u00EDnimo de 5 caracteres.",
+                                passwordMatch: "Las contrase\u00F1as deben ser iguales"}
                         }
 
                     }); //..VAlidate

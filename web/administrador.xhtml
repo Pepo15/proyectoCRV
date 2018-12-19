@@ -24,17 +24,17 @@ and open the template in the editor.
     </h:head>
     <h:body>
         <h:panelGroup id="actualizarCabecera">
+            <f:loadBundle basename="property.mensajes" var="mens"/>
             <header>
                 <div id="logo">
-                    <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                    <a href="/CRV/faces/index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
                 </div>
 
                 <div id="idioma">
-                    <p>Idioma</p>
+                    <p>#{mens.idioma}</p>
                     <h:form>
-
-                        <h:commandButton image="imagenes/Fotos/england.png"/>
-                        <h:commandButton image="imagenes/Fotos/spain.png"/>
+                        <h:commandButton image="imagenes/Fotos/england.png" actionListener="#{bLogin.idiomaEn}"/>
+                        <h:commandButton image="imagenes/Fotos/spain.png" actionListener="#{bLogin.idiomaEs}"/>
                     </h:form>
                 </div>
 
@@ -42,8 +42,8 @@ and open the template in the editor.
                     <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
 
                         <div id="registroInicio">
-                            <a href="/CRV/faces/registro.xhtml">Registrarse</a> 
-                            <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                            <a href="/CRV/faces/registro.xhtml">#{mens.registro}</a> 
+                            <p> &#160;   || <span id="inicioSesion">#{mens.inicioSesion}</span></p>
                         </div>
                     </h:panelGroup>    
                 </div>            
@@ -68,10 +68,10 @@ and open the template in the editor.
                 <ul>
                     <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
 
-                        <li><a href="index.xhtml" title="Home">Home</a></li>
-                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                        <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                        <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+                        <li><a href="/CRV/faces/index.xhtml" title="Inicio">#{mens.inicio}</a></li>
+                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">#{mens.comprar}</a></li>
+                        <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">#{mens.reparar}</a></li>
+                        <li><a href="/CRV/faces/vender.xhtml" title="Vender">#{mens.vender}</a></li>
                     </h:panelGroup>
                 </ul>
 
@@ -79,20 +79,20 @@ and open the template in the editor.
                     <div id="contenedorDatosLogeado">
 
                         <div id="nombreUsuario">           
-                            <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                            <p>#{mens.mensajeBienvenido}, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
                         </div>
 
 
                         <div id="cerrarSesion">           
                             <p><i class="fas fa-sign-out-alt"></i>
                                 <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
-                                    <h:outputText value="Cerrar Sesión" />
+                                    <h:outputText value="#{mens.cerrarSesion}" />
                                 </p:commandLink></p>
                         </div>
 
                         <div id="accesoPerfil">           
                             <p>
-                                <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Perfil">#{mens.perfil}</a></p>
                         </div>
                     </div> 
                 </h:panelGroup>
@@ -101,20 +101,20 @@ and open the template in the editor.
                     <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
 
                         <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
-                            <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                            <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                         </div>
 
 
                         <div id="cerrarSesion">           
                             <p><i class="fas fa-sign-out-alt"></i>
                                 <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
-                                    <h:outputText value="Cerrar Sesión" />
+                                    <h:outputText value="#{mens.cerrarSesion}" />
                                 </p:commandLink></p>
                         </div>
 
                         <div id="accesoPerfil">           
                             <p>
-                                <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">Mi perfil</a></p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">#{mens.perfil}</a></p>
                         </div>
                     </div> 
                 </h:panelGroup>
@@ -122,20 +122,20 @@ and open the template in the editor.
                     <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
 
                         <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
-                            <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                            <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                         </div>
 
 
                         <div id="cerrarSesion">           
                             <p><i class="fas fa-sign-out-alt"></i>
                                 <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
-                                    <h:outputText value="Cerrar Sesión" />
+                                    <h:outputText value="#{mens.cerrarSesion}" />
                                 </p:commandLink></p>
                         </div>
 
                         <div id="accesoPerfil">           
                             <p>
-                                <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">#{mens.perfil}</a></p>
                         </div>
                     </div> 
                 </h:panelGroup>
@@ -147,16 +147,16 @@ and open the template in the editor.
                 <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                 <h:form id="formularioInicio">
                     <div id="logeo">
-                        <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                        <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                        <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                        <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <p><h:outputText value="#{mens.nick}: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                        <p><h:outputText value="#{mens.contra}: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                        <p id="olvC"><h:outputText value="#{mens.olvidar}"/></p>
+                        <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
                         <br></br><br></br>
                         <h:outputText value="#{bLogin.mens}"/>
                     </div>
                     <div id="olvidarPassword">
-                        <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
-                        <p:commandButton value="Entrar" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                        <p><h:outputText value="#{mens.email}: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                        <p:commandButton value="#{mens.enviar}" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
                         <br></br><br></br>
                         <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
                     </div>
@@ -196,10 +196,10 @@ and open the template in the editor.
                 </div>
             </form>
             <!--Gestion Tecnicos-->
-            <form id="gestionPremio" action="administradorGestionPremio.xhtml"> 
-                <div onclick="document.getElementById('gestionPremio').submit();">
+            <form id="gestionIndex" action="administradorGestionIndex.xhtml"> 
+                <div onclick="document.getElementById('gestionIndex').submit();">
                     <img src="imagenes/Fotos/puntosPerfil.png" alt="Gestion Puntos"></img>
-                    <p> <h:outputText value="Gestionar Premio"/></p>
+                    <p> <h:outputText value="Gestionar Galería Inicio"/></p>
                 </div>
             </form>
 
@@ -218,15 +218,27 @@ and open the template in the editor.
                 </div>
             </form>
 
+            <!--Modificar Pedido-->
+            <form id="estadisticas" action="administradorEstadistica.xhtml"> 
+                <div onclick="document.getElementById('estadisticas').submit();" >
+                    <img src="imagenes/Fotos/retocES.png" alt="Estadísticas"></img>
+                    <p> <h:outputText value="Estadísticas"/></p>
+                </div>
+            </form>
+
+            <!--Gestion Tecnicos-->
+            <form id="gestionPremio" action="administradorGestionPremio.xhtml" display="none"> 
+                <div onclick="document.getElementById('gestionPremio').submit();">
+                    <img src="imagenes/Fotos/puntosPerfil.png" alt="Gestion Puntos"></img>
+                    <p> <h:outputText value="Gestionar Premio"/></p>
+                </div>
+            </form>
+
 
         </div>
         <footer>
             <div id="infoFooter">
-                <p>CRV MÓVIL trabaja con los distribuidores oficiales de todas las marcas
-                    y su tienda online es de total confianza puedes comprar móviles vender o repararlos,
-                    siempre desde España y con envío 24 horas. 
-                    Disfruta de las mejores garantías para tu teléfono con servicio post-venta propio, 
-                    6 meses de garantía.</p>
+                <p>#{mens.tPie}</p>
             </div>
 
             <div id="imagenesFooter">
@@ -245,7 +257,7 @@ and open the template in the editor.
             </div>
 
             <div id="copyright">
-                <p>2001-18 © Copyright CRV MÓVIL. Todos los derechos reservados. </p>
+                <p>#{mens.iPie}</p>
             </div>
 
         </footer>

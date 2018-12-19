@@ -6,18 +6,21 @@
 
 
 import DAO.AdministradorJpaController;
+import DAO.PedidoJpaController;
 import DAO.PoblacionJpaController;
 import DAO.TecnicoJpaController;
 import DAO.UsuarioJpaController;
 import DTO.Administrador;
 import DTO.Poblacion;
 import DTO.Tecnico;
+import DTO.Telefono;
 import DTO.Usuario;
 import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.servlet.*;
@@ -41,6 +44,8 @@ public class CompruebaDatos extends HttpServlet {
         boolean acceso = false;
         
         Poblacion poblacion = null;
+        
+        List lista=null;
 
         String nick = request.getParameter("Nick");
         if(nick!=null){
@@ -71,6 +76,37 @@ public class CompruebaDatos extends HttpServlet {
             //Preparamos la salida del objeto JSON
             JsonObject object = new JsonObject();
             object.addProperty("Email", acceso);
+
+            String jsonS = object.toString();
+            out.println(jsonS);
+
+            //----------------------------------------------------------**/
+            out.flush();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+        
+        String compra = request.getParameter("Compra");
+        if(compra!=null){
+        try {
+            //Leemos el objeto JSON y almacenamos su valor en la variable de email
+            lista = compruebaCompra();
+
+            //Preparamos la salida del objeto JSON
+            JsonObject object = new JsonObject();
+            for (int i = 0; i < lista.size(); i++) {
+                Object[] lista2 = (Object[]) lista.get(i);
+                 
+                         Telefono telefono = (Telefono) lista2[0];
+                         object.addProperty("Nombre"+i, telefono.getNombre());
+                    
+                         long numeroVeces=(long) lista2[1];
+                         object.addProperty("Numero"+i, numeroVeces);
+                     
+                 
+            }
+            
 
             String jsonS = object.toString();
             out.println(jsonS);
@@ -162,6 +198,19 @@ public class CompruebaDatos extends HttpServlet {
             return null;
         } else {
             return pobla;
+        }
+    }
+     public List compruebaCompra() {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("CRVPU");
+         PedidoJpaController  ctrPedido = new PedidoJpaController(emf);
+        
+        List lista = ctrPedido.findMaximaVenta();
+
+        //Si es distinto a nulo, significa que ya existe alguien
+        if (lista==null) {
+            return null;
+        } else {
+            return lista;
         }
     }
 }

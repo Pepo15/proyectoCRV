@@ -13,11 +13,11 @@ body{
     padding-top: 0.4%;
 }
 #buscador input{
-    width: 40%;
-    border-radius: 12px;
-
-    padding-left: 9px;
-    margin-top: 0.7%;
+   width: 55%;
+border-radius: 12px;
+padding-left: 9px;
+margin-top: 0.3%;
+font-size: 18px;
 }
 #contenedorTelefonos{
     width: 90%;
@@ -36,11 +36,11 @@ body{
     float: left;
     margin-right: 5%;
     background: white;
+    margin-bottom: 5%;
 }
 .cTelefono img{
 
     width: 100%;
-    height: 185px;
 }
 
 #tituloF{
@@ -70,3 +70,13 @@ body{
     font-size: 16px;
     margin-bottom: 3%;
 }
+
+.pagination{
+text-align: center;
+font-size: 30px;
+margin-bottom: 5%;
+
+  }
+  .pagination a{
+      margin-left: 2%;
+  }

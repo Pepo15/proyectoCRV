@@ -8,7 +8,7 @@
 #show-img { width: 400px; height: 400px; }
 .small-img{
   width: 350px;
-  height: 70px;
+  height: 77px;
   margin-top: 10px;
   position: relative;
   left: 25px;
@@ -33,7 +33,7 @@
 }
 .small-container{
   width: 310px;
-  height: 70px;
+  height: 77px;
   overflow: hidden;
   position: absolute;
   left: 0;

@@ -11,6 +11,7 @@ import DTO.Administrador;
 import DTO.Caracteristicastelefono;
 import DTO.Foto;
 import DTO.Pedido;
+import DTO.Reparaciones;
 import DTO.Reparacionestelefono;
 import DTO.Telefono;
 import java.io.File;
@@ -18,7 +19,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.application.FacesMessage;
@@ -988,6 +991,99 @@ public class bAdministradorGestionTelefono {
         listaFotos = telefono.getFotoList();
 
     }
+    
+    public List consultarTelefonosMasComprados(){
+        List list = ctrPedido.findMaximaCompra();
+        List lista =  new ArrayList();
+        
+         for (int i = 0; i < 3; i++) {
+                Object[] lista2 = (Object[]) list.get(i);
+                 
+                         Telefono telefono = (Telefono) lista2[0];
+                         
+                         lista.add(telefono);
+                     
+                 
+            }
+        return lista;
+    }
+    public List consultarTelefonosMasComprados2(){
+        List list = ctrPedido.findMaximaCompra();
+        List lista =  new ArrayList();
+        
+         for (int i = 0; i < 3; i++) {
+                Object[] lista2 = (Object[]) list.get(i);
+                 
+                         long cantidad = (long) lista2[1];
+                         
+                         lista.add(String.valueOf(cantidad));
+                     
+                 
+            }
+        return lista;
+    }
+     public List consultarTelefonosMasVendidos(){
+        List list = ctrPedido.findMaximaVenta();
+        List lista =  new ArrayList();
+        
+         for (int i = 0; i < 3; i++) {
+                Object[] lista2 = (Object[]) list.get(i);
+                 
+                         Telefono telefono = (Telefono) lista2[0];
+                         
+                         lista.add(telefono);
+                     
+                 
+            }
+        return lista;
+    }
+     public List consultarTelefonosMasVendidos2(){
+        List list = ctrPedido.findMaximaVenta();
+        List lista =  new ArrayList();
+        
+         for (int i = 0; i < 3; i++) {
+                Object[] lista2 = (Object[]) list.get(i);
+                 
+                         long cantidad = (long) lista2[1];
+                         
+                         lista.add(String.valueOf(cantidad));
+                     
+                 
+            }
+        return lista;
+    }
+     
+      public List consultarReparacionesMasRealizadas(){
+        List list = ctrPedido.findMaximaReparacion();
+        List lista =  new ArrayList();
+        
+         for (int i = 0; i < 3; i++) {
+                Object[] lista2 = (Object[]) list.get(i);
+                 
+                         Reparaciones telefono = (Reparaciones) lista2[0];
+                         
+                         lista.add(telefono);
+                     
+                 
+            }
+        return lista;
+    }
+      public List consultarReparacionesMasRealizadas2(){
+        List list = ctrPedido.findMaximaReparacion();
+        List lista =  new ArrayList();
+        
+         for (int i = 0; i < 3; i++) {
+                Object[] lista2 = (Object[]) list.get(i);
+                 
+                         long cantidad = (long) lista2[1];
+                         
+                         lista.add(String.valueOf(cantidad));
+                     
+                 
+            }
+        return lista;
+    }
+      
 
     //Metodo que rellena los inputs de las caracteristicas cuando seleccionamos un modelo
     public void consultarCaracteristicas(final AjaxBehaviorEvent event) {

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>CRV</title>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script  src="js/index.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
+        <link rel="stylesheet" href="css/index.css"></link>
+        <link rel="stylesheet" href="css/migasTitulo.css"></link>
+
+        <link rel="stylesheet" href="css/administrador.css"></link>
+<style>
+            #arriba{
+                overflow: hidden;
+                clear: both;
+                height: 1%;
+            }
+            #arriba div{
+                width: 25%;
+                float:left;
+                margin-left: 5%;
+            }
+            #abajo div{
+                float:left;
+                margin-bottom: 5%;
+            }
+            #grafico1{
+                margin-top: 5%;
+                text-align: center;
+            }
+            #grafico2{
+                margin-top: 1%;
+                margin-left: 5%;
+            }
+            #grafico1 input{
+                margin-top: 3%;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <h:panelGroup id="actualizarCabecera">
+            <f:loadBundle basename="property.mensajes" var="mens"/>
+            <header>
+                <div id="logo">
+                    <a href="/CRV/faces/index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                </div>
+
+                <div id="idioma">
+                    <p>#{mens.idioma}</p>
+                    <h:form>
+                        <h:commandButton image="imagenes/Fotos/england.png" actionListener="#{bLogin.idiomaEn}"/>
+                        <h:commandButton image="imagenes/Fotos/spain.png" actionListener="#{bLogin.idiomaEs}"/>
+                    </h:form>
+                </div>
+
+                <div id="login">
+                    <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
+
+                        <div id="registroInicio">
+                            <a href="/CRV/faces/registro.xhtml">#{mens.registro}</a> 
+                            <p> &#160;   || <span id="inicioSesion">#{mens.inicioSesion}</span></p>
+                        </div>
+                    </h:panelGroup>    
+                </div>            
+
+
+                <div id="contacto">
+                    <img src="imagenes/Fotos/whatsapp.png" alt="Whatsapp"></img>
+                    <p>628317327</p>
+                </div>
+
+                <div id="carrito">
+                    <h:panelGroup id="actualizarMenuC" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+                        <a href="/CRV/faces/cesta.xhtml" style="display:block; width: 100%; height:100%">
+                            <p> <h:outputText value="#{bComprar.mens}"/></p>
+                            <h:commandButton image="imagenes/Fotos/carrito.png"/>
+                        </a>
+                    </h:panelGroup>    
+                </div>
+
+            </header>
+            <div id="menuHorizontal">
+                <ul>
+                    <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
+
+                        <li><a href="/CRV/faces/index.xhtml" title="Inicio">#{mens.inicio}</a></li>
+                        <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">#{mens.comprar}</a></li>
+                        <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">#{mens.reparar}</a></li>
+                        <li><a href="/CRV/faces/vender.xhtml" title="Vender">#{mens.vender}</a></li>
+                    </h:panelGroup>
+                </ul>
+
+                <h:panelGroup id="actualizarMenu" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">
+                    <div id="contenedorDatosLogeado">
+
+                        <div id="nombreUsuario">           
+                            <p>#{mens.mensajeBienvenido}, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="#{mens.cerrarSesion}" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Perfil">#{mens.perfil}</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+
+                <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
+                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="#{mens.cerrarSesion}" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">#{mens.perfil}</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+                <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
+                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+
+                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                        </div>
+
+
+                        <div id="cerrarSesion">           
+                            <p><i class="fas fa-sign-out-alt"></i>
+                                <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
+                                    <h:outputText value="#{mens.cerrarSesion}" />
+                                </p:commandLink></p>
+                        </div>
+
+                        <div id="accesoPerfil">           
+                            <p>
+                                <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">#{mens.perfil}</a></p>
+                        </div>
+                    </div> 
+                </h:panelGroup>
+            </div>
+        </h:panelGroup>
+
+        <div id="modalInicioSesion" class="modal">
+            <div id="inicioS" class='centrar'>
+                <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
+                <h:form id="formularioInicio">
+                    <div id="logeo">
+                        <p><h:outputText value="#{mens.nick}: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                        <p><h:outputText value="#{mens.contra}: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                        <p id="olvC"><h:outputText value="#{mens.olvidar}"/></p>
+                        <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                        <br></br><br></br>
+                        <h:outputText value="#{bLogin.mens}"/>
+                    </div>
+                    <div id="olvidarPassword">
+                        <p><h:outputText value="#{mens.email}: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                        <p:commandButton value="#{mens.enviar}" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                        <br></br><br></br>
+                        <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
+                    </div>
+                </h:form>
+            </div>
+        </div>
+        <p:messages id="messages" showDetail="true" closable="true">
+            <p:autoUpdate />
+        </p:messages>
+
+        <div id="contenedorBread">
+            <nav id="migas">
+                <ul>
+                    <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
+                    <li><em></em><a href="/CRV/faces/administrador.xhtml" title="Perfil">Perfil</a><i></i></li>
+                </ul>
+            </nav> 
+        </div>
+
+        
+
+        <div  id="tituloPagina">
+            <h1>Estadísticas</h1>
+        </div>
+        <div id="arriba">
+            <div id="masVentas">
+                <h2>Telefonos más comprados</h2>
+                <ul>
+                    <ui:repeat  var="telefono" varStatus="estado"  value="#{bAdministradorGestionTelefono.consultarTelefonosMasComprados()}">
+                        <ui:repeat  var="telefono2" varStatus="estado2"  value="#{bAdministradorGestionTelefono.consultarTelefonosMasComprados2()}">
+                            <h:panelGroup rendered="#{estado.index eq 0 and estado2.index eq 0}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{estado.index eq 1 and estado2.index eq 1}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{estado.index eq 2 and estado2.index eq 2}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </ui:repeat>
+                </ul>
+            </div>
+
+            <div id="masVentas">
+                <h2>Telefonos más vendidos</h2>
+                <ul>
+                    <ui:repeat  var="telefono" varStatus="estado"  value="#{bAdministradorGestionTelefono.consultarTelefonosMasVendidos()}">
+                        <ui:repeat  var="telefono2" varStatus="estado2"  value="#{bAdministradorGestionTelefono.consultarTelefonosMasVendidos2()}">
+
+                            <h:panelGroup rendered="#{estado.index eq 0 and estado2.index eq 0}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{estado.index eq 1 and estado2.index eq 1}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{estado.index eq 2 and estado2.index eq 2}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </ui:repeat>
+                </ul>
+            </div>
+
+            <div id="masVentas">
+                <h2>Reparaciones más realizadas</h2>
+                <ul>
+                    <ui:repeat  var="telefono" varStatus="estado"  value="#{bAdministradorGestionTelefono.consultarReparacionesMasRealizadas()}">
+                        <ui:repeat  var="telefono2" varStatus="estado2"  value="#{bAdministradorGestionTelefono.consultarReparacionesMasRealizadas2()}">
+
+                            <h:panelGroup rendered="#{estado.index eq 0 and estado2.index eq 0}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{estado.index eq 1 and estado2.index eq 1}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                            <h:panelGroup rendered="#{estado.index eq 2 and estado2.index eq 2}" >   
+                                <li>#{telefono.nombre} : #{telefono2}</li>
+                            </h:panelGroup>
+                        </ui:repeat>
+                    </ui:repeat>
+                </ul>
+            </div>
+
+        </div>
+        <div id="abajo">
+            <div id="grafico1">
+                <p:chart type="line" model="#{lineChartBean.lineModel}" style="height:400px;width:600px"  widgetVar="chart"/>
+
+
+                <h:form>
+                    <h:commandButton id="login"
+                                     value="Exportar gráfico como imagen"
+                                     onclick="return downloadImage();"
+                                     type="Submit" />
+                </h:form>
+            </div>
+            <div id="grafico2">
+                <p:chart type="pie" style="height:400px;width:600px"
+                         responsive="true"
+                         model="#{jobMarketBean.model}" />
+
+            </div>
+        </div>
+
+        <script>
+            function downloadImage() {
+                var image = PF('chart').exportAsImage();
+                var imageSrc = $(image).attr('src');
+                var url = imageSrc.replace(/^data:image\/[^;]+/, 'data:application/octet-stream');
+                var link = document.createElement('a');
+                link.download = "chart.png";
+                link.href = url;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                return false;
+            }
+        </script>
+
+        <footer>
+            <div id="infoFooter">
+                <p>#{mens.tPie}</p>
+            </div>
+
+            <div id="imagenesFooter">
+                <div id="instagram">
+                    <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                </div>
+                <div id="twitter">
+                    <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                </div>
+                <div id="facebook">
+                    <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                </div>
+                <div id="gmail">
+                    <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                </div>
+            </div>
+
+            <div id="copyright">
+                <p>#{mens.iPie}</p>
+            </div>
+
+        </footer>
+    </h:body>     
+</html>

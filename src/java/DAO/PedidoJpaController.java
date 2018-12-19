@@ -377,5 +377,35 @@ public class PedidoJpaController implements Serializable {
         
         return lista;
     }
+    //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findMaximaCompra() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Pedido.masCompra",Pedido.class);
+            
+         List lista= q.getResultList();
+        
+        return lista;
+    }
+    //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findMaximaVenta() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Pedido.masVenta",Pedido.class);
+            
+         List lista= q.getResultList();
+        
+        return lista;
+    }
+    //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findMaximaReparacion() {
+        EntityManager em = getEntityManager();
+        
+        TypedQuery q=em.createNamedQuery("Pedido.masReparacion",Pedido.class);
+            
+         List lista= q.getResultList();
+        
+        return lista;
+    }
     
 }

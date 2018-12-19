@@ -3,6 +3,11 @@
                     $(".coordenadasMapa").on("click", function () {
                         iniciaSesion();
                     });
+                     $(".imagenPdf").on("click", function () {
+                        var codigoPedido= $(this).val();
+                        var clase = "."+codigoPedido;
+                       $("."+codigoPedido).trigger("click");
+                    });
                     
                     function iniciaSesion() {
                         $("#modalMapa").css("display", "block");

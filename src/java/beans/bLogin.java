@@ -9,6 +9,7 @@ import DTO.Tecnico;
 import DTO.Telefono;
 import DTO.TelefonoCesta;
 import DTO.Usuario;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,11 +26,13 @@ import org.primefaces.context.RequestContext;
 
 
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -537,14 +540,31 @@ public class bLogin {
         email = "";
         return "";
     }
-    
-    
 
-    
-    
+public List listarFicherosPorCarpeta() {
+    //Cojo la foto
+        String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+
+        //CREAMOS EL FILE CON LA RUTA ENTERA
+        File result = new File(path + "/../../web/imagenes/FotosIndex/");
+        List listaFotos= new ArrayList();
+    for (File ficheroEntrada : result.listFiles()) {
         
-    
-   
+            listaFotos.add(ficheroEntrada.getName());
+        }
+    return listaFotos;
+    }
+
+ public void idiomaEs(ActionEvent evento) {
+        FacesContext contexto = FacesContext.getCurrentInstance();
+            contexto.getViewRoot().setLocale(Locale.getDefault());
+        }
+     
+    public void idiomaEn(ActionEvent evento) {
+        FacesContext contexto = FacesContext.getCurrentInstance();
+            contexto.getViewRoot().setLocale(Locale.ENGLISH);
+        }
+
     
     }
 

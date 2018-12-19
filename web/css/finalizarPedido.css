@@ -430,8 +430,11 @@ label{
     text-align: center;
 }
 
-.fila:nth-child(2) .columna:first-child img{
+.fila .columna:first-child img{
     width: 60%;
+}
+.fila  img{
+    width: 20%;
 }
 #contenedorDireccionFinalizar{
     clear: both;

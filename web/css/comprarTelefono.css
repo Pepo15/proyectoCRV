@@ -3,19 +3,28 @@ body{
                     margin:0;
                 }
                 #contenedorImagenes{
-                    border:1px solid red;
-                    width: 30%;
-                    margin-left: 7%;
-                    float: left;
+                    border: 1px solid #504f4f;
+width: 33%;
+margin-left: 3%;
+float: left;
+background: white;
+                }
+                #contenedorGeneral2{
                     background: white;
+width: 86%;
+margin: 0 auto;
+overflow: hidden;
+clear:both;
+height:1%;
+border:1px solid #090909;
                 }
                 .show{
                     width: 100% !important;
                 }
                 #contenedorCompraTelefono{
-                    border:1px solid blue;
-                    width: 50%;
-                    margin-left: 43%;
+                    width: 60%;
+                    margin-left: 47%;
+margin-top: 3%;
                 }
                 #contenedorCompraTelefono form{
                     padding: 2%;
@@ -30,7 +39,7 @@ body{
                     font-size: 20px;
                     font-weight: bold;
                     margin-top: 5%;
-                    width: 15%;
+                    width: 17%;
                     float: left;
                 }
                 #contenedorCompraTelefono form p:nth-child(2n+1){
@@ -51,14 +60,25 @@ body{
 
                 }
                 #contenedorCompraTelefono form input[type="submit"]{
-                    margin-top: 7%;
+                       background: #ed2727;
+    color: white;
+    border-radius: 10px;
+    font-size: 20px;
+    margin-bottom: 3%;
+    margin-top: 5%;
+    padding: 1%;
+                }
+                #contenedorCompraTelefono form input[type="submit"]:hover{
+                          background: #ff5959; 
+   color: white;
+   cursor:pointer;
                 }
                 #contenedorDatosTelefono{
                     width: 86%;
 
                     margin: 0 auto;
-                    border:1px solid green;
-                    margin-top: 10%;
+                    border:1px solid #090909;
+                    margin-top: 5%;
                     clear: both;
                     background: white;
                     overflow: hidden;
@@ -77,25 +97,7 @@ body{
                     padding-right: 20px;
                     width: 60px;
                 }
-                #datosTecnicos p:nth-child(2n){
-                    float:left;
-                    font-size: 16px;
-                    width: 80%;
-                }
-                #datosTecnicos div{
-                    width: 21%;
-                    float:left;
-                    padding: 2%;
-                }
-                #datosTecnicos p{
-                    padding: 2%;
-                }
-                .check{
-                    width: 9%;
-
-                    float: left;  
-                    margin-right: 4px;
-                }
+                
                 #pantalla p:nth-child(2n){
                     width: 57%
                 }
@@ -106,4 +108,129 @@ body{
                 }
                 .show{
                     border-bottom: 1px solid grey;
+                }
+                #caracteristicasTecnicas{
+                    width: 30%;
+                    float: left;
+                    padding: 2%;
+                }
+                #caracteristicasTecnicas p:nth-child(2n) {
+                    float: left; 
+                    font-size: 16px ;
+                    width: 46% ;
+                }
+
+
+
+
+
+                #caracteristicasTecnicas p{
+                    padding: 2%;
+                    width: 35%;
+                    float: left;
+                }
+
+                #caracteristicasTecnicas   .check{
+                    width: 11%;
+
+                    float: left;  
+                    margin-right: 4px;
+                }
+                
+                #pantalla{
+                    width: 20%;
+                    float: left;
+                   padding-top: 2%;
+                   padding-left: 1%;
+                   padding-right: 1%;
+                }
+                #pantalla p:nth-child(2n) {
+                    float: left; 
+                    font-size: 16px ;
+                    width: 47% ;
+                }
+
+
+
+
+
+                #pantalla p{
+                    padding: 2%;
+                    width: 38%;
+                    float: left;
+                }
+
+                #pantalla   .check{
+                    width: 17%;
+
+                    float: left;  
+                    margin-right: 4px;
+                }
+                
+                #camara{
+                    width: 18%;
+                    float: left;
+                   padding-top: 2%;
+                   padding-left: 1%;
+                   padding-right: 1%;
+                }
+                #camara p:nth-child(2n) {
+                    float: left; 
+                    font-size: 16px ;
+                    width: 47% ;
+                }
+
+
+
+
+
+                #camara p{
+                    padding: 2%;
+                    width: 35%;
+                    float: left;
+                }
+
+                #camara .check{
+                    width: 18%;
+
+                    float: left;  
+                    margin-right: 4px;
+                }
+                
+                
+                #funciones{
+                    width: 20%;
+                    float: left;
+                    padding-top: 2%;
+                   padding-left: 1%;
+                   padding-right: 1%;
+                   padding-bottom: 2%;
+                }
+                #funciones p:nth-child(2n) {
+                    float: left; 
+                    font-size: 16px ;
+                    width: 75% ;
+                }
+
+
+
+
+
+                #funciones p{
+                    padding: 2%;
+                    width: 7%;
+                    float: left;
+                }
+
+                #funciones .check{
+                    width: 10%;
+
+                    float: left;  
+                    margin-right: 4px;
+                }
+                
+                #logeo p{
+                    margin-top: 20px;
+                    margin-bottom: 20px;
+                    
                 }

@@ -61,7 +61,9 @@ body{
 width: 12%;
 float: right;
 }
-
+#contenedorDatos form input{
+    float:none !important;
+}
 .coordenadasMapa{
     width: 6%;
     float: left;

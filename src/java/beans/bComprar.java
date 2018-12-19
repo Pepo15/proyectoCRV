@@ -10,6 +10,7 @@ import DAO.ReparacionestelefonoJpaController;
 import DAO.TarjetaJpaController;
 import DAO.TecnicoJpaController;
 import DAO.TelefonoJpaController;
+import DAO.UsuarioJpaController;
 import DAO.exceptions.NonexistentEntityException;
 import DTO.Direccion;
 import DTO.Foto;
@@ -29,8 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,6 +64,7 @@ public class bComprar {
     private ReparacionestelefonoJpaController ctrReparacionesTelefono;
     private ReparacionesJpaController ctrReparaciones;
     private TecnicoJpaController ctrTecnico;
+    private UsuarioJpaController ctrUsuario;
 
     //Lista donde guardamos los pedidos
     private List listaTelefonos;
@@ -122,7 +126,7 @@ public class bComprar {
     private Tarjeta tarjetaPedido = null;
 
     //Mensaje del carrito
-    private String mens = "No tiene ningun artículo";
+    private String mens ;
 
     //Realizar Reparacion
     private int reparacionSeleccionada;
@@ -148,6 +152,7 @@ public class bComprar {
         ctrReparaciones = new ReparacionesJpaController(emf);
 
         ctrTecnico = new TecnicoJpaController(emf);
+        ctrUsuario = new UsuarioJpaController(emf);
 
         //Inicializamos la lista para que cuando entre ya esten cargados
         listaTelefonos = new ArrayList();
@@ -166,46 +171,64 @@ public class bComprar {
         listaSO = new ArrayList();
 
         listaSO = ctrCaracteristicas.findTodosSODistint();
+        Collections.sort(listaSO);
 
         listaMarcas = new ArrayList();
 
         listaMarcas = ctrTelefono.findTodosTelefonosDistint();
+        Collections.sort(listaMarcas);
 
         listaRam = new ArrayList();
 
         listaRam = ctrCaracteristicas.findTodosRamDistint();
+        Collections.sort(listaRam);
 
         listaPulgadas = new ArrayList();
 
         listaPulgadas = ctrCaracteristicas.findTodosPulgadasDistint();
+        Collections.sort(listaPulgadas);
 
         listaAlmacenamiento = new ArrayList();
 
         listaAlmacenamiento = ctrCaracteristicas.findTodosAlmacenamientoDistint();
+        Collections.sort(listaAlmacenamiento);
 
         listaCamaraTrasera = new ArrayList();
 
         listaCamaraTrasera = ctrCaracteristicas.findTodosCamaraTraseraDistint();
+        Collections.sort(listaCamaraTrasera);
 
         listaCamaraDelantera = new ArrayList();
 
         listaCamaraDelantera = ctrCaracteristicas.findTodosCamaraDelanteraDistint();
+        Collections.sort(listaCamaraDelantera);
 
         listaBateria = new ArrayList();
 
         listaBateria = ctrCaracteristicas.findTodosBateriaDistint();
+        Collections.sort(listaBateria);
 
         listaProcesador = new ArrayList();
 
         listaProcesador = ctrCaracteristicas.findTodosProcesadorDistint();
+        Collections.sort(listaProcesador);
 
         listaResolucion = new ArrayList();
 
         listaResolucion = ctrCaracteristicas.findTodosResolucionDistint();
+        Collections.sort(listaResolucion);
 
         listaColor = new ArrayList();
 
         listaColor = ctrCaracteristicas.findTodosColorDistint();
+         Collections.sort(listaColor);
+         
+         if("es"==Locale.getDefault().getLanguage()){
+             mens="No tiene ningun artículo";
+         }
+         else{
+              mens = "You do not have any article";
+         }
     }
 
     public EntityManagerFactory getEmf() {
@@ -592,6 +615,16 @@ public class bComprar {
         this.precioVenta = precioVenta;
     }
 
+    public UsuarioJpaController getCtrUsuario() {
+        return ctrUsuario;
+    }
+
+    public void setCtrUsuario(UsuarioJpaController ctrUsuario) {
+        this.ctrUsuario = ctrUsuario;
+    }
+    
+    
+
     public List conocerReparaciones(Telefono telefono) {
 
         //Inicializamos la lista de provincias
@@ -715,7 +748,7 @@ public class bComprar {
         for (int i = 0; i < listaCarrito.size(); i++) {
             TelefonoCesta telefonoC = (TelefonoCesta) listaCarrito.get(i);
             Telefono te = telefonoC.getTelefono();
-            if (te.getCodigoTelefono() == telefono.getCodigoTelefono() && telefonoC.getTipo() == 2) {
+            if (te.getCodigoTelefono() == telefono.getCodigoTelefono() && telefonoC.getTipo() == 2 && telefonoC.getCodigoReparacion()==reparacionSeleccionada) {
                 int cantidadFinal = telefonoC.getCantidad() + cantidad;
                 telefonoC.setCantidad(cantidadFinal);
                 listaCarrito.set(i, telefonoC);
@@ -897,17 +930,17 @@ public class bComprar {
     public String arreglarResolucion(String resolucion) {
         char[] partes = resolucion.toCharArray();
         String cadena = "";
-        if (resolucion.equals("19201080")) {
+        if (resolucion.equals("1920x1080")) {
             return "1920 x 1080 (Full HD)";
         }
-        if (resolucion.equals("38402160")) {
+        if (resolucion.equals("3840x2160")) {
             return "3840 x 2160 (4K)";
         }
-        if (partes.length == 6) {
+        char conocer ='x';
+        if (partes.length == 7) {
             for (int i = 0; i < partes.length; i++) {
-                if (i == 3) {
+                if (partes[i] == conocer) {
                     cadena = cadena + " x ";
-                    cadena = cadena + partes[i];
                 } else {
                     cadena = cadena + partes[i];
                 }
@@ -917,9 +950,19 @@ public class bComprar {
         }
         if (partes.length == 8) {
             for (int i = 0; i < partes.length; i++) {
-                if (i == 4) {
+                if (partes[i] == conocer) {
                     cadena = cadena + " x ";
+                } else {
                     cadena = cadena + partes[i];
+                }
+
+            }
+            return cadena;
+        }
+        if (partes.length == 9) {
+            for (int i = 0; i < partes.length; i++) {
+                if (partes[i] == conocer) {
+                    cadena = cadena + " x ";
                 } else {
                     cadena = cadena + partes[i];
                 }
@@ -1178,7 +1221,7 @@ public class bComprar {
                             codigoT = tec2.getCodigoTecnico();
                             j = listaT.size();
                         }
-                        Tecnico tec3 = (Tecnico) listaT.get(j++);
+                        Tecnico tec3 = (Tecnico) listaT.get(j-1);
                         codigoT = tec3.getCodigoTecnico();
                     }
                 }
@@ -1221,14 +1264,38 @@ public class bComprar {
             pedido.setCodigoUsuario(usuario);
             ctrPedido.create(pedido);
             
+            
+
+        }
+        
+        Usuario usuarioActualizado = ctrUsuario.findUsuario(usuario.getCodigoUsuario());
+        subirUsuario(usuarioActualizado);
             listaCarrito=new ArrayList();
             subirCarrito(listaCarrito);
             
               mens = "No tiene ningún articulo";
+        return "correcto";
+    }
+    //Metodo para subir usuario a la sesion
+    public void subirUsuario(Usuario usuario) {
+        //Coger contexto
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
 
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+        //Coger session del contexto
+        HttpSession session = (HttpSession) ctx.getSession(false);
+
+        if (session.getAttribute("manageBeanSesion") != null) {
+            manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        } else {
+            session.setAttribute("manageBeanSesion", manageBeanSesion);
         }
 
-        return "correcto";
+        //Añadirle como propiedad el usuario que se ha logeado
+        manageBeanSesion.setUsuarioLog(usuario);
+        
+        manageBeanSesion.setLogeado(false);
     }
 
     public void refrescarCarrito(TelefonoCesta telefonoActualizar) {
@@ -1317,9 +1384,19 @@ public class bComprar {
         }
 
     }
+    
+    public void comprobarMensaje(){
+        String hola=Locale.getDefault().getLanguage();
+    }
 
     public void updateCantidad(ValueChangeEvent event) {
         cantidad = (Integer) event.getNewValue();
+    }
+    
+    public String quitarEspacios(String valor){
+        String devolver= valor.replace(" ", "");
+        String devolver2= devolver.replace(".","");
+         return devolver2;
     }
 
 }

@@ -32,6 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Pedido.findAll", query = "SELECT p FROM Pedido p")
     , @NamedQuery(name = "Pedido.findByCodigo", query = "SELECT p FROM Pedido p WHERE p.codigo = :codigo")
+    , @NamedQuery(name = "Pedido.masCompra", query = "SELECT p.codigoTelefono, COUNT(p.cantidad) FROM Pedido p WHERE p.tipo=1 GROUP BY p.codigoTelefono ")
+    , @NamedQuery(name = "Pedido.masVenta", query = "SELECT p.codigoTelefono, COUNT(p.cantidad) FROM Pedido p WHERE p.tipo=3 GROUP BY p.codigoTelefono ")
+    , @NamedQuery(name = "Pedido.masReparacion", query = "SELECT p.codigoReparacion, COUNT(p.cantidad) FROM Pedido p WHERE p.tipo=2 GROUP BY p.codigoReparacion ")
     , @NamedQuery(name = "Pedido.findByCodigoPedido", query = "SELECT p FROM Pedido p WHERE p.codigoPedido = :codigoPedido")
     , @NamedQuery(name = "Pedido.findByCodigoPedidoOrder", query = "SELECT p.codigoPedido FROM Pedido p ORDER BY p.codigoPedido DESC")
     , @NamedQuery(name = "Pedido.findByOrder", query = "SELECT p FROM Pedido p ORDER BY p.codigo DESC")

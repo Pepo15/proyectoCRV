@@ -50,6 +50,8 @@ public class bAdministradorGestionPremio {
 
     //Variable que guarda la foto del premio
     private UploadedFile filePremio;
+    private UploadedFile fileIndex;
+    
 
     //Variable que guarda el nombre del premio, para darlo de alta
     private String nombrePremio;
@@ -189,6 +191,16 @@ public class bAdministradorGestionPremio {
     public void setCodigoFotoEliminar(String codigoFotoEliminar) {
         this.codigoFotoEliminar = codigoFotoEliminar;
     }
+
+    public UploadedFile getFileIndex() {
+        return fileIndex;
+    }
+
+    public void setFileIndex(UploadedFile fileIndex) {
+        this.fileIndex = fileIndex;
+    }
+    
+    
 
     //Metodo que devuelve la lista para el select de borrar fotos, con los premios con fotos
     public ArrayList getListaPremiosConFotos() {
@@ -410,6 +422,60 @@ public class bAdministradorGestionPremio {
         }
 
     }
+    
+    //Metodo que sube la foto de un premio
+    public void subirFotoIndex() {
+        try {
+            String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+
+            //OBTENEMOS EXTENSION DEL FICHERO QUE NOS VIENE
+            String extension = "";
+            int i = fileIndex.getFileName().lastIndexOf('.');
+            if (i > 0) {
+                extension = fileIndex.getFileName().substring(i + 1);
+            }
+
+            //CREAMOS EL FILE CON LA RUTA ENTERA
+            File result = new File(path + "/../../web/imagenes/FotosIndex/" + fileIndex.getFileName());
+
+            try {
+                FileOutputStream fileOutputStream = new FileOutputStream(result);
+                byte[] buffer = new byte[BUFFER_SIZE];
+                int bulk;
+                InputStream inputStream = fileIndex.getInputstream();
+                while (true) {
+                    bulk = inputStream.read(buffer);
+                    if (bulk < 0) {
+                        break;
+                    }
+                    fileOutputStream.write(buffer, 0, bulk);
+                    fileOutputStream.flush();
+                }
+                fileOutputStream.close();
+                inputStream.close();
+
+                
+
+                //Escribo el mensaje de subida correcta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "La foto se ha subido correctamente al servidor ."));
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+                //Escribo el mensaje de subida incorrecta
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al subir la foto al servidor."));
+
+            }
+
+        } catch (Exception ex) {
+
+            //Escribo el mensaje de subida incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al subir la foto a la base de datos."));
+
+            Logger.getLogger(bAdministradorGestionPremio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     //Metodo para eliminar un premio
     public String bajaPremio() {
@@ -543,6 +609,29 @@ public class bAdministradorGestionPremio {
             //Escribo el mensaje de subida incorrecta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al borrar la foto de la base de datos y del servidor."));
         }
+        
+                  //Escribo el mensaje de subida incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Borrado correcto del servidor."));
+
+        return "correcto";
+
+    }
+    
+     //Metodo para borrar una foto
+    public String borrarFotoIndex(String name) {
+
+        //Cojo la foto
+        String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/");
+
+        //CREAMOS EL FILE CON LA RUTA ENTERA
+        File result = new File(path + "/../../web/imagenes/FotosIndex/" + name);
+
+        //Borro el fichero
+        result.delete();
+
+            //Escribo el mensaje de subida incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Borrado correcto del servidor."));
+       
 
         return "correcto";
 

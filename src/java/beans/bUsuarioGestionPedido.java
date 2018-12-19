@@ -197,9 +197,7 @@ public class bUsuarioGestionPedido {
     }
 
     public List getListaPedidos() {
-        //Para pintar la cabecera 
-        codigoPedido=0;
-        codigoPedidoAnterior=1;
+        
         return listaPedidos;
     }
 
@@ -615,9 +613,9 @@ public class bUsuarioGestionPedido {
                 table2.addCell(cellX2);
                 
                 String nombre = ped.getCodigoTelefono().getNombre();
-                if(tipo=="Reparación"){
+                if(tipo.equals("Reparación")){
                     String reparación = ped.getCodigoReparacion().getNombre();
-                    nombre.concat(" "+reparación);
+                    nombre=nombre.concat(" : "+reparación);
                 }
                 Phrase  datoPedido3 = new Phrase(nombre, fuentePedido);
                 PdfPCell cellX3 = new PdfPCell(datoPedido3);

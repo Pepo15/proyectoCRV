@@ -19,7 +19,7 @@ header  a img{
     float:left;
 }
 header #idioma{
-    width: 12%;
+    width: 15%;
     float:left;
     margin-top: 24px;
     margin-left: 65px;
@@ -42,7 +42,7 @@ header #login{
 }
 
 header #contacto{
-    width: 15%;
+    width: 12%;
     float:left;
     margin-left: 7%;
     margin-top: 1%;
@@ -185,22 +185,26 @@ header #carrito input{
     background: url(../imagenes/Fotos/home.png) no-repeat center left;
     background-size:17px 17px;
     background-color: #d1d1d1;
+    background-position-x: 5px;
 }
 
 #menuHorizontal li:nth-child(2) a:hover {
     background: url(../imagenes/Fotos/15846.png) no-repeat center left;
     background-size:17px 17px;
     background-color: #d1d1d1;
+    background-position-x: 5px;
 }
 #menuHorizontal li:nth-child(3) a:hover {
     background: url(../imagenes/Fotos/36384.png) no-repeat center left;
     background-size:17px 17px;
     background-color: #d1d1d1;
+    background-position-x: 5px;
 }
 #menuHorizontal li:nth-child(4) a:hover {
     background: url(../imagenes/Fotos/81960.png) no-repeat center left;
     background-size:17px 17px;
     background-color: #d1d1d1;
+    background-position-x: 5px;
 }
 
 
@@ -208,18 +212,22 @@ header #carrito input{
     background: url(../imagenes/Fotos/home.png) no-repeat center left;
     background-size:17px 17px;
     margin-left: 1%;
+    background-position-x: 5px;
 }
 #menuHorizontal >ul li:nth-child(2) {
     background: url(../imagenes/Fotos/15846.png) no-repeat center left;
     background-size:17px 17px;
+    background-position-x: 5px;
 }
 #menuHorizontal >ul li:nth-child(3) {
     background: url(../imagenes/Fotos/36384.png) no-repeat center left;
     background-size:17px 17px;
+    background-position-x: 5px;
 }
 #menuHorizontal >ul li:nth-child(4) {
     background: url(../imagenes/Fotos/81960.png) no-repeat center left;
     background-size:17px 17px;
+    background-position-x: 5px;
 }
 
 #menuHorizontal{

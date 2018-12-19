@@ -59,6 +59,8 @@ public class bTecnico {
     private ArrayList listaEstados = null;
     
      private boolean booleanCabecera = false;
+     
+     private String rotura;
 
     public bTecnico() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
@@ -199,6 +201,16 @@ public class bTecnico {
     public void setBooleanCabecera(boolean booleanCabecera) {
         this.booleanCabecera = booleanCabecera;
     }
+
+    public String getRotura() {
+        return rotura;
+    }
+
+    public void setRotura(String rotura) {
+        this.rotura = rotura;
+    }
+    
+    
     
     
 
@@ -360,6 +372,17 @@ public class bTecnico {
     public String cambiarEstado(int codigo) {
         codigoPedidoModificar = codigo;
         estado = true;
+
+        return "volver";
+    }
+    
+     //Metodo para activar la ventana modal de cambiar estado
+    public String masDatos(String verRotura) {
+        rotura = verRotura;
+        
+        if("".equals(rotura)){
+            rotura="No hay más datos.";
+        }
 
         return "volver";
     }

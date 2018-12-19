@@ -23,6 +23,10 @@ margin-bottom: 10%;
 
     float: left;
 }
+#estadisticas div{
+    padding-right: 1%;
+    padding-left: 1%;
+}
 #contenedorAcciones form div p{
     text-align: center;
     font-size: 20px;

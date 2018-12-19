@@ -80,14 +80,14 @@
                         },
 
                         messages: {
-                            'altaUsuario:nombre': {required: "El nombre es obligatorio.",minlength: "Debe tener un mínimo de 3 caracteres."},
-                            'altaUsuario:apellido1': {required: "El primer apellido es obligatorio.",minlength: "Debe tener un  mínimo de 3 caracteres."},
-                            'altaUsuario:apellido2': {required: "El segundo apellido es obligatorio.",minlength: "Debe tener un mínimo de 3 caracteres."},
+                            'altaUsuario:nombre': {required: "El nombre es obligatorio.",minlength: "Debe tener un m\u00EDnimo de 3 caracteres."},
+                            'altaUsuario:apellido1': {required: "El primer apellido es obligatorio.",minlength: "Debe tener un  m\u00EDnimo de 3 caracteres."},
+                            'altaUsuario:apellido2': {required: "El segundo apellido es obligatorio.",minlength: "Debe tener un m\u00EDnimo de 3 caracteres."},
                             
-                            'altaUsuario:nick': {required: "El nick es obligatorio.",minlength: "Debe tener un mínimo de 3 caracteres.",existNick: "Lo sentimos, ya existe ese nick."},
+                            'altaUsuario:nick': {required: "El nick es obligatorio.",minlength: "Debe tener un m\u00EDnimo de 3 caracteres.",existNick: "Lo sentimos, ya existe ese nick."},
                             'altaUsuario:correo': {required: "El correo es obligatorio.", email:"Debe tener el formato xxx@xx.xx",existEmail:"Lo sentimos, ya existe ese email."},
-                            'altaUsuario:password': {required: "La contraseña es obligatoria.",minlength: "Debe tener un mínimo de 5 caracteres."},
-                            'altaUsuario:passwordR': {required: "Repetir la contraseña es obligatorio.",minlength: "Debe tener un mínimo de 5 caracteres.",passwordMatch: "Las contraseñas no coinciden."}
+                            'altaUsuario:password': {required: "La contrase\u00F1a es obligatoria.",minlength: "Debe tener un m\u00EDnimo de 5 caracteres."},
+                            'altaUsuario:passwordR': {required: "Repetir la contrase\u00F1a es obligatorio.",minlength: "Debe tener un m\u00EDnimo de 5 caracteres.",passwordMatch: "Las contrase\u00F1as no coinciden."}
                         }
 
                     });

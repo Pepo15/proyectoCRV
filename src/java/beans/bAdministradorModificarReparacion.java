@@ -353,6 +353,7 @@ public class bAdministradorModificarReparacion {
             //Escribo el mensaje de alta correcta
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta la reparacion correctamente."));
 
+            nombre="";
             return "correcto";
 
         } else {

@@ -31,17 +31,17 @@ and open the template in the editor.
         </h:head>
         <h:body> 
             <h:panelGroup id="actualizarCabecera">
+                <f:loadBundle basename="property.mensajes" var="mens"/>
                 <header>
                     <div id="logo">
-                        <a href="index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
+                        <a href="/CRV/faces/index.xhtml"><img src="imagenes/Fotos/LogoIndex.png" alt="Inicio"></img></a>
                     </div>
 
                     <div id="idioma">
-                        <p>Idioma</p>
+                        <p>#{mens.idioma}</p>
                         <h:form>
-
-                            <h:commandButton image="imagenes/Fotos/england.png"/>
-                            <h:commandButton image="imagenes/Fotos/spain.png"/>
+                            <h:commandButton image="imagenes/Fotos/england.png" actionListener="#{bLogin.idiomaEn}"/>
+                            <h:commandButton image="imagenes/Fotos/spain.png" actionListener="#{bLogin.idiomaEs}"/>
                         </h:form>
                     </div>
 
@@ -49,8 +49,8 @@ and open the template in the editor.
                         <h:panelGroup id="actualizarRegistrarse" rendered="#{bLogin.comprobarRender2(manageBeanSesion.logeado,manageBeanSesion.logeadoOtro)}">
 
                             <div id="registroInicio">
-                                <a href="/CRV/faces/registro.xhtml">Registrarse</a> 
-                                <p> &#160;   || <span id="inicioSesion">Iniciar sesión</span></p>
+                                <a href="/CRV/faces/registro.xhtml">#{mens.registro}</a> 
+                                <p> &#160;   || <span id="inicioSesion">#{mens.inicioSesion}</span></p>
                             </div>
                         </h:panelGroup>    
                     </div>            
@@ -75,10 +75,10 @@ and open the template in the editor.
                     <ul>
                         <h:panelGroup id="actualizarMenuE" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeadoOtro)}">
 
-                            <li><a href="index.xhtml" title="Home">Home</a></li>
-                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a></li>
-                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a></li>
-                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">Vender</a></li>
+                            <li><a href="/CRV/faces/index.xhtml" title="Inicio">#{mens.inicio}</a></li>
+                            <li><a href="/CRV/faces/comprar.xhtml" title="Comprar">#{mens.comprar}</a></li>
+                            <li><a href="/CRV/faces/reparar.xhtml" title="Reparar">#{mens.reparar}</a></li>
+                            <li><a href="/CRV/faces/vender.xhtml" title="Vender">#{mens.vender}</a></li>
                         </h:panelGroup>
                     </ul>
 
@@ -86,20 +86,20 @@ and open the template in the editor.
                         <div id="contenedorDatosLogeado">
 
                             <div id="nombreUsuario">           
-                                <p>Bienvenido, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
+                                <p>#{mens.mensajeBienvenido}, <h:outputText value="${manageBeanSesion.usuarioLog.nombre}"/></p>
                             </div>
 
 
                             <div id="cerrarSesion">           
                                 <p><i class="fas fa-sign-out-alt"></i>
                                     <p:commandLink id="ajaxCerrarSesion" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
-                                        <h:outputText value="Cerrar Sesión" />
+                                        <h:outputText value="#{mens.cerrarSesion}" />
                                     </p:commandLink></p>
                             </div>
 
                             <div id="accesoPerfil">           
                                 <p>
-                                    <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Usuario">Mi perfil</a></p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/usuario.xhtml" title="Perfil">#{mens.perfil}</a></p>
                             </div>
                         </div> 
                     </h:panelGroup>
@@ -108,20 +108,20 @@ and open the template in the editor.
                         <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
 
                             <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
-                                <p>Bienvenido, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
+                                <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
 
                             <div id="cerrarSesion">           
                                 <p><i class="fas fa-sign-out-alt"></i>
                                     <p:commandLink id="ajaxCerrarSesion2" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
-                                        <h:outputText value="Cerrar Sesión" />
+                                        <h:outputText value="#{mens.cerrarSesion}" />
                                     </p:commandLink></p>
                             </div>
 
                             <div id="accesoPerfil">           
                                 <p>
-                                    <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">Mi perfil</a></p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/administrador.xhtml" title="Administrador">#{mens.perfil}</a></p>
                             </div>
                         </div> 
                     </h:panelGroup>
@@ -129,20 +129,20 @@ and open the template in the editor.
                         <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
 
                             <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
-                                <p>Bienvenido, <h:outputText value="Técnico: #{manageBeanSesion.tecnicoLog.nick}"/></p>
+                                <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                             </div>
 
 
                             <div id="cerrarSesion">           
                                 <p><i class="fas fa-sign-out-alt"></i>
                                     <p:commandLink id="ajaxCerrarSesion3" update="actualizarCabecera" action="#{manageBeanSesion.logout('/CRV/faces/index.xhtml')}" >
-                                        <h:outputText value="Cerrar Sesión" />
+                                        <h:outputText value="#{mens.cerrarSesion}" />
                                     </p:commandLink></p>
                             </div>
 
                             <div id="accesoPerfil">           
                                 <p>
-                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">Mi perfil</a></p>
+                                    <i class="fas fa-user"></i><a href="/CRV/faces/tecnico.xhtml" title="Tecnico">#{mens.perfil}</a></p>
                             </div>
                         </div> 
                     </h:panelGroup>
@@ -154,16 +154,16 @@ and open the template in the editor.
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>
                     <h:form id="formularioInicio">
                         <div id="logeo">
-                            <p><h:outputText value="Nick: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
-                            <p><h:outputText value="Contraseña: "/></p> <h:inputSecret value="#{bLogin.password}"/>
-                            <p id="olvC"><h:outputText value="¿Has olvidado la contraseña?"/></p>
-                            <p:commandButton value="Entrar" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <p><h:outputText value="#{mens.nick}: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
+                            <p><h:outputText value="#{mens.contra}: "/></p> <h:inputSecret value="#{bLogin.password}"/>
+                            <p id="olvC"><h:outputText value="#{mens.olvidar}"/></p>
+                            <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
                             <br></br><br></br>
                             <h:outputText value="#{bLogin.mens}"/>
                         </div>
                         <div id="olvidarPassword">
-                            <p><h:outputText value="Introduce email: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
-                            <p:commandButton value="Entrar" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
+                            <p><h:outputText value="#{mens.email}: "/> </p><h:inputText value="#{bLogin.email}"/><br></br><br></br>
+                            <p:commandButton value="#{mens.enviar}" action="#{bLogin.olvidarPassword()}" update="mensajeCorreo"/>
                             <br></br><br></br>
                             <p><h:outputText id="mensajeCorreo" value="#{bLogin.mens2}"/></p>
                         </div>
@@ -192,60 +192,61 @@ and open the template in the editor.
             #{bComprar.conocerTelefono()}
 
             <div id="contenedorGeneral"> 
-                <div id="contenedorImagenes">
-                    <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+                <div id="contenedorGeneral2">
+                    <div id="contenedorImagenes">
+                        <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
 
-                        <h:panelGroup rendered="#{estado.index eq 0}">
-                            <div class="show" href="imagenes/FotosTelefono/#{foto.nombre}">
-                                <img src="imagenes/FotosTelefono/#{foto.nombre}" id="show-img"></img>
+                            <h:panelGroup rendered="#{estado.index eq 0}">
+                                <div class="show" href="imagenes/FotosTelefono/#{foto.nombre}">
+                                    <img src="imagenes/FotosTelefono/#{foto.nombre}" id="show-img"></img>
+                                </div>
+                            </h:panelGroup>
+                        </ui:repeat> 
+
+                        <div class="small-img">
+                            <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-left" alt="" id="prev-img"></img>
+                            <div class="small-container">
+                                <div id="small-img-roll">
+
+                                    <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
+
+                                        <img src="imagenes/FotosTelefono/#{foto.nombre}" class="show-small-img" alt=""></img>
+                                    </ui:repeat>    
+
+                                </div>
                             </div>
-                        </h:panelGroup>
-                    </ui:repeat> 
-
-                    <div class="small-img">
-                        <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-left" alt="" id="prev-img"></img>
-                        <div class="small-container">
-                            <div id="small-img-roll">
-
-                                <ui:repeat  var="foto" varStatus="estado"  value="#{bComprar.telefonoVer.fotoList}">
-
-                                    <img src="imagenes/FotosTelefono/#{foto.nombre}" class="show-small-img" alt=""></img>
-                                </ui:repeat>    
-
-                            </div>
+                            <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-right" alt="" id="next-img"></img>
                         </div>
-                        <img src="imagenes/Fotos/online_icon_right@2x.png" class="icon-right" alt="" id="next-img"></img>
+                        <script src="js/zoom-image.js"></script>
+                        <script src="js/main.js"></script>
+
+
                     </div>
-                    <script src="js/zoom-image.js"></script>
-                    <script src="js/main.js"></script>
 
+                    <div id="contenedorCompraTelefono">
+                        <h:form prependId="false">
 
-                </div>
-
-                <div id="contenedorCompraTelefono">
-                    <h:form prependId="false">
-
-                        <h1> <h:outputText value="#{bComprar.telefonoVer.nombre}"/></h1>
-                        <h2> <h:outputText value="#{bComprar.telefonoVer.precio} €"/></h2>
-                        <p>  <h:outputText value="Marca: " /></p>
-                        <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
-                        <p>  <h:outputText value="Envio: " /></p>
-                        <p>  <h:outputText value="Gratis a cualquier parte de España. " /></p>
-                        <p><h:outputText value="Cantidad:"/></p>
-                        <p>  <p:spinner id="basic" value="#{bComprar.cantidad}" min="1"/></p>
-                        <p>  <h:outputText value="Ocasión: " /></p>
-                        <p>  <h:outputText value="Compralo ahora y recibelo en tu casa entre 3-5 días. " /></p>
-                        <h:panelGroup id="actualizarComprar">
-                            <h:panelGroup id="actualizarBotonComprar" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">     
-                                <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
+                            <h1> <h:outputText value="#{bComprar.telefonoVer.nombre}"/></h1>
+                            <h2> <h:outputText value="#{bComprar.telefonoVer.precio} €"/></h2>
+                            <p>  <h:outputText value="Marca: " /></p>
+                            <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
+                            <p>  <h:outputText value="Envio: " /></p>
+                            <p>  <h:outputText value="Gratis a cualquier parte de España. " /></p>
+                            <p><h:outputText value="Cantidad:"/></p>
+                            <p>  <p:spinner id="basic" value="#{bComprar.cantidad}" min="1"/></p>
+                            <p>  <h:outputText value="Ocasión: " /></p>
+                            <p>  <h:outputText value="Compralo ahora y recibelo en tu casa entre 3-5 días. " /></p>
+                            <h:panelGroup id="actualizarComprar">
+                                <h:panelGroup id="actualizarBotonComprar" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">     
+                                    <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />
+                                </h:panelGroup>
+                                <h:panelGroup id="actualizarBotonCompra2" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">     
+                                    <p>Para comprar debe <a href="registro.xhtml" class="render">Registrarse</a> o <span id="inicioSesion2" class="render">Iniciar sesión</span> </p>
+                                </h:panelGroup>
                             </h:panelGroup>
-                            <h:panelGroup id="actualizarBotonCompra2" rendered="#{bLogin.comprobarRender(manageBeanSesion.logeado)}">     
-                                <p>Para comprar debe <a href="registro.xhtml" class="render">Registrarse</a> o <span id="inicioSesion2" class="render">Iniciar sesión</span> </p>
-                            </h:panelGroup>
-                        </h:panelGroup>
-                    </h:form>     
+                        </h:form>     
+                    </div>
                 </div>
-
                 <div id="contenedorDatosTelefono">
                     <h1>Especificaciones</h1>
                     <h:panelGroup id="datosTecnicos" >
@@ -258,27 +259,27 @@ and open the template in the editor.
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Procesador: " /></p>
                                 <p><h:outputText value="#{caracteristica.procesador}" /></p>
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Almacenamiento:" /></p>
-                                <p><h:outputText value="#{caracteristica.almacenamiento}" /></p>
-                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Ram:" /></p>
-                                <p><h:outputText value="#{caracteristica.ram}" /></p>
+                                <p><h:outputText value="#{caracteristica.almacenamiento} GB" /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Ram: " /></p>
+                                <p><h:outputText value="#{caracteristica.ram} GB" /></p>
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img><h:outputText value="Bateria: " /></p>
-                                <p> <h:outputText value="#{caracteristica.bateria}" /></p>
+                                <p> <h:outputText value="#{caracteristica.bateria} mAh" /></p>
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Color: " /></p>
                                 <p>  <h:outputText value="#{caracteristica.color}" /></p>
                             </div>
                             <div id="pantalla"> 
                                 <h2>Pantalla</h2>
-                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Pulgadas" /></p>
-                                <p>  <h:outputText value="#{caracteristica.pulgadas}" /></p>
-                                <p> <img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Resolucion " /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Pulgadas: " /></p>
+                                <p>  <h:outputText value="#{caracteristica.pulgadas} ''" /></p>
+                                <p> <img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Resolucion: " /></p>
                                 <p>  <h:outputText value="#{bComprar.arreglarResolucion(caracteristica.resolucion)}" /></p>
                             </div>
                             <div id="camara">
                                 <h2>Cámara</h2>
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara trasera: " /></p>
-                                <p>  <h:outputText value="#{caracteristica.camaraTrasera}" /></p>
+                                <p>  <h:outputText value="#{caracteristica.camaraTrasera} MP" /></p>
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="Camara delantera: " /></p>
-                                <p>  <h:outputText value="#{caracteristica.camaraDelantera}" /></p>
+                                <p>  <h:outputText value="#{caracteristica.camaraDelantera} MP" /></p>
                             </div>
                             <div id="funciones">
                                 <h2>Funciones</h2>
@@ -294,9 +295,9 @@ and open the template in the editor.
                                 <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.bluetooth)}" /></p>
                                 <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="NFC: " /></p>
                                 <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.nfc)}" /></p>
-                                <p> <img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="3G " /></p>
+                                <p> <img src="imagenes/Fotos/check.png" class="check"></img> <h:outputText value="3G: " /></p>
                                 <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g)}" /></p>
-                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="4G " /></p>
+                                <p><img src="imagenes/Fotos/check.png" class="check"></img>  <h:outputText value="4G: " /></p>
                                 <p>  <h:outputText value="#{bComprar.arreglarBoolean(caracteristica.g1)}" /></p>
                             </div>
                         </ui:repeat>
@@ -304,6 +305,31 @@ and open the template in the editor.
                 </div>
 
             </div>
+            <footer>
+                <div id="infoFooter">
+                    <p>#{mens.tPie}</p>
+                </div>
+
+                <div id="imagenesFooter">
+                    <div id="instagram">
+                        <a href="https://www.instagram.com/?hl=es" target="_blank"><img src="imagenes/Fotos/instagram.png" alt="Instagram"></img></a>
+                    </div>
+                    <div id="twitter">
+                        <a href="https://twitter.com/?lang=es" target="_blank"><img src="imagenes/Fotos/twiiter.png" alt="Twitter"></img></a>
+                    </div>
+                    <div id="facebook">
+                        <a href="https://es-es.facebook.com/" target="_blank"><img src="imagenes/Fotos/facebook.png" alt="Facebook"></img></a>
+                    </div>
+                    <div id="gmail">
+                        <a href="https://www.google.com/gmail/" target="_blank"><img src="imagenes/Fotos/gmail.png" alt="Gmail"></img></a>
+                    </div>
+                </div>
+
+                <div id="copyright">
+                    <p>#{mens.iPie}</p>
+                </div>
+
+            </footer>
         </h:body>
     </f:view>    
 </html>
