@@ -25,6 +25,7 @@ and open the template in the editor.
 
             <script  src="js/usuarioGestionPedidos.js"></script>
             <link rel="stylesheet" href="css/usuarioGestionPedidos.css"></link>
+            <link rel="stylesheet" href="css/index2.css"></link>
 
         </h:head>
         <h:body>
@@ -103,9 +104,9 @@ and open the template in the editor.
                     </h:panelGroup>
 
                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -124,9 +125,9 @@ and open the template in the editor.
                         </div> 
                     </h:panelGroup>
                     <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                             </div>
 
@@ -187,7 +188,6 @@ and open the template in the editor.
             <div  id="tituloPagina">
                 <h1>Mis Pedidos</h1>
             </div>
-
             <!--Pedidos-->
             <div id="contenedorGeneral">
                 <h:panelGroup id="recargaPedidos">
@@ -239,14 +239,15 @@ and open the template in the editor.
                                         </div>
 
                                         <input type="image" src="imagenes/Fotos/mapa.png" id="#{pedido.codigoPoblacion}" class="coordenadasMapa" value="#{pedido.codigoPoblacion}"/>
-                                        <h:form>
-                                            <h:commandButton  image="imagenes/Fotos/pdf.png" class="#{pedido.codigoPedido}"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
-                                        </h:form> 
+                                                     <input type="image" src="imagenes/Fotos/pdf.png" id="#{pedido.codigoPedido}"  value="#{pedido.codigoPedido}" class="imagenPdf"/>
+
 
                                     </div>
                                 </h:panelGroup>
 
-
+                                <h:form>
+                                            <h:commandButton  style="display:none;" class="#{pedido.codigoPedido}"  actionListener="#{bUsuarioGestionPedido.generarPdf(pedido.codigoPedido)}"/>
+                                </h:form> 
 
                             </div>
                             #{bUsuarioGestionPedido.setCodigoPedidoAnterior(pedido.codigoPedido)}
@@ -254,7 +255,10 @@ and open the template in the editor.
                     </div>
                 </h:panelGroup>
             </div>
-
+            
+            <h:panelGroup id="noHayP" rendered="#{bUsuarioGestionPedido.noExisteP}">
+                        <h1 class="noHay" style="margin-bottom:15%;margin-left:15%;"> No hay pedidos</h1>
+                    </h:panelGroup>
             <div id="modalMapa" class="modal">
                 <div id="mP" class="centrar">
                     <span class="close"> <img src="imagenes/Fotos/cerrar.png" alt="Cerrar"></img></span>

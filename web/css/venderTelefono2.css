@@ -1,5 +1,5 @@
 @media only screen 
-	and (min-device-width:1210px){
+	and (max-device-width:1210px){
 body{
     background-color: #e1e1e1;
     margin:0;
@@ -21,7 +21,7 @@ body{
     font-weight: bold;
 
 
-    width: 20%;
+    width: 30%;
 
     float: left;
     margin-bottom: 1%;
@@ -30,9 +30,9 @@ body{
 #contenedorCompraTelefono form p:nth-child(2n){
     font-size: 18px;
     margin-bottom: 1%;
-    margin-top: 3.9%;
+    margin-top: 5.9%;
 
-    width: 80%;
+    width: 70%;
 
     float: left;
 
@@ -44,7 +44,7 @@ body{
     font-weight: bold !important;
 
 
-    width: 20% !important;
+    width: 30% !important;
 
     float: left !important;
     margin-bottom: 1% !important;
@@ -55,11 +55,15 @@ body{
     margin-bottom: 1% !important;
     margin-top: 3.9% !important;
 
-    width: 80% !important;
+    width: 70% !important;
 
     float: left !important;
     font-weight: normal !important;
     clear: none !important;
+
+}
+#cantidad{
+    margin-top: 4.5%;
 
 }
 #contenedorInformacion{
@@ -73,56 +77,6 @@ body{
     overflow: hidden;
     height: 1%;
     margin-bottom: 2%;
-}
-#contenedorInformacion h1{
-    border-bottom: 1px solid black;
-    padding: 1%;
-    margin-top: 0;
-}
-#datosInformativos div{
-    margin-left: 2%;
-}
-
-#datosInformativos li{
-    margin-right: 3%;
-
-    margin-bottom: 10px;
-}
-#datosInformativos p{
-    margin-right: 5%;
-}
-#cantidad{
-    margin-top: 4.5% !important;
-}
-.ui-inputfield{
-    padding: 3px;
-    padding-right: 20px;
-    width: 60px;
-}
-
-
-#contenedorArriba{
-    width: 90%;
-
-    margin: 0 auto;
-    border:1px solid #090909;
-    background: white;
-    overflow: hidden;
-    clear: both;
-    height: 1%;
-}
-
-#contenedorFoto{
-    width: 40%;
-float: left;
-margin-top: 5%;
-}
-#contenedorFoto img{
-    width: 100%;
-}
-
-#rotura{
-    margin-top: 3.5%;
 }
  #contenedorCompraTelefono form input[type="submit"]{
                        background: #ed2727;
@@ -139,19 +93,56 @@ margin-top: 5%;
    color: white;
    cursor:pointer;
                 }
-#text {
-    width: 100% !important;
-
-    font-size: 14px !important;
-
-    color: grey;
-}    
-#text + p{
-    margin-top: 0 !important;
+#datosInformativos div{
+    margin-left: 2%;
 }
-#textArea{
+#contenedorInformacion h1{
+    border-bottom: 1px solid black;
+    padding: 1%;
+}
+.ui-inputfield{
+    padding: 1px;
+    padding-right: 20px;
+    width: 60px;
+}
+
+
+#contenedorArriba{
+    width: 90%;
+
+    margin: 0 auto;
+
+    background: white;
+    overflow: hidden;
+    clear: both;
+    height: 1%;
+    border:1px solid #090909;
+}
+
+#contenedorFoto{
+    width: 40%;
+    float:left;
+    margin-top: 5%;
+}
+#contenedorFoto img{
     width: 100%;
 }
+
+#rotura{
+    margin-top: 3.5%;
+}
+
+#contenedorCompraTelefono form input[type="submit"]{
+    margin-top: 7%;
+
+    float: left;
+
+    clear: both;
+}
+#estado{
+    padding-top: 2.6%;
+}
+
 #actualizarBotonCompra2 p{
     font-size: 16px !important;
     font-weight: normal !important;
@@ -159,5 +150,4 @@ margin-top: 5%;
     float: left !important;
     margin-bottom: 1% !important;
     clear: both !important;
-}
-        }
+}}

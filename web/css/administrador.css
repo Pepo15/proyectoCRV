@@ -5,9 +5,17 @@
                     font-family: times new roman !important;
                 }
                 #contenedorAcciones form div{
-    border: 1px solid black;
-    background-color: white;
     cursor: pointer;
+}
+#contenedorAcciones form div:hover{
+    cursor: pointer;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px #888888;
+    padding: 4%;
+}
+#contenedorAcciones form div:hover p{
+    padding-bottom: 2%;
 }
 #contenedorAcciones form{
     float: left;

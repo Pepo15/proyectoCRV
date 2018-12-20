@@ -1,12 +1,12 @@
 @media only screen 
-and (min-device-width:1210px){
+and (max-device-width:1210px){
     body{
         background-color: #e1e1e1;
         margin:0;
     }
     #contenedorImagenes{
         border: 1px solid #504f4f;
-        width: 33%;
+        width: 41%;
         margin-left: 3%;
         float: left;
         background: white;
@@ -42,13 +42,13 @@ and (min-device-width:1210px){
         font-size: 20px;
         font-weight: bold;
         margin-top: 5%;
-        width: 17%;
+        width: 23%;
         float: left;
     }
     #contenedorCompraTelefono form p:nth-child(2n+1){
         font-size: 18px;
         margin-top: 5.5%;
-        width:82%
+        width: 88%;
 
     }
     #contenedorCompraTelefono form p:nth-child(9){
@@ -113,14 +113,14 @@ and (min-device-width:1210px){
         border-bottom: 1px solid grey;
     }
     #caracteristicasTecnicas{
-        width: 30%;
+        width: 40%;
         float: left;
         padding: 2%;
     }
     #caracteristicasTecnicas p:nth-child(2n) {
         float: left; 
         font-size: 16px ;
-        width: 46% ;
+        width: 50% ;
     }
 
 
@@ -129,7 +129,7 @@ and (min-device-width:1210px){
 
     #caracteristicasTecnicas p{
         padding: 2%;
-        width: 35%;
+        width: 36%;
         float: left;
     }
 
@@ -141,7 +141,7 @@ and (min-device-width:1210px){
     }
 
     #pantalla{
-        width: 20%;
+        width: 30%;
         float: left;
         padding-top: 2%;
         padding-left: 1%;
@@ -171,7 +171,7 @@ and (min-device-width:1210px){
     }
 
     #camara{
-        width: 18%;
+        width: 25%;
         float: left;
         padding-top: 2%;
         padding-left: 1%;
@@ -236,5 +236,6 @@ and (min-device-width:1210px){
         margin-top: 20px;
         margin-bottom: 20px;
 
+    }
 
-    }}
+}

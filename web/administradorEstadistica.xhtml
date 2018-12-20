@@ -19,7 +19,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
         <link rel="stylesheet" href="css/index.css"></link>
         <link rel="stylesheet" href="css/migasTitulo.css"></link>
-
+        <link rel="stylesheet" href="css/index2.css"></link>
         <link rel="stylesheet" href="css/administrador.css"></link>
 <style>
             #arriba{
@@ -125,9 +125,9 @@ and open the template in the editor.
                 </h:panelGroup>
 
                 <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                         </div>
 
@@ -146,9 +146,9 @@ and open the template in the editor.
                     </div> 
                 </h:panelGroup>
                 <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                         </div>
 

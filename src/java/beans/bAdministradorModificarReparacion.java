@@ -370,34 +370,28 @@ public class bAdministradorModificarReparacion {
         listaReparaciones = new ArrayList();
         if (codigoTelefono != null) {
             Telefono telefono = ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono));
-            List lista = new ArrayList();
-            List lista2 = new ArrayList();
-            lista = ctrReparacionesTelefono.findReparacionByTelefono(telefono);
-            for (int j = 0; j < lista.size(); j++) {
-                Reparacionestelefono reparaTele = (Reparacionestelefono) lista.get(j);
-
-                lista2.add(reparaTele.getCodigoReparacion().getNombre());
-
-            }
-            List lista3 = new ArrayList();
-            lista3 = ctrReparaciones.findReparacionesEntities();
-            for (int j = 0; j < lista3.size(); j++) {
-                Reparaciones repa = (Reparaciones) lista3.get(j);
-                if (lista2.size() == 0) {
-                    listaReparaciones.add(new SelectItem(repa.getCodigoReparacion(), repa.getNombre()));
-
-                }
-                for (int z = 0; z < lista2.size(); z++) {
-                    if (repa.getNombre().equals(lista2.get(z))) {
-                        lista2.remove(z);
-                        z = lista2.size();
-                    } else {
-                        listaReparaciones.add(new SelectItem(repa.getCodigoReparacion(), repa.getNombre()));
-
+            List listaTieneTelefono = new ArrayList();
+            listaTieneTelefono = ctrReparacionesTelefono.findReparacionByTelefono(telefono);
+            
+            List listaTotal = new ArrayList();
+            listaTotal = ctrReparaciones.findReparacionesEntities();
+            boolean encontrado=false;
+            for (int j = 0; j < listaTotal.size(); j++) {
+                Reparaciones repa = (Reparaciones) listaTotal.get(j);
+                for (int z = 0; z < listaTieneTelefono.size(); z++) {
+                    Reparacionestelefono repa2 = (Reparacionestelefono) listaTieneTelefono.get(z);
+                if (repa.getNombre().equals(repa2.getCodigoReparacion().getNombre())) {
+                    encontrado=true;
+                    z= listaTieneTelefono.size();
                     }
-
+                else{
+                    encontrado=false;
                 }
-
+                }
+                if(!encontrado){
+                 listaReparaciones.add(new SelectItem(repa.getCodigoReparacion(), repa.getNombre()));
+                 encontrado=false;
+                }
             }
         }
     }
@@ -411,7 +405,19 @@ public class bAdministradorModificarReparacion {
 
             reparacionTelefono.setCodigoTelefono(ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono)));
             reparacionTelefono.setCodigoReparacion(ctrReparaciones.findReparaciones(Integer.parseInt(codigoReparacion)));
-
+            List reparacion=(List) ctrReparacionesTelefono.findReparacionByTelefono(ctrTelefono.findTelefono(Integer.parseInt(codigoTelefono)));
+            
+            boolean existe=false;
+            
+            for (int i = 0; i < reparacion.size(); i++) {
+                Reparacionestelefono re= (Reparacionestelefono) reparacion.get(i);
+                if(re.getCodigoReparacion().getCodigoReparacion()==Integer.parseInt(codigoReparacion)){
+                    existe=true;
+                }
+            }
+            if(!existe){
+                
+            
             ctrReparacionesTelefono.create(reparacionTelefono);
 
             //Reinicio las listas de la tablas
@@ -430,13 +436,19 @@ public class bAdministradorModificarReparacion {
             precio = "";
 
             //Escribo el mensaje de alta correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta la reparacion del telefono correctamente."));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "Se ha dado de alta la reparación del teléfono correctamente."));
+            
+            return "correcto";
+            }
+            else{
+            //Escribo el mensaje de alta correcta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "Ya existe esa reparación para ese teléfono con ese nombre."));
 
             return "correcto";
-
+            }
         } else {
             //Escribo el mensaje de alta correcta
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "No ha introducido una reparacion"));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal!", "No ha introducido una reparación."));
 
             return "correcto";
         }

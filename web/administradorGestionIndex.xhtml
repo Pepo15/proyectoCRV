@@ -23,6 +23,7 @@ and open the template in the editor.
         <script src="js/jquery.fancybox.min.js"></script>
         <link rel="stylesheet" href="css/jquery.fancybox.min.css"></link>
         <link rel="stylesheet" href="css/administradorGestionPremio.css"></link>
+        <link rel="stylesheet" href="css/index2.css"></link>
         <style>
             #img img{
                 width: 20%;
@@ -135,9 +136,9 @@ and open the template in the editor.
                 </h:panelGroup>
 
                 <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                         </div>
 
@@ -156,9 +157,9 @@ and open the template in the editor.
                     </div> 
                 </h:panelGroup>
                 <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                         </div>
 
@@ -209,7 +210,7 @@ and open the template in the editor.
                 <ul>
                     <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
                     <li><em></em><a href="/CRV/faces/administrador.xhtml" title="Perfil">Perfil</a><i></i></li>
-                    <li><em></em><a href="/CRV/faces/administradorGestionPremio.xhtml" title="Gestión premio">Gestión premio</a><i></i></li>
+                    <li><em></em><a href="/CRV/faces/administradorGestionPremio.xhtml" title="Gestión index">Gestión index</a><i></i></li>
                 </ul>
             </nav> 
         </div>
@@ -231,7 +232,7 @@ and open the template in the editor.
                 </ui:repeat>
             </div>
             <div id="izquierdaAlta">
-                <h2> Subir Foto Premio </h2>
+                <h2> Subir Foto </h2>
                 <h:form id="subirFotoIndex" enctype="multipart/form-data">
                     <h:outputText value="Seleccione una foto: "/>
                     <p:fileUpload value="#{bAdministradorGestionPremio.fileIndex}" mode="simple" skinSimple="true"></p:fileUpload><br></br>

@@ -19,7 +19,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
         <link rel="stylesheet" href="css/index.css"></link>
         <link rel="stylesheet" href="css/migasTitulo.css"></link>
-
+        <link rel="stylesheet" href="css/index2.css"></link>
         <script src="js/jquery.fancybox.min.js"></script>
         <link rel="stylesheet" href="css/jquery.fancybox.min.css"></link>
 
@@ -103,9 +103,9 @@ and open the template in the editor.
                 </h:panelGroup>
 
                 <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                         </div>
 
@@ -124,9 +124,9 @@ and open the template in the editor.
                     </div> 
                 </h:panelGroup>
                 <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                         </div>
 
@@ -270,41 +270,41 @@ and open the template in the editor.
 
                         <ui:repeat var="caracteristica" value="#{bAdministradorGestionTelefono.miTelefono.caracteristicastelefonoList}">
 
-                            <h:outputText value="Sistema Operativo: " />
+                            <h:outputText value="Sistema Operativo:  " />
                             <h:outputText value="#{caracteristica.so}" /><br></br>
-                            <h:outputText value="Ram:" />
+                            <h:outputText value="Ram:  " />
                             <h:outputText value="#{caracteristica.ram}" /><br></br>
-                            <h:outputText value="Pulgadas" />
+                            <h:outputText value="Pulgadas:  " />
                             <h:outputText value="#{caracteristica.pulgadas}" /><br></br>
-                            <h:outputText value="Almacenamiento:" />
+                            <h:outputText value="Almacenamiento:  " />
                             <h:outputText value="#{caracteristica.almacenamiento}" /><br></br>
-                            <h:outputText value="Camara trasera: " />
+                            <h:outputText value="Cámara trasera:  " />
                             <h:outputText value="#{caracteristica.camaraTrasera}" /><br></br>
-                            <h:outputText value="Camara delantera: " />
+                            <h:outputText value="Cámara delantera:  " />
                             <h:outputText value="#{caracteristica.camaraDelantera}" /><br></br>
-                            <h:outputText value="Bateria: " />
+                            <h:outputText value="Batería:  " />
                             <h:outputText value="#{caracteristica.bateria}" /><br></br>
-                            <h:outputText value="Procesador: " />
+                            <h:outputText value="Procesador:  " />
                             <h:outputText value="#{caracteristica.procesador}" /><br></br>
-                            <h:outputText value="Wifi: " />
+                            <h:outputText value="Wifi:  " />
                             <h:outputText value="#{caracteristica.wifi}" /><br></br>
-                            <h:outputText value="Resolucion " />
+                            <h:outputText value="Resolución:  " />
                             <h:outputText value="#{caracteristica.resolucion}" /><br></br>
-                            <h:outputText value="Color: " />
+                            <h:outputText value="Color:  " />
                             <h:outputText value="#{caracteristica.color}" /><br></br>
-                            <h:outputText value="Detector de huellas: " />
+                            <h:outputText value="Detector de huellas:  " />
                             <h:outputText value="#{caracteristica.detectorHuella}" /><br></br>
-                            <h:outputText value="Dual sim:  " />
+                            <h:outputText value="Dual sim:   " />
                             <h:outputText value="#{caracteristica.dualSim}" /><br></br>
-                            <h:outputText value="SD: " />
+                            <h:outputText value="SD:  " />
                             <h:outputText value="#{caracteristica.sd}" /><br></br>
-                            <h:outputText value="Bluetooth " />
+                            <h:outputText value="Bluetooth:  " />
                             <h:outputText value="#{caracteristica.bluetooth}" /><br></br>
-                            <h:outputText value="NFC: " />
+                            <h:outputText value="NFC:  " />
                             <h:outputText value="#{caracteristica.nfc}" /><br></br>
-                            <h:outputText value="3G " />
+                            <h:outputText value="3G:  " />
                             <h:outputText value="#{caracteristica.g}" /><br></br>
-                            <h:outputText value="4G " />
+                            <h:outputText value="4G:  " />
                             <h:outputText value="#{caracteristica.g1}" /><br></br>
                         </ui:repeat>
 
@@ -319,7 +319,7 @@ and open the template in the editor.
         <!--Añadir telefono-->
 
         <div id="contenedorAltaTelefono">
-            <h2> Dar alta telefono </h2>
+            <h2> Dar alta teléfono </h2>
             <h:form id="altaTelefono">
                 <h:outputLabel for="nombre" value="Nombre: "/> 
                 <p:inputText id="nombre" value="#{bAdministradorGestionTelefono.nombre}" required="true"/>
@@ -353,7 +353,7 @@ and open the template in the editor.
 
         <!--Añadir caracteristicas a un telefono-->
         <div id="contenedorAltaCaracteristica">
-            <h2> Dar alta caracteristicas </h2>
+            <h2> Dar alta características </h2>
             <h:form id="altaCaracteristica">
                 <h:outputLabel for="marca" value="Seleccione una marca: "/>
                 <h:selectOneMenu id="marca" value="#{bAdministradorGestionTelefono.marca}">
@@ -399,21 +399,21 @@ and open the template in the editor.
                     <p:message for="almacenamiento" />
                     <br></br><br></br>
 
-                    <h:outputLabel for="camaraTrasera" value="Camara Trasera: "/>
+                    <h:outputLabel for="camaraTrasera" value="Cámara Trasera: "/>
                     <p:inputText id="camaraTrasera" value="#{bAdministradorGestionTelefono.camaraTrasera}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 99.99">
                         <f:validateRegex pattern="^\d{1,2}(\.\d{1,2})?$" />
                     </p:inputText>
                     <p:message for="camaraTrasera" />
                     <br></br><br></br>
 
-                    <h:outputLabel for="camaraDelantera" value="Camra Delantera: "/>
+                    <h:outputLabel for="camaraDelantera" value="Cámara Delantera: "/>
                     <p:inputText id="camaraDelantera" value="#{bAdministradorGestionTelefono.camaraDelantera}" required="true" validatorMessage="Debe ser un número decimal(con punto) entre 0.00 y 99.99">
                         <f:validateRegex pattern="^\d{1,2}(\.\d{1,2})?$" />
                     </p:inputText>
                     <p:message for="camaraDelantera" />
                     <br></br><br></br>
 
-                    <h:outputLabel for="bateria" value="Bateria: "/>
+                    <h:outputLabel for="bateria" value="Batería: "/>
                     <p:inputText id="bateria" value="#{bAdministradorGestionTelefono.bateria}" required="true" validatorMessage="Debe ser un número entre 0 y 9999" >
                         <f:validateRegex pattern="^\d{1,4}$" />
                     </p:inputText>
@@ -425,11 +425,8 @@ and open the template in the editor.
                     <p:message for="procesador" />
                     <br></br><br></br>
 
-                    <h:outputLabel for="wifi" value="Wifi: "/>
-                    <h:selectBooleanCheckbox id="wifi" value="#{bAdministradorGestionTelefono.wifi}"/>
-                    <br></br><br></br>
-
-                    <h:outputLabel for="resolucion" value="Resolucion: "/>
+                    
+                    <h:outputLabel for="resolucion" value="Resolución: "/>
                     <p:inputText id="resolucion" value="#{bAdministradorGestionTelefono.resolucion}" required="true" validatorMessage="Debe ser (1-4) digitos seguido de 'x' o 'X' y (1-4) digitos. Ejemplo: 1920x1080">
                         <f:validateRegex pattern="^\d{1,4}[xX]\d{1,4}$" />
                     </p:inputText>
@@ -440,6 +437,11 @@ and open the template in the editor.
                     <p:inputText id="color" required="true" value="#{bAdministradorGestionTelefono.color}"/>
                     <p:message for="color" />
                     <br></br><br></br>
+                    <h:outputLabel for="wifi" value="Wifi: "/>
+                    <h:selectBooleanCheckbox id="wifi" value="#{bAdministradorGestionTelefono.wifi}"/>
+                    <br></br><br></br>
+
+                    
 
                     <h:outputLabel for="dectectorHuellas" value="Detector de huellas: "/>
                     <h:selectBooleanCheckbox id="dectectorHuellas" value="#{bAdministradorGestionTelefono.detectorDeHuellas}"/>
@@ -505,7 +507,7 @@ and open the template in the editor.
                             listener="#{bAdministradorGestionTelefono.consultarPerfilesDisponibles}" />
                 </h:selectOneMenu> 
 
-                <h:outputLabel for="perfil" value="Seleccione un perfil "/>
+                <h:outputLabel for="perfil" value="Seleccione un perfil: "/>
                 <h:selectOneMenu id="perfil" value="#{bAdministradorGestionTelefono.perfilFoto}">
                     <f:selectItem itemLabel="Selecione uno " itemValue="" />
                     <f:selectItems value="#{bAdministradorGestionTelefono.listaPerfiles}"/>

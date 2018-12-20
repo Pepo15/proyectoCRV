@@ -123,8 +123,8 @@
                         }
                     }
 
-                    var span = document.getElementsByClassName("close")[0];
-                    var span2 = document.getElementsByClassName("close")[1];
+                    var span = document.getElementsByClassName("close")[1];
+                    var span2 = document.getElementsByClassName("close")[2];
                     span.onclick = function () {
                         $("#modalDireccion").css("display", "none");
                     }

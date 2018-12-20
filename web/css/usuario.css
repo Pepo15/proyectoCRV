@@ -1,13 +1,21 @@
 #contenedorAcciones form div{
-    border: 1px solid black;
-    background-color: white;
     cursor: pointer;
 }
 #contenedorAcciones form{
     float: left;
 
-    margin-left: 23%;
+    margin-left: 40%;
     width: 15%;
+}
+#contenedorAcciones form div:hover{
+    cursor: pointer;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 5px 5px #888888;
+    padding: 4%;
+}
+#contenedorAcciones form div:hover p{
+    padding-bottom: 2%;
 }
 #contenedorAcciones form div img{
     width: 100%;
@@ -15,6 +23,52 @@
 
 
     float: left;
+}
+#mD button {
+    font-size: 13px !important;
+    margin-right: 1% !important;
+    background: #ed2727 !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-shadow: none !important;
+    margin-bottom: 1% !important;
+
+}
+.ui-state-default{
+    text-shadow:none !important;
+    box-shadow: none !important;
+}
+#mD button.ui-state-hover{
+   background: #ff5959 !important; 
+   color: white !important;
+   cursor:pointer !important;
+   box-shadow: none !important;
+}
+#mT button {
+    font-size: 13px !important;
+    margin-right: 1% !important;
+    background: #ed2727 !important;
+    color: white !important;
+    font-weight: bold !important;
+    text-shadow: none !important;
+    margin-bottom: 1% !important;
+
+}
+#mT button.ui-state-hover{
+   background: #ff5959 !important; 
+   color: white !important;
+   cursor:pointer !important;
+   box-shadow: none !important;
+}
+#mD{
+    padding: 2%;
+}
+#mT{
+    padding: 2%;
+}
+.labelT{
+    display: inline-block;
+width: 25%;
 }
 #contenedorAcciones form div p{
     text-align: center;
@@ -148,6 +202,7 @@ body{
     border-radius: 13px;
     background: white;
     margin-top: 2%;
+    overflow: hidden;
 }
 #modificarC input[type="submit"]{
     background: #ec3131;
@@ -176,6 +231,9 @@ body{
     width: 90%;
     margin: 0 auto;
     margin-top: 2%;
+    overflow: hidden;
+height: 1%;
+clear: both;
 }
 
 #altaDirecciones h1{ 
@@ -268,7 +326,7 @@ label{
 
     margin-right: 1%;
 
-    background: #ec3131;
+    background: #ed2727;
 
     color: white;
 
@@ -277,6 +335,16 @@ label{
     text-shadow: none;
     margin-bottom: 1%;
 }
+button.ui-state-hover{
+   background: #ff5959 !important; 
+   color: white !important;
+   cursor:pointer !important;
+   box-shadow: none !important;
+}
+button{
+    font-family: arial !important;
+}
+
 
 #modificarUsuario button{
     float: right;
@@ -286,7 +354,7 @@ label{
 
     margin-right: 1%;
 
-    background: #ec3131;
+    background:  #ed2727;
 
     color: white;
 
@@ -298,13 +366,13 @@ label{
 
 #modificarUsuarioPass button{
     float: right;
-    width: 13%;
+    width: 15%;
 
     font-size: 13px;
 
     margin-right: 1%;
 
-    background: #ec3131;
+    background: #ed2727;
 
     color: white;
 
@@ -315,6 +383,7 @@ label{
 
 }
 #altaDirecciones button{
+    margin-top: 1%;
     float: right;
     width: 13%;
 
@@ -322,13 +391,15 @@ label{
 
     margin-right: 1%;
 
-    background: #ec3131;
+    background: #ed2727;
 
     color: white;
 
     font-weight: bold;
 
     text-shadow: none;
+    
+    margin-bottom: 1%;
 }
 .close{
     cursor:pointer;  

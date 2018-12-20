@@ -26,7 +26,8 @@ and open the template in the editor.
 
             <link rel="stylesheet" href="css/main.css"></link>
             <link rel="stylesheet" href="css/comprarTelefono.css"></link>
-
+            <link rel="stylesheet" href="css/comprarTelefono2.css"></link>
+            <link rel="stylesheet" href="css/index2.css"></link>
 
         </h:head>
         <h:body> 
@@ -105,9 +106,9 @@ and open the template in the editor.
                     </h:panelGroup>
 
                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -126,9 +127,9 @@ and open the template in the editor.
                         </div> 
                     </h:panelGroup>
                     <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                             </div>
 
@@ -157,7 +158,7 @@ and open the template in the editor.
                             <p><h:outputText value="#{mens.nick}: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
                             <p><h:outputText value="#{mens.contra}: "/></p> <h:inputSecret value="#{bLogin.password}"/>
                             <p id="olvC"><h:outputText value="#{mens.olvidar}"/></p>
-                            <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera actualizarComprar"/>
                             <br></br><br></br>
                             <h:outputText value="#{bLogin.mens}"/>
                         </div>
@@ -181,7 +182,7 @@ and open the template in the editor.
                     <ul>
                         <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
                         <li><em></em><a href="/CRV/faces/comprar.xhtml" title="Comprar">Comprar</a><i></i></li>
-                        <li><em></em><a href="/CRV/faces/comprarTelefono.xhtml" title="Telefono">Telefono</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/comprarTelefono.xhtml" title="Telefono">Teléfono</a><i></i></li>
                     </ul>
                 </nav> 
             </div>
@@ -230,12 +231,12 @@ and open the template in the editor.
                             <h2> <h:outputText value="#{bComprar.telefonoVer.precio} €"/></h2>
                             <p>  <h:outputText value="Marca: " /></p>
                             <p><h:outputText value="#{bComprar.telefonoVer.marca}"/></p>
-                            <p>  <h:outputText value="Envio: " /></p>
+                            <p>  <h:outputText value="Envío: " /></p>
                             <p>  <h:outputText value="Gratis a cualquier parte de España. " /></p>
                             <p><h:outputText value="Cantidad:"/></p>
                             <p>  <p:spinner id="basic" value="#{bComprar.cantidad}" min="1"/></p>
                             <p>  <h:outputText value="Ocasión: " /></p>
-                            <p>  <h:outputText value="Compralo ahora y recibelo en tu casa entre 3-5 días. " /></p>
+                            <p>  <h:outputText value="Cómpralo ahora y recíbelo en tu casa entre 3-5 días. " /></p>
                             <h:panelGroup id="actualizarComprar">
                                 <h:panelGroup id="actualizarBotonComprar" rendered="#{!bLogin.comprobarRender(manageBeanSesion.logeado)}">     
                                     <h:commandButton value="Comprar" action="#{bComprar.comprarTelefono(bComprar.telefonoVer)}" />

@@ -940,7 +940,8 @@ public class bUsuarioGestionPersonal {
         //Lo subo a la base de datos
         ctrUsuario.create(usuario);
         
-        
+        //Añadirle como propiedad el usuario que se ha logeado
+          
         
         //Lo subo a la sesion
         subirUsuario(usuario);
@@ -1054,6 +1055,12 @@ public class bUsuarioGestionPersonal {
         HttpSession session = (HttpSession) ctx.getSession(false);
         manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
         Usuario usuarioSesion = (Usuario) manageBeanSesion.getUsuarioLog();
+        
+        if(numeroTarjeta.length()==16){
+            
+            if(String.valueOf(cvv).length()==3){
+                
+            
 
         //Creo la tarjeta con todos los datos
         String anios = String.valueOf(anio);
@@ -1090,6 +1097,20 @@ public class bUsuarioGestionPersonal {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Fallo al modificar la tarjeta"));
         }
         return "correcto";
+        }
+            else{
+                //Escribo el mensaje de modificacion incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El CVV debe tener 3 dígitos."));
+        
+        return "correcto";
+            }
+            }
+        else{
+            //Escribo el mensaje de modificacion incorrecta
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "La tarjeta debe tener 16 dígitos."));
+        
+        return "correcto";
+        }
     }
     
     //Metodo para dar de alta una tarjeta
@@ -1143,26 +1164,36 @@ public class bUsuarioGestionPersonal {
         return "correcto";
     }
 
-    //Metodo para subir usuario a la sesion
-    public void subirUsuario(Usuario usuario) {
+    //Metodo para subir usuario a la sesion, es decir como atributo de bTienda ya que será el bean de sesion
+    public  void subirUsuario(Usuario usuario)
+    {
         //Coger contexto
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
-
-        manageBeanSesion manageBeanSesion = new manageBeanSesion();
-
-        //Coger session del contexto
-        HttpSession session = (HttpSession) ctx.getSession(false);
-
-        if (session.getAttribute("manageBeanSesion") != null) {
-            manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
-        } else {
-            session.setAttribute("manageBeanSesion", manageBeanSesion);
-        }
-
-        //Añadirle como propiedad el usuario que se ha logeado
-        manageBeanSesion.setUsuarioLog(usuario);
         
-        manageBeanSesion.setLogeado(false);
+        //Crear un objeto bTienda para añadirle despues el cliente como atributo
+        manageBeanSesion manageBeanSesion=new manageBeanSesion();
+        
+            
+            //Coger session del contexto
+            HttpSession session= (HttpSession)ctx.getSession(false);
+            
+            //Compruebo si se ha creado el beanTienda en la sesion sino lo creo,
+            //se crea automaticamente cuando se pone en el .jsp bTienda.(lo que sea) es decir cuando se menciona
+            //tambien podriamos quitar esto y poner en el login.jsp en el titulo un outputText con value
+            // bTienda.nada() un metodo que no haga nada y nada mas que por ponerlo ya se crea automaticamente
+            if(session.getAttribute("manageBeanSesion")!=null){
+                manageBeanSesion=(manageBeanSesion) session.getAttribute("manageBeanSesion");
+            }else{
+                session.setAttribute("manageBeanSesion",manageBeanSesion);
+            }
+  
+            //Añadirle como propiedad el usuario que se ha logeado
+            manageBeanSesion.setUsuarioLog(usuario); 
+            
+            manageBeanSesion.setLogeado(false);
+             manageBeanSesion.setLogeadoOtro(true);
+              manageBeanSesion.setLogeadoTecnico(true);
+               manageBeanSesion.setLogeadoAdmin(true);
     }
 
     //Metodo para borrar una tarjeta

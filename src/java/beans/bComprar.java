@@ -528,6 +528,27 @@ public class bComprar {
     }
 
     public String getMens() {
+       FacesContext contexto = FacesContext.getCurrentInstance();
+        String idioma=    contexto.getViewRoot().getLocale().getLanguage();
+        
+        //Cojo el carrito de la sesion
+        ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
+        manageBeanSesion manageBeanSesion = new manageBeanSesion();
+
+        HttpSession session = (HttpSession) ctx.getSession(false);
+        manageBeanSesion = (manageBeanSesion) session.getAttribute("manageBeanSesion");
+        List listaCarrito = new ArrayList();
+        if(manageBeanSesion!=null){
+         listaCarrito = (List) manageBeanSesion.getListaCarrito();
+        }
+        
+        if(idioma.equals("en") && (listaCarrito==null || listaCarrito.isEmpty())){
+             mens = "You do not have any article";
+        }
+        if(idioma.equals("es") && (listaCarrito==null || listaCarrito.isEmpty())){
+             mens = "No tiene ningun artículo";
+        }
+        
         return mens;
     }
 
@@ -725,8 +746,13 @@ public class bComprar {
         cantidad = 1;
 
         //Escribo mensaje carrito
-        mens = "Tiene " + listaCarrito.size() + " articulos en el carrito.";
-
+        if(listaCarrito.size()==1){
+        mens = "Tiene " + listaCarrito.size() + " articulo en el carrito.";
+        }
+        else{
+         mens = "Tiene " + listaCarrito.size() + " articulos en el carrito.";
+           
+        }
         return "correcto";
     }
 
@@ -1195,7 +1221,7 @@ public class bComprar {
                Reparacionestelefono repara = ctrReparacionesTelefono.findReparacionestelefono(telefonoC.getCodigoReparacion());
 
                 pedido = new Pedido(null, codigoPedido,
-                        direccionPedido.getCodigoDireccion(),
+                        direccionPedido.getCodigoPoblacion(),
                         2, repara.getPrecio(),
                         telefonoC.getCantidad(), 2, date);
                 
@@ -1254,7 +1280,7 @@ public class bComprar {
                            precioF=(float) (Math.round(precioFinal*100.0)/100.0);
                         }
                 pedido = new Pedido(null, codigoPedido,
-                        direccionPedido.getCodigoDireccion(),
+                        direccionPedido.getCodigoPoblacion(),
                         3,precioF , telefonoC.getCantidad(), 1, date);
             }
 

@@ -381,30 +381,57 @@ public class PedidoJpaController implements Serializable {
     public List findMaximaCompra() {
         EntityManager em = getEntityManager();
         
-        TypedQuery q=em.createNamedQuery("Pedido.masCompra",Pedido.class);
-            
-         List lista= q.getResultList();
         
+         String qlString = "SELECT p.codigoTelefono, SUM(p.cantidad) FROM Pedido p WHERE p.tipo=1 GROUP BY p.codigoTelefono ORDER BY SUM(p.cantidad) DESC";
+Query q = em.createQuery(qlString);
+List lista= q.getResultList();      
         return lista;
     }
+    //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findMaximaCompra2() {
+        EntityManager em = getEntityManager();
+        
+        
+         String qlString = "SELECT SUM(p.cantidad) FROM Pedido p WHERE p.tipo=1 ORDER BY SUM(p.cantidad) DESC";
+Query q = em.createQuery(qlString);
+List lista= q.getResultList();      
+        return lista;
+    }
+    
     //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
     public List findMaximaVenta() {
         EntityManager em = getEntityManager();
         
-        TypedQuery q=em.createNamedQuery("Pedido.masVenta",Pedido.class);
-            
-         List lista= q.getResultList();
+       String qlString = "SELECT p.codigoTelefono, SUM(p.cantidad) FROM Pedido p WHERE p.tipo=3 GROUP BY p.codigoTelefono ORDER BY SUM(p.cantidad) DESC";
+Query q = em.createQuery(qlString);
+List lista= q.getResultList();   
+        return lista;
+    }
+    //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findMaximaVenta2() {
+        EntityManager em = getEntityManager();
         
+       String qlString = "SELECT SUM(p.cantidad) FROM Pedido p WHERE p.tipo=3 ORDER BY SUM(p.cantidad) DESC";
+Query q = em.createQuery(qlString);
+List lista= q.getResultList();   
         return lista;
     }
     //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
     public List findMaximaReparacion() {
         EntityManager em = getEntityManager();
         
-        TypedQuery q=em.createNamedQuery("Pedido.masReparacion",Pedido.class);
-            
-         List lista= q.getResultList();
+         String qlString = "SELECT p.codigoReparacion, SUM(p.cantidad) FROM Pedido p WHERE p.tipo=2 GROUP BY p.codigoReparacion ORDER BY SUM(p.cantidad) DESC";
+            Query q = em.createQuery(qlString);
+            List lista= q.getResultList(); 
+        return lista;
+    }
+    //Creamos el metodo que devuelve un pedido segun su codigo Ordenado
+    public List findMaximaReparacion2() {
+        EntityManager em = getEntityManager();
         
+         String qlString = "SELECT SUM(p.cantidad) FROM Pedido p WHERE p.tipo=2 ORDER BY SUM(p.cantidad) DESC";
+            Query q = em.createQuery(qlString);
+            List lista= q.getResultList(); 
         return lista;
     }
     

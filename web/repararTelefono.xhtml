@@ -22,7 +22,8 @@ and open the template in the editor.
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
             <link rel="stylesheet" href="css/index.css"></link>
             <link rel="stylesheet" href="css/migasTitulo.css"></link>
-
+<link rel="stylesheet" href="css/index2.css"></link>
+<link rel="stylesheet" href="css/repararTelefono2.css"></link>
             <link rel="stylesheet" href="css/repararTelefono.css"></link>
 
         </h:head>
@@ -102,9 +103,9 @@ and open the template in the editor.
                     </h:panelGroup>
 
                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -123,9 +124,9 @@ and open the template in the editor.
                         </div> 
                     </h:panelGroup>
                     <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                             </div>
 
@@ -154,7 +155,7 @@ and open the template in the editor.
                             <p><h:outputText value="#{mens.nick}: "/> </p><h:inputText value="#{bLogin.nick}"/><br></br><br></br>
                             <p><h:outputText value="#{mens.contra}: "/></p> <h:inputSecret value="#{bLogin.password}"/>
                             <p id="olvC"><h:outputText value="#{mens.olvidar}"/></p>
-                            <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera"/>
+                            <p:commandButton value="#{mens.entrarLogin}" action="#{bLogin.compruebaLogin()}" update="formularioInicio actualizarMenu actualizarCabecera actualizarComprar"/>
                             <br></br><br></br>
                             <h:outputText value="#{bLogin.mens}"/>
                         </div>
@@ -178,7 +179,7 @@ and open the template in the editor.
                     <ul>
                         <li><a href="/CRV/faces/index.xhtml" title="Inicio">Inicio</a><i></i></li>
                         <li><em></em><a href="/CRV/faces/reparar.xhtml" title="Reparar">Reparar</a><i></i></li>
-                        <li><em></em><a href="/CRV/faces/repararTelefono.xhtml" title="Telefono">Telefono</a><i></i></li>
+                        <li><em></em><a href="/CRV/faces/repararTelefono.xhtml" title="Telefono">Teléfono</a><i></i></li>
                     </ul>
                 </nav> 
             </div>
@@ -212,7 +213,7 @@ and open the template in the editor.
                                             listener="#{bComprar.consultarPrecioReparacion}" />
                                 </p:selectOneMenu>
                                 <span></span>  <p:message for="rotura" />
-                                <p id="text">  <h:outputText value="Si no conoce el problema, marque en rotura Otro problema y escríbalo aqui " /></p>
+                                <p id="text">  <h:outputText value="Si no conoce el problema, marque en rotura "/><span style='font-size: 20px;font-weight: bold;'>Otro</span>  y escríbalo aquí. </p>
                                 <p><p:inputTextarea id="textArea" rows="6" cols="100" value="#{bComprar.rotura}" maxlength="500"/></p>
 
                                 <p id="cantidad"><h:outputText value="Cantidad: " /></p>

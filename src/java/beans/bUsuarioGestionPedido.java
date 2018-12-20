@@ -89,7 +89,7 @@ public class bUsuarioGestionPedido {
     private ArrayList listaEstados = null;
     
     private boolean booleanCabecera = false;
-    
+    private boolean noExisteP = false;
 
     public bUsuarioGestionPedido() {
         emf = Persistence.createEntityManagerFactory("CRVPU");
@@ -99,6 +99,11 @@ public class bUsuarioGestionPedido {
         ctrTelefono= new TelefonoJpaController(emf);
         ctrProvincia= new ProvinciaJpaController(emf);
                 
+        
+                
+    }
+    
+    public void actualizarListaPed(){
         //Cojo el usuario de la sesion
         ExternalContext ctx = FacesContext.getCurrentInstance().getExternalContext();
         manageBeanSesion manageBeanSesion = new manageBeanSesion();
@@ -113,7 +118,17 @@ public class bUsuarioGestionPedido {
         listaPedidos = usuario.getPedidoList();
         
         Collections.reverse(listaPedidos);
-                
+        if(listaPedidos.size()==0){
+            noExisteP=true;
+        }
+    }
+
+    public boolean isNoExisteP() {
+        return noExisteP;
+    }
+
+    public void setNoExisteP(boolean noExisteP) {
+        this.noExisteP = noExisteP;
     }
 
     public EntityManagerFactory getEmf() {
@@ -623,6 +638,9 @@ public class bUsuarioGestionPedido {
                 table2.addCell(cellX3);
                 
                 String importe =String.valueOf(ped.getPrecio());
+                if(tipo.equals("Venta")){
+                    importe =String.valueOf(-ped.getPrecio());
+                }
                 Phrase  datoPedido4 = new Phrase(importe, fuentePedido);
                 PdfPCell cellX4 = new PdfPCell(datoPedido4);
                 cellX4.setHorizontalAlignment(Element.ALIGN_CENTER);
@@ -631,12 +649,20 @@ public class bUsuarioGestionPedido {
                  
                 
                 String importeTotal =String.valueOf(ped.getPrecio()*ped.getCantidad());
+                if(tipo.equals("Venta")){
+                    importeTotal =String.valueOf(-ped.getPrecio()*ped.getCantidad());
+                }
                 Phrase  datoPedido5 = new Phrase(importeTotal, fuentePedido);
                 PdfPCell cellX5 = new PdfPCell(datoPedido5);
                 cellX5.setHorizontalAlignment(Element.ALIGN_CENTER);
                 table2.addCell(cellX5);
                 
+                 if(tipo.equals("Venta")){
+                    subTotal=subTotal-(ped.getPrecio()*ped.getCantidad());
+                }
+                 else{
                 subTotal=subTotal+ped.getPrecio()*ped.getCantidad();
+                 }
                 
             }
             

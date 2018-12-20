@@ -1,3 +1,5 @@
+@media only screen 
+	and (min-device-width:1210px){
 body{
     background-color: #e1e1e1;  
 }
@@ -25,7 +27,6 @@ font-size: 18px;
     overflow: hidden;
     clear: both;
     height: 1%;
-    border: 1px solid pink;
     margin-bottom: 5%;
 }
 .cabecera{
@@ -80,4 +81,4 @@ margin-bottom: 5%;
   }
   .pagination a{
       margin-left: 2%;
-  }
+  }}

@@ -1,5 +1,5 @@
 @media only screen 
-	and (min-device-width:1210px){
+	and (max-device-width:1210px){
 body{
     background-color: #e1e1e1;  
 }
@@ -15,7 +15,7 @@ body{
     padding-top: 0.4%;
 }
 #buscador input{
-   width: 55%;
+width: 55%;
 border-radius: 12px;
 padding-left: 9px;
 margin-top: 0.3%;
@@ -43,19 +43,20 @@ font-size: 18px;
 
     width: 100%;
 }
-
 #tituloF{
     text-align: center;
     font-size: 30px;
 }
-.repararT{
+.venderT{
     cursor: pointer;
     text-align: center;
 }
-.repararT p{
-    font-size: 20px;
+.venderT p{
+    font-size: 15px;
     font-weight: bold;
+    height: 40px;
 }
+
 
 #contenedorTelefonos input[type="submit"]:hover{
     background: #ff5959; 

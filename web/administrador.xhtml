@@ -20,7 +20,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="css/migasTitulo.css"></link>
 
         <link rel="stylesheet" href="css/administrador.css"></link>
-
+        <link rel="stylesheet" href="css/index2.css"></link>
     </h:head>
     <h:body>
         <h:panelGroup id="actualizarCabecera">
@@ -98,9 +98,9 @@ and open the template in the editor.
                 </h:panelGroup>
 
                 <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                         </div>
 
@@ -119,9 +119,9 @@ and open the template in the editor.
                     </div> 
                 </h:panelGroup>
                 <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                         </div>
 
@@ -192,13 +192,13 @@ and open the template in the editor.
             <form id="gestionTelefono" action="administradorGestionTelefono.xhtml"> 
                 <div onclick="document.getElementById('gestionTelefono').submit();">
                     <img src="imagenes/Fotos/tecnico.png" alt="Gestion Telefono"></img>
-                    <p> <h:outputText value="Gestionar Telefono"/></p>
+                    <p> <h:outputText value="Gestionar Teléfono"/></p>
                 </div>
             </form>
             <!--Gestion Tecnicos-->
             <form id="gestionIndex" action="administradorGestionIndex.xhtml"> 
                 <div onclick="document.getElementById('gestionIndex').submit();">
-                    <img src="imagenes/Fotos/puntosPerfil.png" alt="Gestion Puntos"></img>
+                    <img src="imagenes/Fotos/imagenG.png" alt="Gestion Galeria"></img>
                     <p> <h:outputText value="Gestionar Galería Inicio"/></p>
                 </div>
             </form>
@@ -227,7 +227,7 @@ and open the template in the editor.
             </form>
 
             <!--Gestion Tecnicos-->
-            <form id="gestionPremio" action="administradorGestionPremio.xhtml" display="none"> 
+            <form id="gestionPremio" action="administradorGestionPremio.xhtml" style="display: none"> 
                 <div onclick="document.getElementById('gestionPremio').submit();">
                     <img src="imagenes/Fotos/puntosPerfil.png" alt="Gestion Puntos"></img>
                     <p> <h:outputText value="Gestionar Premio"/></p>

@@ -19,7 +19,7 @@ and open the template in the editor.
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></link>
         <link rel="stylesheet" href="css/index.css"></link>
         <link rel="stylesheet" href="css/migasTitulo.css"></link>
-
+        <link rel="stylesheet" href="css/index2.css"></link>
         <script src="js/jquery.fancybox.min.js"></script>
         <link rel="stylesheet" href="css/jquery.fancybox.min.css"></link>
 
@@ -103,9 +103,9 @@ and open the template in the editor.
                 </h:panelGroup>
 
                 <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                         </div>
 
@@ -124,9 +124,9 @@ and open the template in the editor.
                     </div> 
                 </h:panelGroup>
                 <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                    <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                    <div id="contenedorDatosLogeado">
 
-                        <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                        <div id="nombreUsuario">           
                             <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                         </div>
 
@@ -221,7 +221,7 @@ and open the template in the editor.
             <div id="contenedorFiltro">
                 <label><input type="checkbox" id="modelo" value="1"></input> Modelo teléfono</label><br></br>
                 <label><input type="checkbox" id="marca" value="2"></input> Marca teléfono</label><br></br>
-                <label><input type="checkbox" id="reparacion" value="3"></input> Tipo reparacion</label><br></br>
+                <label><input type="checkbox" id="reparacion" value="3"></input> Tipo reparación</label><br></br>
             </div>
             <input id="myInput" type="text" placeholder="Search.."></input>
         </div>
@@ -235,7 +235,7 @@ and open the template in the editor.
                          editable="true"  
                          selection="#{bAdministradorModificarReparacion.miReparacionTelefono}" 
                          selectionMode="single"  
-                         rows="5"
+                         rows="10"
                          paginator="true"
                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                          rowsPerPageTemplate="5,10,15" >
@@ -243,18 +243,18 @@ and open the template in the editor.
                 <p:ajax event="rowEdit" listener="#{bAdministradorModificarReparacion.onRowEdit}" update="messages" />
                 <p:ajax event="rowEditCancel" listener="#{bAdministradorModificarReparacion.onRowCancel}" update="messages" />
 
-                <p:column headerText="Codigo Reparacion">
+                <p:column headerText="Código Reparación">
 
                     <h:outputText value="#{reparacionTelefono.codigoReparacionTelefono}" />
 
                 </p:column>
 
-                <p:column headerText="Nombre Telefono">
+                <p:column headerText="Nombre Teléfono">
                     <h:outputText value="#{reparacionTelefono.codigoTelefono.nombre}" />
 
                 </p:column>
 
-                <p:column headerText="Marca Telefono">
+                <p:column headerText="Marca Teléfono">
 
                     <h:outputText value="#{reparacionTelefono.codigoTelefono.marca}" />
 
@@ -288,20 +288,20 @@ and open the template in the editor.
 
         <!--Añadir reparacion-->
         <div id="contenedorAltaReparacion">
-            <h2> Dar alta reparacion </h2>
+            <h2> Dar alta reparación </h2>
             <h:form id="altaReparacion">
                 <h:outputLabel for="nombre" value="Nombre: "/> 
                 <p:inputText id="nombre" value="#{bAdministradorModificarReparacion.nombre}" required="true"/>
                 <p:message for="nombre" />
 
-                <p:commandButton value="Añadir Reparacion" validateClient="true" action="#{bAdministradorModificarReparacion.altaReparacion()}" update="tablaRO altaReparacion messages"/>
+                <p:commandButton value="Añadir Reparación" validateClient="true" action="#{bAdministradorModificarReparacion.altaReparacion()}" update="tablaRO altaReparacion messages"/>
                 <br></br><br></br><br></br>
             </h:form>
         </div>
 
         <!--Añadir reparaciones a un telefono-->
         <div id="contenedorAltaReparacionTelefono">
-            <h2> Dar alta reparacion a un telefono </h2>
+            <h2> Dar alta reparación a un teléfono </h2>
             <h:form id="altaReparacionTelefono">
                 <h:outputLabel for="marca" value="Seleccione una marca: "/>
                 <h:selectOneMenu id="marca" value="#{bAdministradorModificarReparacion.marca}">
@@ -320,7 +320,7 @@ and open the template in the editor.
                 </h:selectOneMenu>
                 <br></br><br></br>
 
-                <h:outputLabel for="reparacion" value="Seleccione una reparacion "/>
+                <h:outputLabel for="reparacion" value="Seleccione una reparacion: "/>
                 <h:selectOneMenu id="reparacion" value="#{bAdministradorModificarReparacion.codigoReparacion}">
                     <f:selectItem itemLabel="Selecione uno " itemValue="" />
                     <f:selectItems value="#{bAdministradorModificarReparacion.listaReparaciones}"/>
@@ -332,7 +332,7 @@ and open the template in the editor.
                 </p:inputText>
                 <p:message for="precio" />
 
-                <h:commandButton value="Añadir reparacion de telefono" action="#{bAdministradorModificarReparacion.altaReparacionTelefono()}"/>
+                <h:commandButton value="Añadir reparación al teléfono" action="#{bAdministradorModificarReparacion.altaReparacionTelefono()}"/>
                 <br></br><br></br>
             </h:form>
         </div>

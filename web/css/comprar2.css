@@ -1,5 +1,5 @@
 @media only screen 
-	and (min-device-width:1210px){
+	and (max-device-width:1210px){
 body{
     background-color: #e1e1e1;  
 }
@@ -24,27 +24,28 @@ font-size: 18px;
 #contenedorTelefonos{
     width: 64%;
     float:right;
+    border: 1px solid pink;
     margin-right: 5%;
     margin-bottom: 10%;
 }
 #contenedorTelefono{
 overflow: hidden;
 
-width: 25%;
+width: 27%;
 
 float: left;
-    margin-right: 1%;
     margin-left: 6%;
      margin-bottom: 5%;
     background: white;
 }
 #contenedorFiltro{
     width: 30%;
+    border: 1px solid green;
     margin-bottom: 10%;
     float: left;
 }
 .filtro{
-    width: 70%;
+    width: 75%;
     margin: 0 auto;
     border: 1px solid black;
     margin-bottom: 5%;
@@ -55,6 +56,7 @@ float: left;
     margin: 0;
     width: 70%;
     float: left;
+    font-size: 15px;
 }
 .filtro form{
     margin-left: 5%;
@@ -90,7 +92,7 @@ float: left;
     text-align: center;
 }
 #click p{
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
 }
 
@@ -190,4 +192,5 @@ margin-bottom: 5%;
   .pagination a{
       margin-left: 2%;
   }
+  
         }

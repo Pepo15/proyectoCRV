@@ -4,6 +4,7 @@ body{
 }
 #contenedorGeneral{
     font-family: times new roman !important;
+    margin-bottom: 5%;
 }
 .estiloP{
     width: 80%;

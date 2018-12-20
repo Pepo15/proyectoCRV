@@ -40,6 +40,16 @@ width: 40%;
 
 width: 40%;
 }
+.izquierda input[type="password"]{
+    padding: 0.8%;
+
+width: 40%;
+}
+.derecha input[type="password"]{
+    padding: 0.8%;
+
+width: 40%;
+}
 #contenedorGeneral input[type="submit"]{
     float: right;
 

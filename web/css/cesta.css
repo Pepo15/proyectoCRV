@@ -5,9 +5,9 @@ body{
 .tabla{
     display: table;
     width: 60%;
-    border:1px solid black;
     float:left;
     margin-left: 5%;
+    border: 1px solid #9f9f9f;
 }
 #contenedorGeneral{
     overflow: hidden;
@@ -17,24 +17,29 @@ body{
 }
 .fila{
     display: table-row;
-    border:1px solid black;
     position: relative;
+    background-color: #db4040;
+    
 }
 .fila:first-child p{
     font-size: 20px;
     font-weight: bold;
 }
-.fila:nth-child(2) p{
+.fila2 p{
     font-size: 18px;
+}
+.fila2 .columna{
+    background: #f5f1f1;
 }
 .columna{
     display: table-cell;
     padding: 12px;
-    background: #f5f1f1;
     width: 15%;
-    border:1px solid black;
     vertical-align: middle;
     text-align: center;
+}
+.fila2:nth-child(2) .columna{
+    border-top: 1px solid #9f9f9f;
 }
 
 .fila .columna:first-child img{
@@ -52,35 +57,36 @@ body{
     width: 60px;
 }
 #contenedorResumen{
-    width: 20%;
-    float:left;
-    margin-left: 5%;
-
-    background: #f5f1f1;
-    border: 1px solid black;
+width: 20%;
+float: left;
+margin-left: 5%;
+background: #f5f1f1;
+border: 1px solid #9f9f9f;
 }
 #contenedorResumen h1{
-    border-bottom: 1px solid black;
-    text-align: center;
+   border-bottom: 1px solid #9f9f9f;
+text-align: center;
+background-color: #db4040;
+margin-top: 0;
+padding: 2%;
 }
 #contenedorResumen p{
 
     float:left;
-    width: 50%;
     padding:1%;
     font-size: 20px;
 }
 #formResumen p:nth-child(3){
     font-weight: bold;
-    width: 25%;
-}
-#formResumen p:nth-child(4){
-    width: 60%;
+    margin-left: 28%;
 }
 #actualizarBotonComprar input[type="submit"]{
-    float:right;
-    margin-right: 1%;
-    margin-bottom: 1%;
+float: left;
+margin-left: 23%;
+margin-bottom: 1%;
+background-color: #da7878;
+cursor:pointer;
+font-size: 18px;
 }
 #actualizarBotonCompra2 p{
     font-size: 12px;

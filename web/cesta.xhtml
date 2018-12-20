@@ -25,6 +25,7 @@ and open the template in the editor.
 
 
             <link rel="stylesheet" href="css/cesta.css"></link>
+                <link rel="stylesheet" href="css/index2.css"></link>
         </h:head>
         <h:body>
             <h:panelGroup id="actualizarCabecera">
@@ -102,9 +103,9 @@ and open the template in the editor.
                     </h:panelGroup>
 
                     <h:panelGroup id="actualizarMenu2" rendered="#{!bLogin.comprobarRenderAdmin(manageBeanSesion.logeadoAdmin)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="Admin: #{manageBeanSesion.administradorLog.nick}"/></p>
                             </div>
 
@@ -123,9 +124,9 @@ and open the template in the editor.
                         </div> 
                     </h:panelGroup>
                     <h:panelGroup id="actualizarMenu3" rendered="#{!bLogin.comprobarRenderTecnico(manageBeanSesion.logeadoTecnico)}">
-                        <div id="contenedorDatosLogeado" style="float: right; width: 60%;">
+                        <div id="contenedorDatosLogeado">
 
-                            <div id="nombreUsuario" style="width: 35%; margin-left: 13%;">           
+                            <div id="nombreUsuario">           
                                 <p>#{mens.mensajeBienvenido}, <h:outputText value="#{mens.mensajeTecnico}: #{manageBeanSesion.tecnicoLog.nick}"/></p>
                             </div>
 
@@ -190,15 +191,15 @@ and open the template in the editor.
                 <h:panelGroup id="listaP">
                     <div class="tabla">
                         <div class="fila">
-                            <div class="columna"></div>
-                            <div class="columna"><p>Artículo</p></div>
+                            <div class="columna"><p>Producto</p></div>  
+                            <div class="columna"><p>Descripción</p></div>
                             <div class="columna"><p>Precio</p></div> 
                             <div class="columna"><p>Cantidad</p></div>  
                             <div class="columna"></div>  
                         </div>
                         <ui:repeat  var="telefonoCesta" varStatus="estado"  value="#{bComprar.conocerCesta()}">
 
-                            <div class="fila">
+                            <div class="fila fila2">
 
                                 <div class="columna">       <h:graphicImage url="imagenes/FotosTelefono/#{bComprar.conocerFoto(telefonoCesta.telefono)}"/> </div>
                                 <div class="columna"><p>   <h:outputText value="#{bComprar.conocerNombre(telefonoCesta)}"/></p></div>
